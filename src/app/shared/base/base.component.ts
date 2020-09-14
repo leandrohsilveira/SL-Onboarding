@@ -1,19 +1,17 @@
-import { OnDestroy, OnInit } from "@angular/core";
-import { takeWhile } from "rxjs/operators";
-import { Subject } from "rxjs/Subject";
+import { OnDestroy, OnInit, Component } from '@angular/core';
+import { takeWhile } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
+@Component({ template: '' })
 export abstract class BaseComponent implements OnInit, OnDestroy {
-
-  protected mounted = false;
-  private mountSubject = new Subject();
+  protected mounted = true;
+  private mountSubject = new BehaviorSubject(true);
 
   protected get mounted$() {
     return this.mountSubject.asObservable();
   }
-  
+
   ngOnInit() {
-    this.mounted = true;
-    this.mountSubject.next(true);
     this.takeWhileMounted = this.takeWhileMounted.bind(this);
   }
 
@@ -26,5 +24,4 @@ export abstract class BaseComponent implements OnInit, OnDestroy {
   protected takeWhileMounted() {
     return takeWhile<any>(() => this.mounted);
   }
-
 }

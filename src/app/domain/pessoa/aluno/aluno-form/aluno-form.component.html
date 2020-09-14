@@ -1,0 +1,78 @@
+<form class="po-row" [formGroup]="form" (submit)="submit()" novalidate>
+  <div class="po-md-6 po-sm-12">
+    <po-input
+      class="po-12"
+      p-icon="po-icon po-icon-user"
+      i18n-p-label="Rótulo do campo 'Nome' do formulário de aluno"
+      i18n-aria-label="
+        Acessibilidade: rótulo do campo 'Nome' do formulário de aluno
+      "
+      p-label="Nome"
+      formControlName="nome"
+      aria-label="Campo nome"
+      p-required
+    ></po-input>
+    <app-field-messages [control]="form.get('nome')"></app-field-messages>
+  </div>
+  <div class="po-md-6 po-sm-12">
+    <po-email
+      class="po-12"
+      i18n-p-label="Rótulo do campo 'E-mail' do formulário de aluno"
+      i18n-aria-label="
+        Acessibilidade: rótulo do campo 'E-mail' do formulário de aluno
+      "
+      p-label="E-mail"
+      formControlName="email"
+      aria-label="Campo E-mail"
+      p-required
+    ></po-email>
+    <app-field-messages [control]="form.get('email')"></app-field-messages>
+  </div>
+  <div class="po-md-4 po-sm-12">
+    <po-input
+      class="po-12"
+      i18n-p-label="Rótulo do campo 'CPF' do formulário de aluno"
+      i18n-aria-label="
+        Acessibilidade: rótulo do campo 'CPF' do formulário de aluno
+      "
+      p-label="CPF"
+      formControlName="cpf"
+      aria-label="Campo CPF"
+      p-mask="999.999.999-99"
+      p-required
+    ></po-input>
+    <app-field-messages [control]="form.get('cpf')"></app-field-messages>
+  </div>
+  <div class="po-md-4 po-sm-12">
+    <po-select
+      class="po-12"
+      i18n-p-label="Rótulo do campo 'Forma de ingresso' do formulário de aluno"
+      i18n-aria-label="
+        Acessibilidade: rótulo do campo 'Forma de ingresso' do formulário de
+        aluno
+      "
+      p-label="Forma de ingresso"
+      formControlName="formaIngresso"
+      aria-label="Campo forma de ingresso"
+      [p-options]="formaIngressoOptions"
+      p-required
+    ></po-select>
+    <app-field-messages
+      [control]="form.get('formaIngresso')"
+    ></app-field-messages>
+  </div>
+  <div class="po-md-4 po-sm-12">
+    <po-number
+      class="po-12"
+      i18n-p-label="Rótulo do campo 'Matrícula' do formulário de aluno"
+      i18n-aria-label="
+        Acessibilidade: rótulo do campo 'Matrícula' do formulário de aluno
+      "
+      p-label="Código de matrícula"
+      formControlName="matricula"
+      aria-label="Campo código de matrícula"
+      p-required
+    ></po-number>
+    <app-field-messages [control]="form.get('matricula')"></app-field-messages>
+  </div>
+</form>

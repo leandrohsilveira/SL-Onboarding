@@ -1,5 +1,6 @@
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { takeWhile } from 'rxjs/operators';
+import { MonoTypeOperatorFunction } from 'rxjs';
 
 export type Id = string | null;
 
@@ -18,9 +19,14 @@ export abstract class Entidade {
     this.onChanges(form.getRawValue());
   }
 
-  public subscribeFormChanges(form: FormGroup, shouldContinue = () => true) {
-    return form.valueChanges
-      .pipe(takeWhile(shouldContinue))
-      .subscribe((changes) => this.onChanges(changes));
+  public subscribeFormChanges(
+    form: FormGroup,
+    shouldContinue: MonoTypeOperatorFunction<any> = takeWhile(() => true),
+    onChange?: (value: this) => void
+  ) {
+    return form.valueChanges.pipe(shouldContinue).subscribe((changes) => {
+      this.onChanges(changes);
+      if (onChange) onChange(this);
+    });
   }
 }

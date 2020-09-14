@@ -1,4 +1,4 @@
-import { AbstractControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, Validators } from '@angular/forms';
 import { Id } from 'app/domain/entidade';
 import { CustomValidators } from 'app/shared/validators';
 import { Pessoa } from '../pessoa';

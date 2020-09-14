@@ -1,0 +1,41 @@
+<ng-template #messagesTemplate>
+  <span
+    class="po-sm-12 po-font-text-small error"
+    *ngIf="!hidden && errors.required"
+    i18n="Mensagem de erro de campo obrigatório"
+  >
+    Campo obrigatório
+  </span>
+  <span
+    class="po-sm-12 po-font-text-small error"
+    *ngIf="!hidden && errors.cpf"
+    i18n="Mensagem de erro de CPF inválido"
+  >
+    CPF Inválido
+  </span>
+  <span
+    class="po-sm-12 po-font-text-small error"
+    *ngIf="!hidden && errors.maxLength"
+    i18n="Mensagem de erro de campo com limite de caracteres"
+  >
+    Tamanho máximo {errors.maxLength, plural, =1 {caracter} other {caracteres}}
+  </span>
+</ng-template>
+
+<span class="po-sm-12 po-font-text-small" *ngIf="hasError; else errorsTemplate">
+  &nbsp;
+</span>
+
+<ng-template #errorsTemplate>
+  <div *ngIf="singleError; multiErrorsTemplate">
+    <ng-container *ngTemplateOutlet="messagesTemplate"></ng-container>
+  </div>
+  <ng-template #multiErrorsTemplate>
+    <span #multiErrorsRef class="po-sm-12 po-font-text-small error">
+      {{ errorsCount }} erros de validação
+    </span>
+    <po-popup #errorPopup [p-target]="multiErrorsRef">
+      <ng-container *ngTemplateOutlet="messagesTemplate"></ng-container>
+    </po-popup>
+  </ng-template>
+</ng-template>

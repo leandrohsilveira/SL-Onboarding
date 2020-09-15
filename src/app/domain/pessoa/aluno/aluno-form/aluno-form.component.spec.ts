@@ -5,7 +5,7 @@ import { Aluno, FormaIngresso } from '../aluno';
 import { AlunoFormComponent } from './aluno-form.component';
 import { CommonModule } from '@angular/common';
 
-describe('Sobre aluno-form.component.ts, AlunoFormComponent', () => {
+describe('AlunoFormComponent', () => {
   @Component({
     template: `
       <app-aluno-form

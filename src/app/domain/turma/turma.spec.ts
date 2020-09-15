@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Turma } from './turma';
 
-describe('Sobre o módulo turma.ts, classe Turma', () => {
+describe('classe Turma', () => {
   let formBuilder: FormBuilder;
 
   beforeEach(() => {

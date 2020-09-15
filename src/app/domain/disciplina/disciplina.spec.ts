@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Disciplina } from './disciplina';
 
-describe('Sobre o módulo disciplina.ts, classe Disciplina', () => {
+describe('classe Disciplina', () => {
   let formBuilder: FormBuilder;
 
   beforeEach(() => {

@@ -1,39 +1,51 @@
 import { Component, ViewChild } from '@angular/core';
 import { AlunoListComponent } from './aluno-list.component';
-import { Aluno } from '../aluno';
+import { Aluno, FormaIngresso } from '../aluno';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { AlunoListModule } from './aluno-list.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import alunosMock from '../alunos.mock';
+import { generate as generateCpf } from '@fnando/cpf';
 
 const ALUNOS = alunosMock.map((json) => Aluno.fromJson(json));
 
 describe('AlunoListComponent', () => {
   @Component({
     template: `
-      <app-aluno-list #list [alunos]="alunos" [count]="count"></app-aluno-list>
+      <app-aluno-list
+        #list
+        [carregando]="carregando"
+        [alunos]="alunos"
+        [count]="count"
+        (carregarMais)="onCarregarMais()"
+      ></app-aluno-list>
     `,
   })
-  class AlunoListTestComponent {
+  class HostComponent {
     @ViewChild('list')
     component: AlunoListComponent;
 
+    carregando = false;
     alunos: Aluno[] = [];
     count = 0;
+
+    onCarregarMais() {
+      this.carregando = true;
+    }
   }
 
-  let fixture: ComponentFixture<AlunoListTestComponent>;
-  let component: AlunoListTestComponent;
+  let fixture: ComponentFixture<HostComponent>;
+  let host: HostComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CommonModule, RouterTestingModule, AlunoListModule],
-      declarations: [AlunoListTestComponent],
+      declarations: [HostComponent],
     }).compileComponents();
-    fixture = TestBed.createComponent(AlunoListTestComponent);
+    fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();
-    component = fixture.componentInstance;
+    host = fixture.componentInstance;
   });
 
   describe('Quando renderizado', () => {
@@ -70,15 +82,15 @@ describe('AlunoListComponent', () => {
         expect(carregarMaisBtn.disabled).toBeTrue());
     });
 
-    describe(`Com o array de alunos com ${ALUNOS.length} elementos`, () => {
+    describe('Com o array de alunos não vazio, com a mesma quantidade da propriedade "count"', () => {
       beforeEach(() => {
-        component.alunos = ALUNOS;
-        component.count = ALUNOS.length;
+        host.alunos = ALUNOS;
+        host.count = ALUNOS.length;
         fixture.detectChanges();
         carregarElementos();
       });
 
-      it(`A tabela possui ${ALUNOS.length} linhas`, () =>
+      it(`A tabela possui ALUNOS.length (mock) linhas`, () =>
         expect(bodyTrs.length).toEqual(ALUNOS.length));
 
       it('Possui um botão que contém o texto "Mostrar mais"', () =>
@@ -87,9 +99,12 @@ describe('AlunoListComponent', () => {
       it('O botão "Mostrar mais" está desabilitado', () =>
         expect(carregarMaisBtn.disabled).toBeTrue());
 
+      it('O estado "podeCarregarMais" do componente é false', () =>
+        expect(host.component.podeCarregarMais).toBeFalse());
+
       describe('Quando a propriedade count é menor que o tamanho do array de alunos', () => {
         beforeEach(() => {
-          component.count = ALUNOS.length + 10;
+          host.count = ALUNOS.length + 2;
           fixture.detectChanges();
           carregarElementos();
         });
@@ -99,6 +114,57 @@ describe('AlunoListComponent', () => {
 
         it('O botão "Mostrar mais" está habilitado', () =>
           expect(carregarMaisBtn.disabled).toBeFalse());
+
+        it('O estado "podeCarregarMais" do componente é true', () =>
+          expect(host.component.podeCarregarMais).toBeTrue());
+
+        describe('Quando a função do componente "carregarMais" é invocada', () => {
+          beforeEach(() => {
+            host.component.carregarMais();
+            fixture.detectChanges();
+            carregarElementos();
+          });
+
+          it('Possui um botão que contém o texto "Mostrar mais"', () =>
+            expect(carregarMaisBtn.textContent).toMatch('Mostrar mais'));
+
+          it('O botão "Mostrar mais" está desabilitado', () =>
+            expect(carregarMaisBtn.disabled).toBeTrue());
+
+          it('O estado "carregandoMais" do componente é true', () =>
+            expect(host.component.carregandoMais).toBeTrue());
+
+          describe('Quando a instancia da propriedade alunos é alterada', () => {
+            beforeEach(() => {
+              host.alunos = [
+                ...host.alunos,
+                new Aluno(
+                  'uuidx',
+                  'Teste X',
+                  'testex@totvs.com.br',
+                  generateCpf(false),
+                  FormaIngresso.ENADE,
+                  200
+                ),
+              ];
+              host.carregando = false;
+              fixture.detectChanges();
+              carregarElementos();
+            });
+
+            it('Possui um botão que contém o texto "Mostrar mais"', () =>
+              expect(carregarMaisBtn.textContent).toMatch('Mostrar mais'));
+
+            it('O botão "Mostrar mais" está habilitado', () =>
+              expect(carregarMaisBtn.disabled).toBeFalse());
+
+            it('O estado "carregandoMais" do componente é false', () =>
+              expect(host.component.carregandoMais).toBeFalse());
+
+            it('O estado "podeCarregarMais" do componente é true', () =>
+              expect(host.component.podeCarregarMais).toBeTrue());
+          });
+        });
       });
     });
   });

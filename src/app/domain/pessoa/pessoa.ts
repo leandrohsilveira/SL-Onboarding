@@ -2,12 +2,17 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { Entidade, Id } from '../entidade';
 import { CustomValidators, NotTakenService } from 'app/shared/validators';
 import { of } from 'rxjs';
+import { format as formatCpf } from '@fnando/cpf';
 
 const DEFAULT_NOT_TAKEN_SERVICE: NotTakenService = () => of(true);
 
 export abstract class Pessoa extends Entidade {
   constructor(id: Id, public nome = '', public email = '', public cpf = '') {
     super(id);
+  }
+
+  get cpfFormatado() {
+    return formatCpf(this.cpf);
   }
 
   protected onChanges({ nome, email, cpf }: any) {

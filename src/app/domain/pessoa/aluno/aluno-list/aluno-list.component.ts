@@ -75,7 +75,7 @@ export class AlunoListComponent implements OnChanges {
   ];
 
   get podeCarregarMais() {
-    return this.alunos.length >= this.count;
+    return this.alunos.length < this.count;
   }
 
   ngOnChanges({ alunos }: SimpleChanges) {
@@ -83,7 +83,9 @@ export class AlunoListComponent implements OnChanges {
   }
 
   carregarMais() {
-    this.carregandoMais = true;
-    this.onCarregarMais.emit();
+    if (this.podeCarregarMais) {
+      this.carregandoMais = true;
+      this.onCarregarMais.emit();
+    }
   }
 }

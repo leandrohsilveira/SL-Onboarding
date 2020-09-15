@@ -4,7 +4,7 @@
   [p-literals]="literals"
   [p-loading]="carregando"
   [p-loading-show-more]="carregando && carregandoMais"
-  [p-show-more-disabled]="podeCarregarMais"
+  [p-show-more-disabled]="!podeCarregarMais"
   (p-show-more)="carregarMais()"
   p-striped="true"
   p-hide-text-overflow

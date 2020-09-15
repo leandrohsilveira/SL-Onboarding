@@ -1,4 +1,4 @@
-import { FormGroup, Validators } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { CustomValidators } from 'app/shared/validators';
 import { Entidade, Id } from '../entidade';
 
@@ -24,8 +24,8 @@ export class Disciplina extends Entidade {
     this.cargaHoraria = +cargaHoraria;
   }
 
-  protected getFormControls() {
-    return {
+  public criarForm(formBuilder: FormBuilder) {
+    return formBuilder.group({
       descricao: [
         this.descricao,
         [Validators.required, Validators.maxLength(255)],
@@ -35,7 +35,7 @@ export class Disciplina extends Entidade {
         this.cargaHoraria ?? '',
         [Validators.required, CustomValidators.number],
       ],
-    };
+    });
   }
 
   public static fromJson({

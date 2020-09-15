@@ -1,6 +1,12 @@
-import { AbstractControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroup,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
 import { Id } from 'app/domain/entidade';
 import { Pessoa } from '../pessoa';
+import { NotTakenService } from 'app/shared/validators';
 
 export enum Titulacao {
   MESTRE = 'Mestre',
@@ -24,9 +30,12 @@ export class Professor extends Pessoa {
     this.titulacao = titulacao;
   }
 
-  protected getFormControls() {
+  protected getFormControls(
+    emailNotTaken: NotTakenService,
+    cpfNotTaken: NotTakenService
+  ) {
     return {
-      ...super.getFormControls(),
+      ...super.getFormControls(emailNotTaken, cpfNotTaken),
       titulacao: [
         this.titulacao,
         [Validators.required, this.titulacaoValidator],

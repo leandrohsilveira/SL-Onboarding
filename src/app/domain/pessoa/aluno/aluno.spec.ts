@@ -115,14 +115,6 @@ describe('Sobre o módulo aluno.ts, classe Aluno', () => {
       it('O campo "cpf" é inválido', () =>
         expect(formGroup.get('cpf').valid).toBeFalse());
 
-      it('O campo "matricula" possui o valor vazio', () => {
-        const valor = formGroup.get('matricula').value;
-        expect(valor).toEqual('');
-      });
-
-      it('O campo "matricula" é válido', () =>
-        expect(formGroup.get('matricula').valid).toBeFalse());
-
       it('O campo "formaIngresso" possui o valor vazio', () => {
         const valor = formGroup.get('formaIngresso').value;
         expect(valor).toEqual('');
@@ -177,19 +169,6 @@ describe('Sobre o módulo aluno.ts, classe Aluno', () => {
           });
         });
 
-        describe('Após preencher o campo "matricula"', () => {
-          beforeEach(() => formGroup.patchValue({ matricula: '56' }));
-
-          it('A prop "matricula" permanece undefined antes de chamar o método "fromForm"', () => {
-            expect(aluno.matricula).toBeUndefined();
-          });
-
-          it('A prop "matricula" é alterada para o valor 56 após chamar o método "fromForm"', () => {
-            aluno.fromForm(formGroup);
-            expect(aluno.matricula).toEqual(56);
-          });
-        });
-
         describe('Após preencher o campo "formaIngresso"', () => {
           beforeEach(() =>
             formGroup.patchValue({ formaIngresso: FormaIngresso.ENADE })
@@ -224,11 +203,6 @@ describe('Sobre o módulo aluno.ts, classe Aluno', () => {
         it('Após preencher o campo "cpf", a prop "cpf" é alterada para o valor "17475054047" automaticamente', () => {
           formGroup.patchValue({ cpf: '17475054047' });
           expect(aluno.cpf).toEqual('17475054047');
-        });
-
-        it('Após preencher o campo "matricula", a prop "matricula" é alterada para o valor 56 automaticamente', () => {
-          formGroup.patchValue({ matricula: '56' });
-          expect(aluno.matricula).toEqual(56);
         });
 
         it('Após preencher o campo "formaIngresso", a prop "formaIngresso" é alterada para o valor FormaIngresso.ENADE automaticamente', () => {
@@ -306,14 +280,6 @@ describe('Sobre o módulo aluno.ts, classe Aluno', () => {
 
       it('O campo "cpf" é válido', () =>
         expect(formGroup.get('cpf').valid).toBeTrue());
-
-      it('O campo "matricula" possui o valor 56', () => {
-        const valor = formGroup.get('matricula').value;
-        expect(valor).toEqual(56);
-      });
-
-      it('O campo "matricula" é válido', () =>
-        expect(formGroup.get('matricula').valid).toBeTrue());
 
       it('O campo "formaIngresso" possui o valor FormaIngresso.ENADE', () => {
         const valor = formGroup.get('formaIngresso').value;

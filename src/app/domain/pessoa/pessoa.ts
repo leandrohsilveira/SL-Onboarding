@@ -1,6 +1,9 @@
-import { Validators } from '@angular/forms';
+import { Validators, FormBuilder } from '@angular/forms';
 import { Entidade, Id } from '../entidade';
-import { CustomValidators } from 'app/shared/validators';
+import { CustomValidators, NotTakenService } from 'app/shared/validators';
+import { of } from 'rxjs';
+
+const DEFAULT_NOT_TAKEN_SERVICE: NotTakenService = () => of(true);
 
 export abstract class Pessoa extends Entidade {
   constructor(id: Id, public nome = '', public email = '', public cpf = '') {
@@ -13,7 +16,10 @@ export abstract class Pessoa extends Entidade {
     this.cpf = cpf;
   }
 
-  protected getFormControls() {
+  protected getFormControls(
+    emailNotTaken: NotTakenService,
+    cpfNotTaken: NotTakenService
+  ) {
     return {
       nome: [this.nome, [Validators.required, Validators.maxLength(255)]],
       email: [
@@ -23,6 +29,7 @@ export abstract class Pessoa extends Entidade {
           Validators.maxLength(255),
           CustomValidators.email,
         ],
+        CustomValidators.notTakenValidator(emailNotTaken),
       ],
       cpf: [
         this.cpf,
@@ -32,7 +39,16 @@ export abstract class Pessoa extends Entidade {
           Validators.maxLength(11),
           CustomValidators.cpf,
         ],
+        CustomValidators.notTakenValidator(cpfNotTaken),
       ],
     };
+  }
+
+  public criarForm(
+    builder: FormBuilder,
+    emailNotTaken = DEFAULT_NOT_TAKEN_SERVICE,
+    cpfNotTaken = DEFAULT_NOT_TAKEN_SERVICE
+  ) {
+    return builder.group(this.getFormControls(emailNotTaken, cpfNotTaken));
   }
 }

@@ -1,6 +1,6 @@
 import { AbstractControl, Validators } from '@angular/forms';
 import { Id } from 'app/domain/entidade';
-import { CustomValidators } from 'app/shared/validators';
+import { CustomValidators, NotTakenService } from 'app/shared/validators';
 import { Pessoa } from '../pessoa';
 
 export enum FormaIngresso {
@@ -20,22 +20,20 @@ export class Aluno extends Pessoa {
     super(id, nome, email, cpf);
   }
 
-  protected onChanges({ formaIngresso, matricula, ...pessoa }: any) {
+  protected onChanges({ formaIngresso, ...pessoa }: any) {
     super.onChanges(pessoa);
     this.formaIngresso = formaIngresso;
-    this.matricula = +matricula;
   }
 
-  protected getFormControls() {
+  protected getFormControls(
+    emailNotTaken: NotTakenService,
+    cpfNotTaken: NotTakenService
+  ) {
     return {
-      ...super.getFormControls(),
+      ...super.getFormControls(emailNotTaken, cpfNotTaken),
       formaIngresso: [
         this.formaIngresso,
         [Validators.required, this.formaIngressoValidator],
-      ],
-      matricula: [
-        this.matricula ?? '',
-        [Validators.required, CustomValidators.number],
       ],
     };
   }

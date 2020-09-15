@@ -1,4 +1,4 @@
-import { FormGroup, Validators } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { CustomValidators } from 'app/shared/validators';
 import { Entidade, Id } from '../entidade';
 
@@ -13,8 +13,8 @@ export class Turma extends Entidade {
     super(id);
   }
 
-  protected getFormControls(): { [key: string]: any } {
-    return {
+  public criarForm(builder: FormBuilder) {
+    return builder.group({
       descricao: [
         this.descricao,
         [Validators.required, Validators.maxLength(255)],
@@ -31,7 +31,7 @@ export class Turma extends Entidade {
         this.numeroVagas ?? '',
         [Validators.required, CustomValidators.number],
       ],
-    };
+    });
   }
 
   protected onChanges({

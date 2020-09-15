@@ -1,5 +1,11 @@
 import { AbstractControl } from '@angular/forms';
 import { isValid as isCpfValid } from '@fnando/cpf';
+import { Observable } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
+
+export interface NotTakenService {
+  (value: string): Observable<boolean>;
+}
 
 export class CustomValidators {
   public static cpf(control: AbstractControl) {
@@ -24,5 +30,13 @@ export class CustomValidators {
     )
       return { number: true };
     return null;
+  }
+
+  public static notTakenValidator(service: NotTakenService) {
+    return ({ value }: AbstractControl) =>
+      service(value).pipe(
+        debounceTime(500),
+        map((notTaken) => (notTaken ? null : { cpfTaken: true }))
+      );
   }
 }

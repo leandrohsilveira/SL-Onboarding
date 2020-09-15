@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AlunoComponent } from './aluno.component';
+import { AlunoListModule } from './aluno-list/aluno-list.module';
+import { AlunoFormModule } from './aluno-form/aluno-form.module';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [AlunoComponent]
+  imports: [AlunoListModule, AlunoFormModule],
 })
-export class AlunoModule { }
+export class AlunoModule {}

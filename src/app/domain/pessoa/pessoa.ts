@@ -6,6 +6,8 @@ import { format as formatCpf } from '@fnando/cpf';
 
 const DEFAULT_NOT_TAKEN_SERVICE: NotTakenService = () => of(true);
 
+export type PessoaSortFields = 'nome' | 'email' | 'cpf';
+
 export abstract class Pessoa extends Entidade {
   constructor(id: Id, public nome = '', public email = '', public cpf = '') {
     super(id);

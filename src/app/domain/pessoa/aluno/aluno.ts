@@ -1,12 +1,14 @@
 import { AbstractControl, Validators } from '@angular/forms';
 import { Id } from 'app/domain/entidade';
-import { CustomValidators, NotTakenService } from 'app/shared/validators';
-import { Pessoa } from '../pessoa';
+import { NotTakenService } from 'app/shared/validators';
+import { Pessoa, PessoaSortFields } from '../pessoa';
 
 export enum FormaIngresso {
   ENADE = 'ENADE',
   VESTIBULAR = 'Vestibular',
 }
+
+export type AlunoSortFields = PessoaSortFields | 'formaIngresso' | 'matricula';
 
 export class Aluno extends Pessoa {
   constructor(

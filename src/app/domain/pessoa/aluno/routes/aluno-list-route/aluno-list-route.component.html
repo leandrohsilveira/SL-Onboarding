@@ -1,0 +1,14 @@
+<po-page-list
+  p-title="Lista de alunos"
+  i18n-p-title="Título da página 'Lista de alunos'"
+  [p-filter]="filtro"
+>
+  <app-aluno-list
+    [alunos]="alunos"
+    [podeCarregarMais]="podeCarregarMais"
+    [carregando]="carregando"
+    [(ordenar)]="ordenacao"
+    (ordenarChange)="handleOrdenacaoChange()"
+    (carregarMais)="handleCarregarMais()"
+  ></app-aluno-list>
+</po-page-list>

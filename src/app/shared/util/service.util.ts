@@ -1,6 +1,13 @@
-import { Observable, of, isObservable } from 'rxjs';
+import {
+  Observable,
+  of,
+  isObservable,
+  Subscribable,
+  Unsubscribable,
+} from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { environment } from 'environments/environment';
+import { PoTableColumn, PoTableColumnSortType } from '@po-ui/ng-components';
 
 export interface Page<T> {
   items: T[];
@@ -18,6 +25,10 @@ export class Pageable {
     return this.offset + this.pageSize;
   }
 
+  next(): Pageable {
+    return new Pageable(this.page + 1, this.pageSize);
+  }
+
   apply<T = any>(items: T[]): T[] {
     return items.slice(this.offset, this.endOffset);
   }
@@ -30,6 +41,10 @@ export class Sort<Fields = string> {
     return `${this.direction === 'asc' ? '+' : '-'}${this.field}`;
   }
 
+  get ascending() {
+    return this.direction === 'asc';
+  }
+
   apply<T = any>(items: T[]): T[] {
     return items.sort((a, b) => {
       const f = this.field as any;
@@ -39,6 +54,19 @@ export class Sort<Fields = string> {
         else return this.direction === 'asc' ? -1 : 1;
       }
     });
+  }
+
+  static fromOrderChange<Fields = string>({
+    column,
+    type,
+  }: {
+    column: PoTableColumn;
+    type: PoTableColumnSortType;
+  }): Sort<Fields> {
+    return new Sort<Fields>(
+      column.property as any,
+      type === PoTableColumnSortType.Ascending ? 'asc' : 'desc'
+    );
   }
 }
 

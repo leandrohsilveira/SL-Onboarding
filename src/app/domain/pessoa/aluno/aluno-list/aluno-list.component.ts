@@ -5,18 +5,28 @@ import {
   EventEmitter,
   OnChanges,
   SimpleChanges,
+  ViewChild,
+  OnInit,
 } from '@angular/core';
-import { Aluno, FormaIngresso } from '../aluno';
-import { PoTableColumn } from '@po-ui/ng-components';
+import { Aluno, FormaIngresso, AlunoSortFields } from '../aluno';
+import {
+  PoTableColumn,
+  PoTableComponent,
+  PoTableColumnSortType,
+} from '@po-ui/ng-components';
 import { CustomLiterals } from 'app/shared/literals';
+import { Sort } from 'app/shared/util/service.util';
 
 @Component({
   selector: 'app-aluno-list',
   templateUrl: './aluno-list.component.html',
   styleUrls: ['./aluno-list.component.css'],
 })
-export class AlunoListComponent implements OnChanges {
+export class AlunoListComponent implements OnChanges, OnInit {
   constructor() {}
+
+  @ViewChild('tableRef', { static: true })
+  poTable: PoTableComponent;
 
   @Input()
   alunos: Aluno[] = [];
@@ -27,8 +37,14 @@ export class AlunoListComponent implements OnChanges {
   @Input()
   carregando = false;
 
+  @Input()
+  ordenar: Sort<AlunoSortFields>;
+
   @Output('carregarMais')
   onCarregarMais = new EventEmitter<void>();
+
+  @Output()
+  ordenarChange = new EventEmitter<Sort<AlunoSortFields>>();
 
   carregandoMais = false;
 
@@ -39,7 +55,7 @@ export class AlunoListComponent implements OnChanges {
       property: 'matricula',
       label: $localize`:Cabeçalho da coluna "Matrícula" da tabela de alunos:Matrícula`,
       type: 'number',
-      width: '70px',
+      width: '80px',
     },
     {
       property: 'nome',
@@ -52,13 +68,13 @@ export class AlunoListComponent implements OnChanges {
     {
       property: 'cpfFormatado',
       label: $localize`:Cabeçalho da coluna "CPF" da tabela de alunos:CPF`,
-      width: '110px',
+      width: '140px',
     },
     {
       property: 'formaIngresso',
       type: 'label',
       label: $localize`:Cabeçalho da coluna "Forma de ingresso" da tabela de alunos:Forma de ingresso`,
-      width: '120px',
+      width: '140px',
       labels: [
         {
           value: FormaIngresso.ENADE,
@@ -73,6 +89,21 @@ export class AlunoListComponent implements OnChanges {
       ],
     },
   ];
+
+  ngOnInit() {
+    if (this.ordenar)
+      this.poTable.sortedColumn = {
+        property: this.columns.find(
+          (column) => column.property === this.ordenar.field
+        ),
+        ascending: this.ordenar.ascending,
+      };
+  }
+
+  onOrdenar(change: { column: PoTableColumn; type: PoTableColumnSortType }) {
+    console.log('onOrdenar', change);
+    this.ordenarChange.emit(Sort.fromOrderChange(change));
+  }
 
   ngOnChanges({ alunos }: SimpleChanges) {
     if (alunos && this.carregandoMais) this.carregandoMais = false;

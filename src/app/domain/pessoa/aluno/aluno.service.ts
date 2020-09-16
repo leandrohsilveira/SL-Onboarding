@@ -26,8 +26,9 @@ export class AlunoService {
         page,
         sort,
         (aluno) =>
+          filtro === '' ||
           searchString(aluno.nome, filtro) ||
-          searchString(aluno.cpf, filtro.replace(/\.\-/g, '')) ||
+          searchString(aluno.cpf, filtro.replace(/(\.|\-)/g, '')) ||
           searchString(aluno.email, filtro) ||
           searchString(aluno.formaIngresso, filtro) ||
           searchString(String(aluno.matricula), filtro),

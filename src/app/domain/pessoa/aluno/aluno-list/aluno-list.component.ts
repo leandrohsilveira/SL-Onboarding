@@ -22,7 +22,7 @@ export class AlunoListComponent implements OnChanges {
   alunos: Aluno[] = [];
 
   @Input()
-  count = 0;
+  podeCarregarMais = false;
 
   @Input()
   carregando = false;
@@ -73,10 +73,6 @@ export class AlunoListComponent implements OnChanges {
       ],
     },
   ];
-
-  get podeCarregarMais() {
-    return this.alunos.length < this.count;
-  }
 
   ngOnChanges({ alunos }: SimpleChanges) {
     if (alunos && this.carregandoMais) this.carregandoMais = false;

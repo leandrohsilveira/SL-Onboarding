@@ -258,7 +258,6 @@ describe('AlunoService', () => {
             )
             .pipe(take(1))
             .toPromise();
-          console.log(JSON.stringify(result.items));
         });
 
         it('O array de items possui 20 elementos', () =>

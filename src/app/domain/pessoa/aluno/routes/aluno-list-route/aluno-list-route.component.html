@@ -1,14 +1,15 @@
 <po-page-list
+  *ngIf="pageState$ | async as pageState"
   p-title="Lista de alunos"
   i18n-p-title="Título da página 'Lista de alunos'"
   [p-filter]="filtro"
 >
   <app-aluno-list
-    [alunos]="alunos"
-    [podeCarregarMais]="podeCarregarMais"
-    [carregando]="carregando"
-    [(ordenar)]="ordenacao"
-    (ordenarChange)="handleOrdenacaoChange()"
+    [alunos]="pageState.items"
+    [podeCarregarMais]="pageState.hasNext"
+    [carregando]="pageState.loading"
+    [(ordenar)]="pageState.sort"
+    (ordenarChange)="handleOrdenacaoChange($event)"
     (carregarMais)="handleCarregarMais()"
   ></app-aluno-list>
 </po-page-list>

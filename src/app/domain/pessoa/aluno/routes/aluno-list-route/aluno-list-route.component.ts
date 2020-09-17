@@ -1,19 +1,12 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { AlunoService } from '../../aluno.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
-import { Page, Pageable, Sort } from 'app/shared/util/service.util';
-import { Aluno, AlunoSortFields } from '../../aluno';
+import { Observable } from 'rxjs';
 import {
-  map,
-  switchMap,
-  startWith,
-  tap,
-  distinctUntilChanged,
-  debounceTime,
-  withLatestFrom,
-  skip,
-} from 'rxjs/operators';
+  Sort,
+  PageState,
+  PageStateSubject,
+} from 'app/shared/util/service.util';
+import { Aluno, AlunoSortFields } from '../../aluno';
 import { BaseComponent } from 'app/shared/base/base.component';
 import { PoPageFilter } from '@po-ui/ng-components';
 
@@ -25,65 +18,41 @@ import { PoPageFilter } from '@po-ui/ng-components';
 export class AlunoListRouteComponent extends BaseComponent {
   constructor(private alunoService: AlunoService) {
     super();
+    this.pageStateSubject = new PageStateSubject(
+      (pageable, filter, sort) =>
+        this.alunoService.buscarAlunosLikeNomeOuEmailOuCpfOuMatricula(
+          pageable,
+          filter,
+          sort
+        ),
+      () => this.takeWhileMounted()
+    );
+    this.pageState$ = this.pageStateSubject.asObservable();
   }
 
-  carregando = true;
-  podeCarregarMais = false;
-  alunos: Aluno[] = [];
-  ordenacao = new Sort<AlunoSortFields>('nome', 'asc');
   filtro: PoPageFilter = {
     placeholder: $localize`:Placeholder do campo de busca da página "Lista de alunos":Buscar alunos`,
-    action: (q: string) => this.filtroSubject.next(q),
+    action: (filter: string) => this.handleFilterChange(filter),
   };
 
-  private pageSubject = new BehaviorSubject(1);
-  private pageSizeSubject = new BehaviorSubject(20);
-  private filtroSubject = new BehaviorSubject('');
-  private ordenacaoSubject: BehaviorSubject<Sort<AlunoSortFields>>;
+  pageState$: Observable<PageState<Aluno, AlunoSortFields>>;
+
+  private pageStateSubject: PageStateSubject<Aluno, AlunoSortFields>;
 
   ngOnInit() {
     super.ngOnInit();
-    this.ordenacaoSubject = new BehaviorSubject(this.ordenacao);
-    combineLatest(
-      this.pageSubject.pipe(distinctUntilChanged()),
-      this.pageSizeSubject.pipe(distinctUntilChanged()),
-      this.filtroSubject.pipe(
-        distinctUntilChanged(),
-        tap(() => (this.alunos = [])),
-        tap(() => this.pageSubject.next(1))
-      ),
-      this.ordenacaoSubject.pipe(tap(() => (this.alunos = [])))
-    )
-      .pipe(
-        this.takeWhileMounted(),
-        tap(() => (this.carregando = true)),
-        debounceTime(100),
-        switchMap(([pagina, limite, filtro, ordenacao]) =>
-          this.alunoService.buscarAlunosLikeNomeOuEmailOuCpfOuMatricula(
-            new Pageable(pagina, limite),
-            filtro,
-            ordenacao
-          )
-        )
-      )
-      .subscribe(
-        (resultado) => {
-          this.carregando = false;
-          this.alunos = [...this.alunos, ...resultado.items];
-          this.podeCarregarMais = resultado.hasNext;
-        },
-        (err) => {
-          this.carregando = false;
-          console.error(err);
-        }
-      );
+    this.pageStateSubject.load();
   }
 
-  handleOrdenacaoChange() {
-    this.ordenacaoSubject.next(this.ordenacao);
+  handleOrdenacaoChange(sort: Sort<AlunoSortFields>) {
+    this.pageStateSubject.setSort(sort);
   }
 
   handleCarregarMais() {
-    this.pageSubject.next(this.pageSubject.value + 1);
+    this.pageStateSubject.nextPage();
+  }
+
+  handleFilterChange(filter: string) {
+    this.pageStateSubject.setFilter(filter);
   }
 }

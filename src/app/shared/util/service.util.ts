@@ -2,10 +2,25 @@ import {
   Observable,
   of,
   isObservable,
-  Subscribable,
-  Unsubscribable,
+  BehaviorSubject,
+  combineLatest,
+  MonoTypeOperatorFunction,
+  Subject,
 } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import {
+  delay,
+  distinctUntilChanged,
+  tap,
+  debounceTime,
+  switchMap,
+  take,
+  map,
+  withLatestFrom,
+  catchError,
+  takeWhile,
+  publish,
+  reduce,
+} from 'rxjs/operators';
 import { environment } from 'environments/environment';
 import { PoTableColumn, PoTableColumnSortType } from '@po-ui/ng-components';
 
@@ -101,4 +116,89 @@ export function filtrar<R = any, SortFields = any>(
     items,
     hasNext: filtrado.length > page.offset + items.length,
   };
+}
+
+export interface PageState<T, F = string> {
+  items: T[];
+  hasNext: boolean;
+  loading: boolean;
+  sort?: Sort<F>;
+}
+
+export class PageStateSubject<T, F = string> {
+  constructor(
+    private service: (
+      pageable: Pageable,
+      filter: string,
+      sort: Sort<F>
+    ) => Observable<Page<T>>,
+    private _takeWhile: <R = any>() => MonoTypeOperatorFunction<R>
+  ) {
+    this.resultSubject.pipe(this._takeWhile()).subscribe(
+      () => this.loadingSubject.next(false),
+      () => this.loadingSubject.next(false)
+    );
+  }
+
+  private resultSubject = new BehaviorSubject<Page<T>>({
+    items: [],
+    hasNext: false,
+  });
+
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+
+  private page = 1;
+  private pageSize = 20;
+  private filter = '';
+  private sort: Sort<F>;
+
+  setSort(sort: Sort<F>) {
+    this.page = 1;
+    this.sort = sort;
+    this.load(true);
+  }
+
+  setFilter(filter: string) {
+    this.page = 1;
+    this.filter = filter;
+    this.load(true);
+  }
+
+  nextPage() {
+    this.page++;
+    this.load();
+  }
+
+  load(reset = false) {
+    this.loadingSubject.next(true);
+    this.service(new Pageable(this.page, this.pageSize), this.filter, this.sort)
+      .pipe(this._takeWhile(), take(1), withLatestFrom(this.resultSubject))
+      .subscribe(
+        ([result, current]) => {
+          this.resultSubject.next({
+            hasNext: result.hasNext,
+            items: reset ? result.items : [...current.items, ...result.items],
+          });
+        },
+        (error) => this.resultSubject.error(error)
+      );
+  }
+
+  asObservable(): Observable<PageState<T, F>> {
+    return combineLatest(this.resultSubject, this.loadingSubject).pipe(
+      this._takeWhile(),
+      map(([result, loading]) => ({
+        ...result,
+        sort: this.sort,
+        loading,
+      }))
+    );
+  }
+
+  subscribe(
+    next: (state: PageState<T, F>) => void,
+    error?: (err: any) => void
+  ) {
+    return this.asObservable().subscribe(next, error);
+  }
 }

@@ -101,7 +101,6 @@ export class AlunoListComponent implements OnChanges, OnInit {
   }
 
   onOrdenar(change: { column: PoTableColumn; type: PoTableColumnSortType }) {
-    console.log('onOrdenar', change);
     this.ordenarChange.emit(Sort.fromOrderChange(change));
   }
 

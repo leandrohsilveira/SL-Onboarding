@@ -1,6 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Aluno, FormaIngresso } from '../aluno';
-import alunosMock from '../alunos.mock';
 
 @Component({
   selector: 'app-aluno-detail',
@@ -10,7 +9,7 @@ export class AlunoDetailComponent {
   constructor() {}
 
   @Input()
-  aluno: Aluno = Aluno.fromJson(alunosMock[0]); // FIXME: remover mock!
+  aluno: Aluno;
 
   get formaIngresso() {
     switch (this.aluno.formaIngresso) {

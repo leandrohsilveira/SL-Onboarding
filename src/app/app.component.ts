@@ -8,5 +8,14 @@ import { PoMenuItem } from '@po-ui/ng-components';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  readonly menus: Array<PoMenuItem> = [{ label: 'Home', link: '/' }];
+  readonly menus: PoMenuItem[] = [
+    {
+      label: $localize`:Texto da opção "Home" do menu lateral:Home`,
+      link: '/',
+    },
+    {
+      label: $localize`:Texto da opção "Alunos" do menu lateral:Alunos`,
+      link: '/alunos',
+    },
+  ];
 }

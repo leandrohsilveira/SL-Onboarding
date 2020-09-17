@@ -3,13 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'alunos',
     loadChildren: () =>
-      import(
-        './domain/pessoa/aluno/routes/aluno-list-route/aluno-list-route.module'
-      ).then(({ AlunoListRouteModule }) => AlunoListRouteModule),
-    // loadChildren:
-    //   './domain/pessoa/aluno/routes/aluno-list-route/aluno-list-route.module#AlunoListRoutingModule',
+      import('./domain/pessoa/aluno/aluno.routing').then(
+        ({ AlunoRoutingModule }) => AlunoRoutingModule
+      ),
   },
 ];
 

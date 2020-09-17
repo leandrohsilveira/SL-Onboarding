@@ -20,7 +20,6 @@ import { Sort } from 'app/shared/util/service.util';
 @Component({
   selector: 'app-aluno-list',
   templateUrl: './aluno-list.component.html',
-  styleUrls: ['./aluno-list.component.css'],
 })
 export class AlunoListComponent implements OnChanges, OnInit {
   constructor() {}

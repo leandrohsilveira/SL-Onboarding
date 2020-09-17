@@ -13,7 +13,6 @@ import { PoPageFilter } from '@po-ui/ng-components';
 @Component({
   selector: 'app-aluno-list-route',
   templateUrl: './aluno-list-route.component.html',
-  styleUrls: ['./aluno-list-route.component.css'],
 })
 export class AlunoListRouteComponent extends BaseComponent {
   constructor(private alunoService: AlunoService) {

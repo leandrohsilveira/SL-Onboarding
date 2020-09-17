@@ -5,7 +5,6 @@ import alunosMock from '../alunos.mock';
 @Component({
   selector: 'app-aluno-detail',
   templateUrl: './aluno-detail.component.html',
-  styleUrls: ['./aluno-detail.component.css'],
 })
 export class AlunoDetailComponent {
   constructor() {}

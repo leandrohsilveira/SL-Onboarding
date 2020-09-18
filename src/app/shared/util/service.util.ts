@@ -49,6 +49,15 @@ export class Pageable {
   }
 }
 
+interface PoTableColumnSort {
+  column: PoTableColumn;
+  type: PoTableColumnSortType;
+}
+
+interface SortFieldsOverride<Fields = string> {
+  [key: string]: Fields;
+}
+
 export class Sort<Fields = string> {
   constructor(public field: Fields, public direction: 'asc' | 'desc') {}
 
@@ -71,15 +80,13 @@ export class Sort<Fields = string> {
     });
   }
 
-  static fromOrderChange<Fields = string>({
-    column,
-    type,
-  }: {
-    column: PoTableColumn;
-    type: PoTableColumnSortType;
-  }): Sort<Fields> {
-    return new Sort<Fields>(
-      column.property as any,
+  static fromOrderChange<F = string>(
+    { column, type }: PoTableColumnSort,
+    override: SortFieldsOverride<F> = {}
+  ): Sort<F> {
+    const prop = column.property as any;
+    return new Sort<F>(
+      override[prop] ?? prop,
       type === PoTableColumnSortType.Ascending ? 'asc' : 'desc'
     );
   }

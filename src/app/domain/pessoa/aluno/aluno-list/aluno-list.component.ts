@@ -100,7 +100,9 @@ export class AlunoListComponent implements OnChanges, OnInit {
   }
 
   onOrdenar(change: { column: PoTableColumn; type: PoTableColumnSortType }) {
-    this.ordenarChange.emit(Sort.fromOrderChange(change));
+    this.ordenarChange.emit(
+      Sort.fromOrderChange<AlunoSortFields>(change, { cpfFormatado: 'cpf' })
+    );
   }
 
   ngOnChanges({ alunos }: SimpleChanges) {

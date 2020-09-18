@@ -7,7 +7,7 @@ import { generate as generateCpf } from '@fnando/cpf';
 import { AlunoListComponent } from './aluno-list.component';
 import { Aluno, FormaIngresso } from '../aluno';
 import { AlunoListModule } from './aluno-list.module';
-import alunosMock from '../alunos.mock';
+import alunosMock from '../aluno.mock';
 
 const ALUNOS = alunosMock.slice(0, 15).map((json) => Aluno.fromJson(json));
 

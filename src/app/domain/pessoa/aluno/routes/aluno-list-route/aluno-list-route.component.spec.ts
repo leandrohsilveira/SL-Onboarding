@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import { PoPageModule } from '@po-ui/ng-components';
 import { RouterTestingModule } from '@angular/router/testing';
 import { environment } from 'environments/environment';
-import alunosMock from '../../alunos.mock';
+import alunosMock from '../../aluno.mock';
 
 environment.delaySimulado = null;
 

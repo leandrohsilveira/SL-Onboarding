@@ -9,7 +9,7 @@ import {
   filtrar,
 } from 'app/shared/util/service.util';
 import { AlunoSortFields, Aluno } from './aluno';
-import { AlunosMock, injectionToken } from './alunos.mock';
+import { AlunosMock, injectionToken } from './aluno.mock';
 
 @Injectable()
 export class AlunoService {

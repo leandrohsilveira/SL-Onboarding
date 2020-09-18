@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { AlunoService } from './aluno.service';
-import { injectionToken } from './alunos.mock';
+import { injectionToken } from './aluno.mock';
 import { Page, Pageable, Sort } from 'app/shared/util/service.util';
 import { Aluno, AlunoSortFields } from './aluno';
 import { take } from 'rxjs/operators';
-import alunosMock, { AlunosMock } from './alunos.mock';
+import alunosMock, { AlunosMock } from './aluno.mock';
 import { environment } from 'environments/environment';
 import { format as formatCpf } from '@fnando/cpf';
 

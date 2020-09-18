@@ -1,0 +1,22 @@
+<po-modal
+  #modelRef
+  [p-click-out]="false"
+  [p-hide-close]="true"
+  [p-primary-action]="actions.salvar"
+  [p-secondary-action]="actions.cancelar"
+  p-size="auto"
+  p-title="Formulário de aluno"
+  i18n-p-title="
+    Título do formulário de cadastro ou edição dos dados de um aluno
+  "
+>
+  <app-aluno-form
+    [aluno]="aluno"
+    [disabled]="loading"
+    (submit)="salvar()"
+  ></app-aluno-form>
+  <div class="aluno-loading" *ngIf="loading">
+    <span class="aluno-loading-text">Carregando...</span>
+    <po-loading-icon></po-loading-icon>
+  </div>
+</po-modal>

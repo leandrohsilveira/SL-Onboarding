@@ -1,0 +1,12 @@
+.aluno-loading {
+  display: flex;
+  flex: 1;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 0;
+}
+
+.aluno-loading-text {
+  margin: 10px 0;
+}

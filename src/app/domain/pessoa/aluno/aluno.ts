@@ -3,6 +3,13 @@ import { Id } from 'app/domain/entidade';
 import { NotTakenService } from 'app/shared/validators';
 import { Pessoa, PessoaSortFields } from '../pessoa';
 
+export class AlunoEvent {
+  constructor(
+    public aluno: Aluno,
+    public source: 'cadastrado' | 'atualizado' | 'removido'
+  ) {}
+}
+
 export enum FormaIngresso {
   ENADE = 'ENADE',
   VESTIBULAR = 'Vestibular',

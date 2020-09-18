@@ -9,19 +9,38 @@ import {
 import { Aluno, AlunoSortFields } from '../../aluno';
 import { BaseComponent } from 'app/shared/base/base.component';
 import { PoPageFilter, PoPageAction } from '@po-ui/ng-components';
+import {
+  Router,
+  ActivatedRoute,
+  NavigationEnd,
+  ActivationEnd,
+  RoutesRecognized,
+} from '@angular/router';
+import {
+  map,
+  filter,
+  withLatestFrom,
+  tap,
+  distinctUntilChanged,
+} from 'rxjs/operators';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-aluno-list-route',
   templateUrl: './aluno-list-route.component.html',
 })
 export class AlunoListRouteComponent extends BaseComponent {
-  constructor(private alunoService: AlunoService) {
+  constructor(
+    private alunoService: AlunoService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
     super();
     this.pageStateSubject = new PageStateSubject(
-      (pageable, filter, sort) =>
+      (pageable, query, sort) =>
         this.alunoService.buscarAlunosLikeNomeOuEmailOuCpfOuMatricula(
           pageable,
-          filter,
+          query,
           sort
         ),
       () => this.takeWhileMounted()
@@ -31,14 +50,15 @@ export class AlunoListRouteComponent extends BaseComponent {
 
   filtro: PoPageFilter = {
     placeholder: $localize`:Placeholder do campo de busca da página "Lista de alunos":Buscar alunos`,
-    action: (filter: string) => this.handleFilterChange(filter),
+    action: (query: string) => this.handleFilterChange(query),
   };
 
   acoes: PoPageAction[] = [
     {
       icon: 'po-icon po-icon-plus',
       label: $localize`:Texto do botão "Novo aluno" para cadastrar um novo aluno, presente na página Lista de alunos:Novo aluno`,
-      url: '/alunos/new',
+      action: () =>
+        this.router.navigate(['new'], { relativeTo: this.activatedRoute }),
     },
   ];
 
@@ -49,6 +69,9 @@ export class AlunoListRouteComponent extends BaseComponent {
   ngOnInit() {
     super.ngOnInit();
     this.pageStateSubject.load();
+    this.alunoService.events$
+      .pipe(this.takeWhileMounted())
+      .subscribe(() => this.pageStateSubject.load(true));
   }
 
   handleOrdenacaoChange(sort: Sort<AlunoSortFields>) {
@@ -59,7 +82,7 @@ export class AlunoListRouteComponent extends BaseComponent {
     this.pageStateSubject.nextPage();
   }
 
-  handleFilterChange(filter: string) {
-    this.pageStateSubject.setFilter(filter);
+  handleFilterChange(query: string) {
+    this.pageStateSubject.setFilter(query);
   }
 }

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { AlunoService } from './aluno.service';
 import { injectionToken } from './aluno.mock';
 import { Page, Pageable, Sort } from 'app/shared/util/service.util';
-import { Aluno, AlunoSortFields } from './aluno';
+import { Aluno, AlunoSortFields, FormaIngresso, AlunoEvent } from './aluno';
 import { take } from 'rxjs/operators';
 import alunosMock, { AlunosMock } from './aluno.mock';
 import { environment } from 'environments/environment';
@@ -327,6 +327,82 @@ describe('AlunoService', () => {
             'Teste 38',
             'Teste 37',
           ]));
+      });
+    });
+
+    describe('Quando a função "salvar" é invocada', () => {
+      let event: AlunoEvent;
+      let aluno: Aluno;
+
+      describe('Informando um novo aluno (id = null)', () => {
+        beforeEach(async () => {
+          const eventPromise = service.events$.pipe(take(1)).toPromise();
+          aluno = new Aluno(
+            null,
+            'Teste X',
+            'testex@totvs.com.br',
+            '51346550069',
+            FormaIngresso.ENADE
+          );
+          await service.salvar(aluno).pipe(take(1)).toPromise();
+          event = await eventPromise;
+        });
+
+        it('O array de mock possui 51 elemento', () =>
+          expect(mockValues.values.length).toEqual(51));
+        it('O campo id foi preenchido automaticamente com o valor "uuid51"', () =>
+          expect(aluno.id).toEqual('uuid51'));
+        it('O campo matrícula foi preenchido automaticamente com o valor 51', () =>
+          expect(aluno.matricula).toEqual(51));
+        it('Existe um objeto no indice 50 que é a representação JSON do aluno', () =>
+          expect(mockValues.values[50]).toEqual({
+            id: 'uuid51',
+            nome: 'Teste X',
+            email: 'testex@totvs.com.br',
+            cpf: '51346550069',
+            formaIngresso: 'ENADE',
+            matricula: 51,
+          }));
+        it('Um evento de persistencia foi emitido', () =>
+          expect(event).toBeDefined());
+        it('Um evento de persistencia que foi emitido possui origem "cadastrado"', () =>
+          expect(event.source).toEqual('cadastrado'));
+      });
+
+      describe('Informando um aluno existente (id = "uuid1")', () => {
+        beforeEach(async () => {
+          const eventPromise = service.events$.pipe(take(1)).toPromise();
+          aluno = new Aluno(
+            'uuid1',
+            'Teste X',
+            'testex@totvs.com.br',
+            '51346550069',
+            FormaIngresso.ENADE,
+            51
+          );
+          await service.salvar(aluno).pipe(take(1)).toPromise();
+          event = await eventPromise;
+        });
+
+        it('O array de mock possui 50 elemento', () =>
+          expect(mockValues.values.length).toEqual(50));
+        it('O campo id foi preenchido automaticamente com o valor "uuid1"', () =>
+          expect(aluno.id).toEqual('uuid1'));
+        it('O campo matrícula foi preenchido automaticamente com o valor 51', () =>
+          expect(aluno.matricula).toEqual(51));
+        it('Existe um objeto no indice 0 que é a representação JSON do aluno', () =>
+          expect(mockValues.values[0]).toEqual({
+            id: 'uuid1',
+            nome: 'Teste X',
+            email: 'testex@totvs.com.br',
+            cpf: '51346550069',
+            formaIngresso: 'ENADE',
+            matricula: 51,
+          }));
+        it('Um evento de persistencia foi emitido', () =>
+          expect(event).toBeDefined());
+        it('Um evento de persistencia que foi emitido possui origem "atualizado"', () =>
+          expect(event.source).toEqual('atualizado'));
       });
     });
   });

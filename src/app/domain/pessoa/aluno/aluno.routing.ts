@@ -15,6 +15,9 @@ const routes: Routes = [
         path: 'new',
         pathMatch: 'full',
         component: AlunoFormRouteComponent,
+        data: {
+          returnUrl: ['..'],
+        },
       },
     ],
   },

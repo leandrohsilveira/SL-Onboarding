@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Aluno, FormaIngresso } from '../../aluno';
 import { PoModalComponent, PoModalAction } from '@po-ui/ng-components';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'app/shared/base/base.component';
+import { AlunoService } from '../../aluno.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-aluno-form-route',
@@ -10,7 +12,11 @@ import { BaseComponent } from 'app/shared/base/base.component';
   styleUrls: ['./aluno-form-route.component.css'],
 })
 export class AlunoFormRouteComponent extends BaseComponent {
-  constructor(private router: Router) {
+  constructor(
+    private alunoService: AlunoService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
     super();
   }
 
@@ -36,22 +42,11 @@ export class AlunoFormRouteComponent extends BaseComponent {
 
   podeCancelar = true;
 
-  loading = true;
+  loading = false;
 
   ngOnInit() {
     super.ngOnInit();
     this.modalRef.open();
-    setTimeout(() => {
-      this.aluno = new Aluno(
-        'uuid1',
-        'Teste 1',
-        'teste1@totvs.com.br',
-        '05141510999',
-        FormaIngresso.ENADE,
-        1
-      );
-      this.loading = false;
-    }, 2000);
   }
 
   ngOnDestroy() {
@@ -60,12 +55,28 @@ export class AlunoFormRouteComponent extends BaseComponent {
   }
 
   cancelar() {
-    console.log('Cancelando...');
-    this.router.navigate(['..']);
+    this.retornar();
   }
 
   salvar() {
-    console.log('Salvando...', this.aluno);
-    this.router.navigate(['..']);
+    this.loading = true;
+    this.alunoService
+      .salvar(this.aluno)
+      .pipe(this.takeWhileMounted())
+      .subscribe(
+        () => this.retornar(),
+        (error) => {
+          this.loading = false;
+          console.error(error);
+        }
+      );
+  }
+
+  private retornar(): void {
+    this.router.navigate(this.returnUrl, { relativeTo: this.activatedRoute });
+  }
+
+  private get returnUrl() {
+    return this.activatedRoute.snapshot.data.returnUrl;
   }
 }

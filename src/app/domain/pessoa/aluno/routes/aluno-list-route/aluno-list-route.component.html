@@ -3,6 +3,7 @@
   p-title="Lista de alunos"
   i18n-p-title="Título da página 'Lista de alunos'"
   [p-filter]="filtro"
+  [p-actions]="acoes"
 >
   <app-aluno-list
     [alunos]="pageState.items"
@@ -13,3 +14,4 @@
     (carregarMais)="handleCarregarMais()"
   ></app-aluno-list>
 </po-page-list>
+<router-outlet></router-outlet>

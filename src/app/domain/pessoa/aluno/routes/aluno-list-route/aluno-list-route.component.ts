@@ -8,7 +8,7 @@ import {
 } from 'app/shared/util/service.util';
 import { Aluno, AlunoSortFields } from '../../aluno';
 import { BaseComponent } from 'app/shared/base/base.component';
-import { PoPageFilter } from '@po-ui/ng-components';
+import { PoPageFilter, PoPageAction } from '@po-ui/ng-components';
 
 @Component({
   selector: 'app-aluno-list-route',
@@ -33,6 +33,14 @@ export class AlunoListRouteComponent extends BaseComponent {
     placeholder: $localize`:Placeholder do campo de busca da página "Lista de alunos":Buscar alunos`,
     action: (filter: string) => this.handleFilterChange(filter),
   };
+
+  acoes: PoPageAction[] = [
+    {
+      icon: 'po-icon po-icon-plus',
+      label: $localize`:Texto do botão "Novo aluno" para cadastrar um novo aluno, presente na página Lista de alunos:Novo aluno`,
+      url: '/alunos/new',
+    },
+  ];
 
   pageState$: Observable<PageState<Aluno, AlunoSortFields>>;
 

@@ -3,6 +3,8 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AlunoDetailModule } from './aluno-detail.module';
+import { Aluno } from '../aluno';
+import alunosMock from '../aluno.mock';
 
 describe('AlunoDetailComponent', () => {
   let fixture: ComponentFixture<AlunoDetailComponent>;
@@ -12,6 +14,7 @@ describe('AlunoDetailComponent', () => {
       imports: [CommonModule, RouterTestingModule, AlunoDetailModule],
     }).compileComponents();
     fixture = TestBed.createComponent(AlunoDetailComponent);
+    fixture.componentInstance.aluno = Aluno.fromJson(alunosMock[0]);
     fixture.detectChanges();
   });
 

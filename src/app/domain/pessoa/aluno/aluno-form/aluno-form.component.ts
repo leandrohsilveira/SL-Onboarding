@@ -24,6 +24,9 @@ export class AlunoFormComponent extends BaseComponent implements OnChanges {
   @Input()
   aluno = new Aluno();
 
+  @Input()
+  disabled = false;
+
   @Output('submit')
   onSubmit = new EventEmitter<Aluno>();
 

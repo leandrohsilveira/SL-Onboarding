@@ -9,6 +9,7 @@
       "
       p-label="Nome"
       name="nome"
+      [p-disabled]="disabled"
       formControlName="nome"
       aria-label="Campo nome"
       p-required
@@ -24,6 +25,7 @@
       "
       p-label="E-mail"
       name="email"
+      [p-disabled]="disabled"
       formControlName="email"
       aria-label="Campo E-mail"
       p-required
@@ -39,6 +41,7 @@
       "
       p-label="CPF"
       name="cpf"
+      [p-disabled]="disabled"
       formControlName="cpf"
       aria-label="Campo CPF"
       p-mask="999.999.999-99"
@@ -56,6 +59,7 @@
       "
       p-label="Forma de ingresso"
       name="formaIngresso"
+      [p-disabled]="disabled"
       formControlName="formaIngresso"
       aria-label="Campo forma de ingresso"
       [p-options]="formaIngressoOptions"

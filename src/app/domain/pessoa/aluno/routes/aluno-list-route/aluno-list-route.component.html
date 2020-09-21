@@ -12,6 +12,7 @@
     [(ordenar)]="pageState.sort"
     (ordenarChange)="handleOrdenacaoChange($event)"
     (carregarMais)="handleCarregarMais()"
+    (editar)="handleEditarChange($event)"
   ></app-aluno-list>
 </po-page-list>
 <router-outlet></router-outlet>

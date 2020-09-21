@@ -13,6 +13,7 @@ import {
   PoTableColumn,
   PoTableComponent,
   PoTableColumnSortType,
+  PoTableAction,
 } from '@po-ui/ng-components';
 import { CustomLiterals } from 'app/shared/literals';
 import { Sort } from 'app/shared/util/service.util';
@@ -45,9 +46,19 @@ export class AlunoListComponent implements OnChanges, OnInit {
   @Output()
   ordenarChange = new EventEmitter<Sort<AlunoSortFields>>();
 
+  @Output()
+  editar = new EventEmitter<Aluno>();
+
   carregandoMais = false;
 
   literals = CustomLiterals.forTable();
+
+  actions: PoTableAction[] = [
+    {
+      label: $localize`:Texto do botão "Editar" na tabela de alunos:Editar`,
+      action: (item: Aluno) => this.editar.emit(item),
+    },
+  ];
 
   columns: PoTableColumn[] = [
     {

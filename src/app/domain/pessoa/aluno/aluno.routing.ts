@@ -5,6 +5,7 @@ import { AlunoListRouteModule } from './routes/aluno-list-route/aluno-list-route
 import { AlunoListRouteComponent } from './routes/aluno-list-route/aluno-list-route.component';
 import { AlunoFormRouteModule } from './routes/aluno-form-route/aluno-form-route.module';
 import { AlunoFormRouteComponent } from './routes/aluno-form-route/aluno-form-route.component';
+import { RouterUtil } from 'app/shared/util/router.util';
 
 const routes: Routes = [
   {
@@ -16,7 +17,16 @@ const routes: Routes = [
         pathMatch: 'full',
         component: AlunoFormRouteComponent,
         data: {
-          returnUrl: ['..'],
+          returnUrl: RouterUtil.urlSegmentsOfParentFromRoot,
+        },
+      },
+      {
+        path: ':id/edit',
+        pathMatch: 'full',
+        component: AlunoFormRouteComponent,
+        data: {
+          loadFromParam: 'id',
+          returnUrl: RouterUtil.urlSegmentsOfParentFromRoot,
         },
       },
     ],

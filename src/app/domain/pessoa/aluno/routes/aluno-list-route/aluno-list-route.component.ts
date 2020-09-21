@@ -67,6 +67,12 @@ export class AlunoListRouteComponent extends BaseComponent {
       .subscribe(() => this.pageStateSubject.load(true));
   }
 
+  handleEditarChange(item: Aluno) {
+    this.router.navigate([item.id, 'edit'], {
+      relativeTo: this.activatedRoute,
+    });
+  }
+
   handleOrdenacaoChange(sort: Sort<AlunoSortFields>) {
     this.pageStateSubject.setSort(sort);
   }

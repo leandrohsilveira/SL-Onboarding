@@ -12,6 +12,7 @@ import { EventService } from 'app/shared/event/event.service';
 import { AlunoSortFields, Aluno, AlunoEvent } from './aluno';
 import { AlunosMock, injectionToken } from './aluno.mock';
 import { tap } from 'rxjs/operators';
+import { Id } from 'app/domain/entidade';
 
 @Injectable()
 export class AlunoService {
@@ -19,6 +20,17 @@ export class AlunoService {
     @Inject(injectionToken) private alunosMock: AlunosMock,
     private eventService: EventService
   ) {}
+
+  recuperarPorId(id: Id): Observable<Aluno> {
+    const aluno = this.alunosMock.values.find((json) => json.id === id);
+    if (aluno) return simularDelay(Aluno.fromJson(aluno));
+    else
+      return throwError(
+        new Error(
+          $localize`:Mensagem de erro que ocorre ao tentar buscar um aluno que não está cadastrado:O aluno com id ${aluno.id} não foi encontrado`
+        )
+      );
+  }
 
   buscarAlunosLikeNomeOuEmailOuCpfOuMatricula(
     page: Pageable,

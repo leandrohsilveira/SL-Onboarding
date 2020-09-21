@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { Aluno, FormaIngresso } from '../../aluno';
+import { Component, ViewChild } from '@angular/core';
+import { Aluno } from '../../aluno';
 import { PoModalComponent, PoModalAction } from '@po-ui/ng-components';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'app/shared/base/base.component';
 import { AlunoService } from '../../aluno.service';
-import { map } from 'rxjs/operators';
+import { map, filter, tap, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-aluno-form-route',
@@ -46,6 +46,26 @@ export class AlunoFormRouteComponent extends BaseComponent {
 
   ngOnInit() {
     super.ngOnInit();
+
+    this.activatedRoute.data
+      .pipe(
+        this.takeWhileMounted(),
+        filter((data) => data.loadFromParam),
+        map((data) => data.loadFromParam),
+        tap(() => (this.loading = true)),
+        switchMap((param) =>
+          this.activatedRoute.params.pipe(
+            filter((params) => params[param]),
+            map((params) => params[param])
+          )
+        ),
+        switchMap((id) => this.alunoService.recuperarPorId(id))
+      )
+      .subscribe((aluno) => {
+        this.loading = false;
+        this.aluno = aluno;
+      });
+
     this.modalRef.open();
   }
 
@@ -60,6 +80,7 @@ export class AlunoFormRouteComponent extends BaseComponent {
 
   salvar() {
     this.loading = true;
+    this.podeCancelar = false;
     this.alunoService
       .salvar(this.aluno)
       .pipe(this.takeWhileMounted())
@@ -67,16 +88,18 @@ export class AlunoFormRouteComponent extends BaseComponent {
         () => this.retornar(),
         (error) => {
           this.loading = false;
+          this.podeCancelar = true;
           console.error(error);
         }
       );
   }
 
   private retornar(): void {
-    this.router.navigate(this.returnUrl, { relativeTo: this.activatedRoute });
+    console.log(this.returnUrl);
+    this.router.navigate(this.returnUrl);
   }
 
   private get returnUrl() {
-    return this.activatedRoute.snapshot.data.returnUrl;
+    return this.activatedRoute.snapshot.data.returnUrl(this.activatedRoute);
   }
 }

@@ -1,6 +1,7 @@
 import { FormGroup } from '@angular/forms';
 import { takeWhile } from 'rxjs/operators';
 import { MonoTypeOperatorFunction } from 'rxjs';
+import { AbstractEvent } from 'app/shared/event/event.service';
 
 export type Id = string | null;
 
@@ -22,5 +23,21 @@ export abstract class Entidade {
       this.onChanges(changes);
       if (onChange) onChange(this);
     });
+  }
+}
+
+export type EntidadeEventType = 'cadastrado' | 'atualizado' | 'removido';
+
+export type EntidadeEventSource = 'client' | 'server';
+
+export class EntidadeEvent<E extends Entidade> extends AbstractEvent<
+  EntidadeEventType
+> {
+  constructor(
+    public entidade: E,
+    public source: EntidadeEventSource,
+    type: EntidadeEventType
+  ) {
+    super(type);
   }
 }

@@ -3,10 +3,12 @@ import { AlunoService } from './aluno.service';
 import { injectionToken } from './aluno.mock';
 import { Page, Pageable, Sort } from 'app/shared/util/service.util';
 import { Aluno, AlunoSortFields, FormaIngresso, AlunoEvent } from './aluno';
-import { take } from 'rxjs/operators';
+import { take, filter, map } from 'rxjs/operators';
 import alunosMock, { AlunosMock } from './aluno.mock';
 import { environment } from 'environments/environment';
 import { format as formatCpf } from '@fnando/cpf';
+import { EventService } from 'app/shared/event/event.service';
+import { Observable } from 'rxjs';
 
 let mockValues: AlunosMock = {
   values: [],
@@ -15,6 +17,7 @@ let mockValues: AlunosMock = {
 environment.delaySimulado = null;
 
 describe('AlunoService', () => {
+  let events$: Observable<AlunoEvent>;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -25,6 +28,11 @@ describe('AlunoService', () => {
         AlunoService,
       ],
     });
+    const eventService = TestBed.inject(EventService);
+    events$ = eventService.bus$.pipe(
+      filter((e) => e instanceof AlunoEvent),
+      map((e) => e as AlunoEvent)
+    );
   });
 
   describe('Quando não há alunos cadastrados', () => {
@@ -336,7 +344,7 @@ describe('AlunoService', () => {
 
       describe('Informando um novo aluno (id = null)', () => {
         beforeEach(async () => {
-          const eventPromise = service.events$.pipe(take(1)).toPromise();
+          const eventPromise = events$.pipe(take(1)).toPromise();
           aluno = new Aluno(
             null,
             'Teste X',
@@ -366,12 +374,12 @@ describe('AlunoService', () => {
         it('Um evento de persistencia foi emitido', () =>
           expect(event).toBeDefined());
         it('Um evento de persistencia que foi emitido possui origem "cadastrado"', () =>
-          expect(event.source).toEqual('cadastrado'));
+          expect(event.type).toEqual('cadastrado'));
       });
 
       describe('Informando um aluno existente (id = "uuid1")', () => {
         beforeEach(async () => {
-          const eventPromise = service.events$.pipe(take(1)).toPromise();
+          const eventPromise = events$.pipe(take(1)).toPromise();
           aluno = new Aluno(
             'uuid1',
             'Teste X',
@@ -402,7 +410,7 @@ describe('AlunoService', () => {
         it('Um evento de persistencia foi emitido', () =>
           expect(event).toBeDefined());
         it('Um evento de persistencia que foi emitido possui origem "atualizado"', () =>
-          expect(event.source).toEqual('atualizado'));
+          expect(event.type).toEqual('atualizado'));
       });
     });
   });

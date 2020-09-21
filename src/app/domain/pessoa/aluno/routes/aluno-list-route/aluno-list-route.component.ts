@@ -6,24 +6,12 @@ import {
   PageState,
   PageStateSubject,
 } from 'app/shared/util/service.util';
-import { Aluno, AlunoSortFields } from '../../aluno';
+import { Aluno, AlunoSortFields, AlunoEvent } from '../../aluno';
 import { BaseComponent } from 'app/shared/base/base.component';
 import { PoPageFilter, PoPageAction } from '@po-ui/ng-components';
-import {
-  Router,
-  ActivatedRoute,
-  NavigationEnd,
-  ActivationEnd,
-  RoutesRecognized,
-} from '@angular/router';
-import {
-  map,
-  filter,
-  withLatestFrom,
-  tap,
-  distinctUntilChanged,
-} from 'rxjs/operators';
-import { Location } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
+import { map, filter } from 'rxjs/operators';
+import { EventService } from 'app/shared/event/event.service';
 
 @Component({
   selector: 'app-aluno-list-route',
@@ -32,6 +20,7 @@ import { Location } from '@angular/common';
 export class AlunoListRouteComponent extends BaseComponent {
   constructor(
     private alunoService: AlunoService,
+    private eventService: EventService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
@@ -69,8 +58,12 @@ export class AlunoListRouteComponent extends BaseComponent {
   ngOnInit() {
     super.ngOnInit();
     this.pageStateSubject.load();
-    this.alunoService.events$
-      .pipe(this.takeWhileMounted())
+    this.eventService.bus$
+      .pipe(
+        this.takeWhileMounted(),
+        filter((e) => e instanceof AlunoEvent),
+        map((e) => e as AlunoEvent)
+      )
       .subscribe(() => this.pageStateSubject.load(true));
   }
 

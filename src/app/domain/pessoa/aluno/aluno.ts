@@ -1,14 +1,9 @@
 import { AbstractControl, Validators } from '@angular/forms';
-import { Id } from 'app/domain/entidade';
+import { Id, EntidadeEvent } from 'app/domain/entidade';
 import { NotTakenService } from 'app/shared/validators';
 import { Pessoa, PessoaSortFields } from '../pessoa';
 
-export class AlunoEvent {
-  constructor(
-    public aluno: Aluno,
-    public source: 'cadastrado' | 'atualizado' | 'removido'
-  ) {}
-}
+export class AlunoEvent extends EntidadeEvent<Aluno> {}
 
 export enum FormaIngresso {
   ENADE = 'ENADE',

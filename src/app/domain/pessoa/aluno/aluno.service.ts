@@ -8,18 +8,17 @@ import {
   simularDelay,
   filtrar,
 } from 'app/shared/util/service.util';
+import { EventService } from 'app/shared/event/event.service';
 import { AlunoSortFields, Aluno, AlunoEvent } from './aluno';
 import { AlunosMock, injectionToken } from './aluno.mock';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class AlunoService {
-  constructor(@Inject(injectionToken) private alunosMock: AlunosMock) {
-    this.events$ = this.eventsSubject.asObservable();
-  }
-
-  private eventsSubject = new Subject<AlunoEvent>();
-
-  events$: Observable<AlunoEvent>;
+  constructor(
+    @Inject(injectionToken) private alunosMock: AlunosMock,
+    private eventService: EventService
+  ) {}
 
   buscarAlunosLikeNomeOuEmailOuCpfOuMatricula(
     page: Pageable,
@@ -50,8 +49,13 @@ export class AlunoService {
         const { id } = values[i];
         if (id === aluno.id) {
           values[i] = JSON.parse(JSON.stringify(aluno));
-          this.eventsSubject.next(new AlunoEvent(aluno, 'atualizado'));
-          return simularDelay(aluno);
+          return simularDelay(aluno).pipe(
+            tap((a) =>
+              this.eventService.publish(
+                new AlunoEvent(a, 'client', 'atualizado')
+              )
+            )
+          );
         }
       }
       return throwError(
@@ -65,8 +69,11 @@ export class AlunoService {
       aluno.id = `uuid${id}`;
       aluno.matricula = id;
       values.push(JSON.parse(JSON.stringify(aluno)));
-      this.eventsSubject.next(new AlunoEvent(aluno, 'cadastrado'));
-      return simularDelay(aluno);
+      return simularDelay(aluno).pipe(
+        tap((a) =>
+          this.eventService.publish(new AlunoEvent(a, 'client', 'cadastrado'))
+        )
+      );
     }
   }
 }

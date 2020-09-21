@@ -17,7 +17,9 @@ const routes: Routes = [
         pathMatch: 'full',
         component: AlunoFormRouteComponent,
         data: {
-          returnUrl: RouterUtil.urlSegmentsOfParentFromRoot,
+          urlRetorno: RouterUtil.urlFromRootToParent,
+          mensagemSucesso: () =>
+            $localize`:Mensagem de sucesso ao cadastrar um novo aluno:Aluno cadastrado com sucesso`,
         },
       },
       {
@@ -26,7 +28,9 @@ const routes: Routes = [
         component: AlunoFormRouteComponent,
         data: {
           loadFromParam: 'id',
-          returnUrl: RouterUtil.urlSegmentsOfParentFromRoot,
+          urlRetorno: RouterUtil.urlFromRootToParent,
+          mensagemSucesso: () =>
+            $localize`:Mensagem de sucesso ao atualizar um aluno existente:Aluno atualizado com sucesso`,
         },
       },
     ],

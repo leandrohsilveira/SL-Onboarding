@@ -1,6 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { Aluno } from '../../aluno';
-import { PoModalComponent, PoModalAction } from '@po-ui/ng-components';
+import {
+  PoModalComponent,
+  PoModalAction,
+  PoNotificationService,
+} from '@po-ui/ng-components';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'app/shared/base/base.component';
 import { AlunoService } from '../../aluno.service';
@@ -14,6 +18,7 @@ import { map, filter, tap, switchMap } from 'rxjs/operators';
 export class AlunoFormRouteComponent extends BaseComponent {
   constructor(
     private alunoService: AlunoService,
+    private notificationService: PoNotificationService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
@@ -28,7 +33,7 @@ export class AlunoFormRouteComponent extends BaseComponent {
       salvar: <PoModalAction>{
         label: $localize`:Texto do botão "Salvar" da modal (janela) de formulário de aluno:Salvar`,
         action: () => this.salvar(),
-        loading: this.loading,
+        loading: this.loading || this.processando,
       },
       cancelar: <PoModalAction>{
         label: $localize`:Texto do botão "Cancelar" da modal (janela) de formulário de aluno:Cancelar`,
@@ -38,6 +43,8 @@ export class AlunoFormRouteComponent extends BaseComponent {
     };
   }
 
+  processando = false;
+
   aluno: Aluno = new Aluno();
 
   podeCancelar = true;
@@ -46,7 +53,6 @@ export class AlunoFormRouteComponent extends BaseComponent {
 
   ngOnInit() {
     super.ngOnInit();
-
     this.activatedRoute.data
       .pipe(
         this.takeWhileMounted(),
@@ -79,15 +85,18 @@ export class AlunoFormRouteComponent extends BaseComponent {
   }
 
   salvar() {
-    this.loading = true;
+    this.processando = true;
     this.podeCancelar = false;
     this.alunoService
       .salvar(this.aluno)
       .pipe(this.takeWhileMounted())
       .subscribe(
-        () => this.retornar(),
+        () => {
+          this.notificationService.success(this.mensagemSucesso);
+          this.retornar();
+        },
         (error) => {
-          this.loading = false;
+          this.processando = false;
           this.podeCancelar = true;
           console.error(error);
         }
@@ -95,11 +104,14 @@ export class AlunoFormRouteComponent extends BaseComponent {
   }
 
   private retornar(): void {
-    console.log(this.returnUrl);
-    this.router.navigate(this.returnUrl);
+    this.router.navigate(this.urlRetorno);
   }
 
-  private get returnUrl() {
-    return this.activatedRoute.snapshot.data.returnUrl(this.activatedRoute);
+  private get urlRetorno() {
+    return this.activatedRoute.snapshot.data.urlRetorno(this.activatedRoute);
+  }
+
+  private get mensagemSucesso() {
+    return this.activatedRoute.snapshot.data.mensagemSucesso();
   }
 }

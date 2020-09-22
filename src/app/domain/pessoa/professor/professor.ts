@@ -4,9 +4,17 @@ import {
   Validators,
   FormBuilder,
 } from '@angular/forms';
-import { Id } from 'app/domain/entidade';
-import { Pessoa } from '../pessoa';
+import { Id, EntidadeEvent } from 'app/domain/entidade';
+import { Pessoa, PessoaJson, PessoaSortFields } from '../pessoa';
 import { NotTakenService } from 'app/shared/validators';
+
+export class ProfessorEvent extends EntidadeEvent<Professor> {}
+
+export interface ProfessorJson extends PessoaJson {
+  titulacao: string;
+}
+
+export type ProfessorSortFields = PessoaSortFields | 'titulacao';
 
 export enum Titulacao {
   MESTRE = 'Mestre',

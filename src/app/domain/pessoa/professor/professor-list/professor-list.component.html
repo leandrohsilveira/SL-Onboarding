@@ -1,0 +1,15 @@
+<po-table
+  #tableRef
+  [p-actions]="actions"
+  [p-columns]="columns"
+  [p-items]="professores"
+  [p-literals]="literals"
+  [p-loading]="carregando && !carregandoMais"
+  [p-loading-show-more]="carregando && carregandoMais"
+  [p-show-more-disabled]="!podeCarregarMais"
+  [p-sort]="true"
+  (p-sort-by)="onOrdenar($event)"
+  (p-show-more)="carregarMais()"
+  p-striped="true"
+  p-hide-text-overflow
+></po-table>

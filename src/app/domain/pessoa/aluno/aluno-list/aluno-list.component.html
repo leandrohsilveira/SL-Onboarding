@@ -7,7 +7,7 @@
   [p-loading]="carregando && !carregandoMais"
   [p-loading-show-more]="carregando && carregandoMais"
   [p-show-more-disabled]="!podeCarregarMais"
-  [p-sort]="false"
+  [p-sort]="true"
   (p-sort-by)="onOrdenar($event)"
   (p-show-more)="carregarMais()"
   p-striped="true"

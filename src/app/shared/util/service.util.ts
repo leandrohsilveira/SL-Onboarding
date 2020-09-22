@@ -90,6 +90,12 @@ export class Sort<Fields = string> {
       type === PoTableColumnSortType.Ascending ? 'asc' : 'desc'
     );
   }
+
+  static fromExpression<F = string>(expr: string) {
+    const field = expr.replace(/^(\+|\-)/, '') as any;
+    if (expr[0] === '-') return new Sort<F>(field, 'desc');
+    else return new Sort<F>(field, 'asc');
+  }
 }
 
 export function searchString(value?: string, filter = '') {

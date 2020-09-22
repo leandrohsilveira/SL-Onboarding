@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { AlunoModule } from '../../aluno.module';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -10,18 +10,7 @@ import alunosMock from '../../aluno.mock';
 import { Aluno } from '../../aluno';
 import { PoModalModule, PoLoadingModule } from '@po-ui/ng-components';
 import { environment } from 'environments/environment';
-
-const imports = [
-  CommonModule,
-  AlunoModule,
-  AlunoFormModule,
-  PoModalModule,
-  PoLoadingModule,
-  RouterModule,
-  RouterTestingModule,
-];
-
-const declarations = [AlunoFormRouteComponent];
+import { HttpClient } from '@angular/common/http';
 
 environment.delaySimulado = null;
 
@@ -29,28 +18,40 @@ describe('AlunoFormRouteComponent', () => {
   let component: AlunoFormRouteComponent;
   let fixture: ComponentFixture<AlunoFormRouteComponent>;
 
-  describe('Quando os dados da rota atual possui um "loadFromParam" = "id"', () => {
-    beforeEach(async(() => {
-      TestBed.configureTestingModule({
-        imports: [...imports],
-        declarations,
-      }).compileComponents();
-      const activatedRoute = TestBed.inject(ActivatedRoute);
-      activatedRoute.data = of({
-        loadFromParam: 'id',
-      });
-      activatedRoute.params = of({
-        id: alunosMock[0].id,
-      });
-      fixture = TestBed.createComponent(AlunoFormRouteComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    }));
-
-    afterEach(() => {
-      component.modalRef.close();
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        CommonModule,
+        AlunoModule,
+        AlunoFormModule,
+        PoModalModule,
+        PoLoadingModule,
+        RouterModule,
+        RouterTestingModule,
+      ],
+      declarations: [AlunoFormRouteComponent],
+    }).compileComponents();
+    const activatedRoute = TestBed.inject(ActivatedRoute);
+    const httpClient = TestBed.inject(HttpClient);
+    spyOn(httpClient, 'get').and.returnValue(of(alunosMock[0]));
+    activatedRoute.data = of({
+      loadFromParam: 'id',
+      returnUrl: () => ['url'],
     });
+    activatedRoute.params = of({
+      id: alunosMock[0].id,
+    });
+    fixture = TestBed.createComponent(AlunoFormRouteComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
+  afterEach(async () => {
+    component.modalRef.close();
+    fixture.detectChanges();
+  });
+
+  describe('Quando os dados da rota atual possui um "loadFromParam" = "id"', () => {
     it('A instancia de aluno do componente é igual ao primeiro aluno do array de mocks', () =>
       expect(component.aluno).toEqual(Aluno.fromJson(alunosMock[0])));
   });

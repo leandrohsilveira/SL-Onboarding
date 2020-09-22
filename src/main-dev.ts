@@ -3,7 +3,8 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-import { BackendConfigArgs, setupBackend } from 'web-backend-api';
+import { setupBackend } from 'web-backend-api';
+import { backendConfig } from 'backend/config';
 
 if (environment.production) {
   enableProdMode();
@@ -22,15 +23,6 @@ backend.keys().forEach((mod: any) => {
     );
   }
 });
-
-const { schema, host, port } = environment.backend;
-
-const backendConfig: BackendConfigArgs = {
-  strategyId: 'uuid',
-  host: `${schema}://${host}:${port}`,
-  apiBase: '',
-  passThruUnknownUrl: true,
-};
 
 setupBackend(backendConfig, {
   dbtype: 'indexdb',

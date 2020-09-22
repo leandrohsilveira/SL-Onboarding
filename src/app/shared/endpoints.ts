@@ -7,7 +7,7 @@ const core = 'core';
 const query = 'query';
 const v1 = 'v1';
 
-class Endpoint {
+export class Endpoint {
   constructor(public path: string) {}
 
   get urlCompleta() {

@@ -1,7 +1,12 @@
 import { AbstractControl, Validators } from '@angular/forms';
 import { Id, EntidadeEvent } from 'app/domain/entidade';
 import { NotTakenService } from 'app/shared/validators';
-import { Pessoa, PessoaSortFields } from '../pessoa';
+import { Pessoa, PessoaSortFields, PessoaJson } from '../pessoa';
+
+export interface AlunoJson extends PessoaJson {
+  matricula: number;
+  formaIngresso: string;
+}
 
 export class AlunoEvent extends EntidadeEvent<Aluno> {}
 

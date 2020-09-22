@@ -1,18 +1,11 @@
 import { NgModule } from '@angular/core';
 import { AlunoService } from './aluno.service';
-import alunosMock, { AlunosMock, injectionToken } from './aluno.mock';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { AppBackendModule } from 'backend/app-backend.module';
 
 @NgModule({
-  providers: [
-    CommonModule,
-    {
-      provide: injectionToken,
-      useValue: <AlunosMock>{
-        values: alunosMock,
-      },
-    },
-    AlunoService,
-  ],
+  imports: [CommonModule, HttpClientModule, AppBackendModule.forFeature()],
+  providers: [AlunoService],
 })
 export class AlunoModule {}

@@ -8,7 +8,8 @@ import {
   PoToolbarModule,
   PoPageModule,
 } from '@po-ui/ng-components';
-import { RouterModule } from '@angular/router';
+import { AppBackendModule } from 'backend/app-backend.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +19,8 @@ import { RouterModule } from '@angular/router';
     PoMenuModule,
     PoToolbarModule,
     PoPageModule,
-    RouterModule.forRoot([]),
+    HttpClientModule,
+    AppBackendModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

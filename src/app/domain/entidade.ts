@@ -5,6 +5,10 @@ import { AbstractEvent } from 'app/shared/event/event.service';
 
 export type Id = string | null;
 
+export interface EntidadeJson {
+  id: Id;
+}
+
 export abstract class Entidade {
   constructor(public id: Id) {}
 

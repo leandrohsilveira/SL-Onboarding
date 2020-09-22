@@ -24,7 +24,8 @@
               "./node_modules/@totvs/po-theme/css/po-theme-default.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["uuid", "web-backend-api"]
           },
           "configurations": {
             "production": {
@@ -54,6 +55,16 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "dev": {
+              "main": "src/main-dev.ts",
+              "tsConfig": "tsconfig.dev.json",
+              "fileReplacements": [
+                {
+                  "replace": "src/backend/app-backend.module.ts",
+                  "with": "src/backend/app-backend.dev.module.ts"
+                }
+              ]
             }
           }
         },
@@ -65,6 +76,9 @@
           "configurations": {
             "production": {
               "browserTarget": "SL-Onboarding:build:production"
+            },
+            "dev": {
+              "browserTarget": "SL-Onboarding:build:dev"
             }
           }
         },

@@ -1,91 +1,73 @@
-import { Injectable, Inject } from '@angular/core';
-import { Observable, Subject, throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import {
   Sort,
   Pageable,
-  searchString,
   Page,
   simularDelay,
-  filtrar,
 } from 'app/shared/util/service.util';
 import { EventService } from 'app/shared/event/event.service';
-import { AlunoSortFields, Aluno, AlunoEvent } from './aluno';
-import { AlunosMock, injectionToken } from './aluno.mock';
-import { tap } from 'rxjs/operators';
-import { Id } from 'app/domain/entidade';
+import { AlunoSortFields, Aluno, AlunoEvent, AlunoJson } from './aluno';
+import { tap, map, flatMap, mapTo } from 'rxjs/operators';
+import { Id, EntidadeEventType } from 'app/domain/entidade';
+import { HttpClient } from '@angular/common/http';
+import { endpoints } from 'app/shared/endpoints';
 
 @Injectable()
 export class AlunoService {
-  constructor(
-    @Inject(injectionToken) private alunosMock: AlunosMock,
-    private eventService: EventService
-  ) {}
+  constructor(private http: HttpClient, private eventService: EventService) {}
 
   recuperarPorId(id: Id): Observable<Aluno> {
-    const aluno = this.alunosMock.values.find((json) => json.id === id);
-    if (aluno) return simularDelay(Aluno.fromJson(aluno));
-    else
-      return throwError(
-        new Error(
-          $localize`:Mensagem de erro que ocorre ao tentar buscar um aluno que não está cadastrado:O aluno com id ${aluno.id} não foi encontrado`
-        )
-      );
+    return this.http
+      .get(`${endpoints.query.v1.alunos.urlCompleta}/${id}`)
+      .pipe(map(Aluno.fromJson), flatMap(simularDelay));
   }
 
   buscarAlunosLikeNomeOuEmailOuCpfOuMatricula(
-    page: Pageable,
+    { page, pageSize }: Pageable,
     filtro = '',
     sort?: Sort<AlunoSortFields>
   ): Observable<Page<Aluno>> {
-    return simularDelay(
-      filtrar(
-        this.alunosMock.values,
-        page,
-        sort,
-        (aluno) =>
-          filtro === '' ||
-          searchString(aluno.nome, filtro) ||
-          searchString(aluno.cpf, filtro.replace(/(\.|\-)/g, '')) ||
-          searchString(aluno.email, filtro) ||
-          searchString(aluno.formaIngresso, filtro) ||
-          searchString(String(aluno.matricula), filtro),
-        (json) => Aluno.fromJson(json)
-      )
-    );
+    return this.http
+      .get(endpoints.query.v1.alunos.urlCompleta, {
+        params: {
+          page: String(page),
+          pageSize: String(pageSize),
+          ...(filtro ? { searchTerm: filtro } : {}),
+          ...(sort ? { order: sort.expression } : {}),
+        },
+      })
+      .pipe(
+        map(({ items, hasNext }: Page<AlunoJson>) => ({
+          items: items.map(Aluno.fromJson),
+          hasNext,
+        })),
+        flatMap(simularDelay)
+      );
   }
 
   salvar(aluno: Aluno): Observable<Aluno> {
-    const { values } = this.alunosMock;
+    let result: Observable<Aluno>;
+    let eventType: EntidadeEventType;
     if (aluno.id) {
-      for (let i = 0; i < values.length; i++) {
-        const { id } = values[i];
-        if (id === aluno.id) {
-          values[i] = JSON.parse(JSON.stringify(aluno));
-          return simularDelay(aluno).pipe(
-            tap((a) =>
-              this.eventService.publish(
-                new AlunoEvent(a, 'client', 'atualizado')
-              )
-            )
-          );
-        }
-      }
-      return throwError(
-        new Error(
-          $localize`:Mensagem de erro que ocorre ao tentar atualizar um aluno que não está mais cadastrado:O aluno com id ${aluno.id} não foi encontrado`
+      result = this.http
+        .put<AlunoJson>(
+          `${endpoints.core.v1.alunos.urlCompleta}/${aluno.id}`,
+          aluno
         )
-      );
+        .pipe(mapTo(aluno));
+      eventType = 'atualizado';
     } else {
-      const matricula = values[values.length - 1]?.matricula ?? 0;
-      const id = matricula + 1;
-      aluno.id = `uuid${id}`;
-      aluno.matricula = id;
-      values.push(JSON.parse(JSON.stringify(aluno)));
-      return simularDelay(aluno).pipe(
-        tap((a) =>
-          this.eventService.publish(new AlunoEvent(a, 'client', 'cadastrado'))
-        )
-      );
+      result = this.http
+        .post<AlunoJson>(endpoints.core.v1.alunos.urlCompleta, aluno)
+        .pipe(map(Aluno.fromJson));
+      eventType = 'cadastrado';
     }
+    return result.pipe(
+      flatMap(simularDelay),
+      tap((entidade) =>
+        this.eventService.publish(new AlunoEvent(entidade, 'client', eventType))
+      )
+    );
   }
 }

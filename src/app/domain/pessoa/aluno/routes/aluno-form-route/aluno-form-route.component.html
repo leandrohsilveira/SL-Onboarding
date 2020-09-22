@@ -11,9 +11,10 @@
   "
 >
   <app-aluno-form
+    #formRef
     [aluno]="aluno"
     [disabled]="loading || processando"
-    (submit)="salvar()"
+    (onSubmit)="salvar()"
   ></app-aluno-form>
   <div class="aluno-loading" *ngIf="loading">
     <span

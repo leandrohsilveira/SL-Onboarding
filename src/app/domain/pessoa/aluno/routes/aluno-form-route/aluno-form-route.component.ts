@@ -9,6 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'app/shared/base/base.component';
 import { AlunoService } from '../../aluno.service';
 import { map, filter, tap, switchMap } from 'rxjs/operators';
+import { AlunoFormComponent } from '../../aluno-form/aluno-form.component';
 
 @Component({
   selector: 'app-aluno-form-route',
@@ -28,12 +29,16 @@ export class AlunoFormRouteComponent extends BaseComponent {
   @ViewChild(PoModalComponent, { static: true })
   modalRef: PoModalComponent;
 
+  @ViewChild('formRef', { static: true })
+  formRef: AlunoFormComponent;
+
   get actions() {
     return {
       salvar: <PoModalAction>{
         label: $localize`:Texto do botão "Salvar" da modal (janela) de formulário de aluno:Salvar`,
         action: () => this.salvar(),
         loading: this.loading || this.processando,
+        disabled: !this.formRef.canSubmit,
       },
       cancelar: <PoModalAction>{
         label: $localize`:Texto do botão "Cancelar" da modal (janela) de formulário de aluno:Cancelar`,

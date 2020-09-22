@@ -1,4 +1,4 @@
-<form class="po-row" [formGroup]="form" (submit)="submit()" novalidate>
+<form class="po-row" [formGroup]="form" (submit)="handleSubmit()">
   <div class="po-md-6 po-sm-12">
     <po-input
       class="po-12"
@@ -45,12 +45,14 @@
       formControlName="cpf"
       aria-label="Campo CPF"
       p-mask="999.999.999-99"
+      (keyup.enter)="handleSubmit()"
       p-required
     ></po-input>
     <app-field-messages [control]="form.get('cpf')"></app-field-messages>
   </div>
   <div class="po-md-6 po-sm-12">
     <po-select
+      #formaIngressoRef
       class="po-12"
       i18n-p-label="Rótulo do campo 'Forma de ingresso' do formulário de aluno"
       i18n-aria-label="
@@ -62,6 +64,7 @@
       [p-disabled]="disabled"
       formControlName="formaIngresso"
       aria-label="Campo forma de ingresso"
+      (keyup.enter)="handleEnterPressed()"
       [p-options]="formaIngressoOptions"
       p-required
     ></po-select>
@@ -69,4 +72,5 @@
       [control]="form.get('formaIngresso')"
     ></app-field-messages>
   </div>
+  <button hidden type="submit"></button>
 </form>

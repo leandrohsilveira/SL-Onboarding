@@ -5,11 +5,12 @@ import {
   Output,
   OnChanges,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { Aluno, FormaIngresso } from '../aluno';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { BaseComponent } from 'app/shared/base/base.component';
-import { PoSelectOption } from '@po-ui/ng-components';
+import { PoSelectOption, PoSelectComponent } from '@po-ui/ng-components';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -27,8 +28,11 @@ export class AlunoFormComponent extends BaseComponent implements OnChanges {
   @Input()
   disabled = false;
 
-  @Output('submit')
+  @Output()
   onSubmit = new EventEmitter<Aluno>();
+
+  @ViewChild('formaIngressoRef', { static: true })
+  formaIngressoRef: PoSelectComponent;
 
   formSubscription: Subscription;
 
@@ -46,7 +50,9 @@ export class AlunoFormComponent extends BaseComponent implements OnChanges {
   ];
 
   get canSubmit() {
-    return this.form.valid && !this.form.pending;
+    return (
+      this.form && this.form.valid && this.form.dirty && !this.form.pending
+    );
   }
 
   ngOnChanges({ aluno }: SimpleChanges) {
@@ -67,7 +73,12 @@ export class AlunoFormComponent extends BaseComponent implements OnChanges {
     );
   }
 
-  submit() {
-    this.canSubmit && this.onSubmit.emit(this.aluno);
+  handleEnterPressed() {
+    if (this.formaIngressoRef.open) this.formaIngressoRef.toggleButton();
+    this.handleSubmit();
+  }
+
+  handleSubmit() {
+    if (this.canSubmit) this.onSubmit.emit(this.aluno);
   }
 }

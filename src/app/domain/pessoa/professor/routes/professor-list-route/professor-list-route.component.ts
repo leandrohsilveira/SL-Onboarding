@@ -38,14 +38,14 @@ export class ProfessorListRouteComponent extends BaseComponent {
   }
 
   filtro: PoPageFilter = {
-    placeholder: $localize`:Placeholder do campo de busca da página "Lista de professores":Buscar professores`,
+    placeholder: $localize`:Placeholder do campo de busca da página "Professores cadastrados":Buscar professores`,
     action: (query: string) => this.handleFilterChange(query),
   };
 
   acoes: PoPageAction[] = [
     {
       icon: 'po-icon po-icon-plus',
-      label: $localize`:Texto do botão "Novo professor" para cadastrar um novo professor, presente na página Lista de professores:Novo professor`,
+      label: $localize`:Texto do botão "Novo professor" para cadastrar um novo professor, presente na página "Professores cadastrados":Novo professor`,
       action: () =>
         this.router.navigate(['new'], { relativeTo: this.activatedRoute }),
     },

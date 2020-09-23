@@ -56,6 +56,7 @@ export class ProfessorListComponent implements OnInit {
     {
       label: $localize`:Texto do botão "Editar" na tabela de professores:Editar`,
       action: (item: Professor) => this.editar.emit(item),
+      icon: 'po-icon-edit',
     },
   ];
 

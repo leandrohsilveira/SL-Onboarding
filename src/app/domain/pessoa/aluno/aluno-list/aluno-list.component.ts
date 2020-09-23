@@ -57,6 +57,7 @@ export class AlunoListComponent implements OnChanges, OnInit {
     {
       label: $localize`:Texto do botão "Editar" na tabela de alunos:Editar`,
       action: (item: Aluno) => this.editar.emit(item),
+      icon: 'po-icon-edit',
     },
   ];
 

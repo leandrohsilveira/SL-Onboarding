@@ -34,14 +34,14 @@ export class AlunoListRouteComponent extends BaseComponent {
   }
 
   filtro: PoPageFilter = {
-    placeholder: $localize`:Placeholder do campo de busca da página "Lista de alunos":Buscar alunos`,
+    placeholder: $localize`:Placeholder do campo de busca da página "Alunos cadastrados":Buscar alunos`,
     action: (query: string) => this.handleFilterChange(query),
   };
 
   acoes: PoPageAction[] = [
     {
       icon: 'po-icon po-icon-plus',
-      label: $localize`:Texto do botão "Novo aluno" para cadastrar um novo aluno, presente na página Lista de alunos:Novo aluno`,
+      label: $localize`:Texto do botão "Novo aluno" para cadastrar um novo aluno, presente na página "Alunos cadastrados":Novo aluno`,
       action: () =>
         this.router.navigate(['new'], { relativeTo: this.activatedRoute }),
     },

@@ -11,6 +11,7 @@ import { Aluno } from '../../aluno';
 import { PoModalModule, PoLoadingModule } from '@po-ui/ng-components';
 import { environment } from 'environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { LoadingIndicatorModule } from 'app/shared/components/loading-indicator/loading-indicator.module';
 
 environment.delaySimulado = null;
 
@@ -27,6 +28,7 @@ describe('AlunoFormRouteComponent', () => {
         PoModalModule,
         PoLoadingModule,
         RouterModule,
+        LoadingIndicatorModule,
         RouterTestingModule,
       ],
       declarations: [AlunoFormRouteComponent],

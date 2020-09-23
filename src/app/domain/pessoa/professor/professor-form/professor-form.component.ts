@@ -15,7 +15,6 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-professor-form',
   templateUrl: './professor-form.component.html',
-  styleUrls: ['./professor-form.component.css'],
 })
 export class ProfessorFormComponent extends BaseComponent {
   constructor(private formBuilder: FormBuilder) {

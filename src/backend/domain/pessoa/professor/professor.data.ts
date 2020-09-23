@@ -14,7 +14,7 @@ export function setup(data = professores) {
     db.addRequestInterceptor(
       createSearchRequestInterceptor(
         collectionName,
-        endpoints.query.v1.alunos.path,
+        endpoints.query.v1.professores.path,
         (searchTerm) => (item) =>
           searchTerm === '' ||
           searchString(item.nome, searchTerm) ||

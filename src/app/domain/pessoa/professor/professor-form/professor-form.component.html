@@ -1,0 +1,73 @@
+<form class="po-row" [formGroup]="form" (submit)="handleSubmit()">
+  <div class="po-md-6 po-sm-12">
+    <po-input
+      class="po-12"
+      p-icon="po-icon po-icon-user"
+      i18n-p-label="Rótulo do campo 'Nome' do formulário de professor"
+      i18n-aria-label="
+        Acessibilidade: rótulo do campo 'Nome' do formulário de professor
+      "
+      p-label="Nome"
+      name="nome"
+      [p-disabled]="disabled"
+      formControlName="nome"
+      aria-label="Campo nome"
+      p-required
+    ></po-input>
+    <app-field-messages [control]="form.get('nome')"></app-field-messages>
+  </div>
+  <div class="po-md-6 po-sm-12">
+    <po-email
+      class="po-12"
+      i18n-p-label="Rótulo do campo 'E-mail' do formulário de professor"
+      i18n-aria-label="
+        Acessibilidade: rótulo do campo 'E-mail' do formulário de professor
+      "
+      p-label="E-mail"
+      name="email"
+      [p-disabled]="disabled"
+      formControlName="email"
+      aria-label="Campo E-mail"
+      p-required
+    ></po-email>
+    <app-field-messages [control]="form.get('email')"></app-field-messages>
+  </div>
+  <div class="po-md-6 po-sm-12">
+    <po-input
+      class="po-12"
+      i18n-p-label="Rótulo do campo 'CPF' do formulário de professor"
+      i18n-aria-label="
+        Acessibilidade: rótulo do campo 'CPF' do formulário de professor
+      "
+      p-label="CPF"
+      name="cpf"
+      [p-disabled]="disabled"
+      formControlName="cpf"
+      aria-label="Campo CPF"
+      p-mask="999.999.999-99"
+      (keyup.enter)="handleSubmit()"
+      p-required
+    ></po-input>
+    <app-field-messages [control]="form.get('cpf')"></app-field-messages>
+  </div>
+  <div class="po-md-6 po-sm-12">
+    <po-select
+      #titulacaoRef
+      class="po-12"
+      i18n-p-label="Rótulo do campo 'Titulação' do formulário de professor"
+      i18n-aria-label="
+        Acessibilidade: rótulo do campo 'Titulação' do formulário de professor
+      "
+      p-label="Titulação"
+      name="titulacao"
+      [p-disabled]="disabled"
+      formControlName="titulacao"
+      aria-label="Campo forma de ingresso"
+      (keyup.enter)="handleEnterPressed()"
+      [p-options]="titulacaoOptions"
+      p-required
+    ></po-select>
+    <app-field-messages [control]="form.get('titulacao')"></app-field-messages>
+  </div>
+  <button hidden type="submit"></button>
+</form>

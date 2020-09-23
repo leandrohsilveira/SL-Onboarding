@@ -16,16 +16,12 @@
     [disabled]="loading || processando"
     (onSubmit)="salvar()"
   ></app-aluno-form>
-  <div class="aluno-loading" *ngIf="loading">
-    <span
-      class="aluno-loading-text"
-      i18n="
-        Texto 'Carregando...' que aparece na janela de formulário de aluno
-        quando os dados de um aluno existente estão sendo carregados
-      "
-    >
-      Carregando...
-    </span>
-    <po-loading-icon></po-loading-icon>
-  </div>
+  <app-loading-indicator
+    [loading]="loading"
+    i18n-text="
+      Texto 'Carregando...' que aparece na janela de formulário de aluno quando
+      os dados de um aluno existente estão sendo carregados
+    "
+    text="Carregando..."
+  ></app-loading-indicator>
 </po-modal>

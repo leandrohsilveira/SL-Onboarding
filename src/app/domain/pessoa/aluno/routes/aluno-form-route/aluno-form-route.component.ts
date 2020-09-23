@@ -14,7 +14,6 @@ import { AlunoFormComponent } from '../../aluno-form/aluno-form.component';
 @Component({
   selector: 'app-aluno-form-route',
   templateUrl: './aluno-form-route.component.html',
-  styleUrls: ['./aluno-form-route.component.css'],
 })
 export class AlunoFormRouteComponent extends BaseComponent {
   constructor(

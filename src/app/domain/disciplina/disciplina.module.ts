@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DisciplinaComponent } from './disciplina.component';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [DisciplinaComponent]
+  imports: [CommonModule],
+  declarations: [],
 })
-export class DisciplinaModule { }
+export class DisciplinaModule {}

@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Disciplina } from './disciplina';
+import { Professor, Titulacao } from '../pessoa/professor/professor';
 
 describe('classe Disciplina', () => {
   let formBuilder: FormBuilder;
@@ -23,6 +24,13 @@ describe('classe Disciplina', () => {
           descricao: 'Teste',
           sigla: 'TESTE01',
           cargaHoraria: 40,
+          professor: {
+            id: 'profUuid',
+            nome: 'Professor 1',
+            email: 'professor1@totvs.com.br',
+            cpf: '36603472058',
+            titulacao: 'PHD',
+          },
         }))
     );
 
@@ -41,6 +49,20 @@ describe('classe Disciplina', () => {
     it('A prop cargaHoraria é 40', () => {
       expect(disciplina.cargaHoraria).toEqual(40);
     });
+
+    it('A prop professorRef é "profUuid"', () =>
+      expect(disciplina.professorRef).toEqual('profUuid'));
+
+    it('A prop professor é preenchida corretamente', () =>
+      expect(disciplina.professor).toEqual(
+        new Professor(
+          'profUuid',
+          'Professor 1',
+          'professor1@totvs.com.br',
+          '36603472058',
+          Titulacao.PHD
+        )
+      ));
   });
 
   describe('Quando instanciada sem parametros', () => {
@@ -65,6 +87,12 @@ describe('classe Disciplina', () => {
     it('A prop cargaHoraria é undefined', () => {
       expect(disciplina.cargaHoraria).toBeUndefined();
     });
+
+    it('A prop professorRef é undefined', () =>
+      expect(disciplina.professorRef).toBeUndefined());
+
+    it('A prop professor é undefined', () =>
+      expect(disciplina.professor).toBeUndefined());
 
     describe('Quando o método "criarForm" é invocado', () => {
       let formGroup: FormGroup;
@@ -170,7 +198,19 @@ describe('classe Disciplina', () => {
   describe('Quando instanciada com todos os parametros', () => {
     let disciplina: Disciplina;
     beforeEach(() => {
-      disciplina = new Disciplina('uuid', 'Teste', 'TESTE01', 40);
+      disciplina = new Disciplina(
+        'uuid',
+        'Teste',
+        'TESTE01',
+        40,
+        new Professor(
+          'profUuid',
+          'Professor 1',
+          'professor1@totvs.com.br',
+          '36603472058',
+          Titulacao.PHD
+        )
+      );
     });
 
     it('A prop id é "uuid"', () => {

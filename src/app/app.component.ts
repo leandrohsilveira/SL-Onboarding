@@ -17,5 +17,9 @@ export class AppComponent {
       label: $localize`:Texto da opção "Alunos" do menu lateral:Alunos`,
       link: '/alunos',
     },
+    {
+      label: $localize`:Texto da opção "Professores" no menu lateral:Professores`,
+      link: '/professores',
+    },
   ];
 }

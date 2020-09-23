@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import {
   PoModalComponent,
   PoNotificationService,
@@ -11,11 +11,18 @@ import { ProfessorFormComponent } from '../../professor-form/professor-form.comp
 import { Professor } from '../../professor';
 import { filter, map, tap, switchMap } from 'rxjs/operators';
 
+interface Actions {
+  salvar: PoModalAction;
+  cancelar: PoModalAction;
+}
+
 @Component({
   selector: 'app-professor-form-route',
   templateUrl: './professor-form-route.component.html',
 })
-export class ProfessorFormRouteComponent extends BaseComponent {
+export class ProfessorFormRouteComponent
+  extends BaseComponent
+  implements OnInit, OnDestroy {
   constructor(
     private professorService: ProfessorService,
     private notificationService: PoNotificationService,
@@ -31,15 +38,15 @@ export class ProfessorFormRouteComponent extends BaseComponent {
   @ViewChild('formRef', { static: true })
   formRef: ProfessorFormComponent;
 
-  get actions() {
+  get actions(): Actions {
     return {
-      salvar: <PoModalAction>{
+      salvar: {
         label: $localize`:Texto do botão "Salvar" da modal (janela) de formulário de professor:Salvar`,
         action: () => this.salvar(),
         loading: this.loading || this.processando,
         disabled: !this.formRef.canSubmit,
       },
-      cancelar: <PoModalAction>{
+      cancelar: {
         label: $localize`:Texto do botão "Cancelar" da modal (janela) de formulário de professor:Cancelar`,
         action: () => this.cancelar(),
         disabled: !this.podeCancelar,
@@ -55,7 +62,7 @@ export class ProfessorFormRouteComponent extends BaseComponent {
 
   loading = false;
 
-  ngOnInit() {
+  ngOnInit(): void {
     super.ngOnInit();
     this.activatedRoute.data
       .pipe(
@@ -79,16 +86,16 @@ export class ProfessorFormRouteComponent extends BaseComponent {
     this.modalRef.open();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     super.ngOnDestroy();
     this.modalRef.close();
   }
 
-  cancelar() {
+  cancelar(): void {
     this.retornar();
   }
 
-  salvar() {
+  salvar(): void {
     this.processando = true;
     this.podeCancelar = false;
     this.professorService
@@ -96,8 +103,7 @@ export class ProfessorFormRouteComponent extends BaseComponent {
       .pipe(this.takeWhileMounted())
       .subscribe(
         () => {
-          if (this.mensagemSucesso)
-            this.notificationService.success(this.mensagemSucesso);
+          this.notificationService.success(this.mensagemSucesso);
           this.retornar();
         },
         (error) => {
@@ -109,15 +115,14 @@ export class ProfessorFormRouteComponent extends BaseComponent {
   }
 
   private retornar(): void {
-    const ret = this.urlRetorno;
-    if (ret) this.router.navigate(ret);
+    this.router.navigate(this.urlRetorno);
   }
 
-  private get urlRetorno() {
+  private get urlRetorno(): string[] {
     return this.activatedRoute.snapshot.data.urlRetorno(this.activatedRoute);
   }
 
-  private get mensagemSucesso() {
+  private get mensagemSucesso(): string {
     return this.activatedRoute.snapshot.data.mensagemSucesso();
   }
 }

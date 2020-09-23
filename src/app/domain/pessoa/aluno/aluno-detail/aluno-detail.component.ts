@@ -11,12 +11,12 @@ export class AlunoDetailComponent {
   @Input()
   aluno: Aluno;
 
-  get formaIngresso() {
+  get formaIngresso(): string {
     switch (this.aluno.formaIngresso) {
       case FormaIngresso.ENADE:
-        return '';
+        return $localize`Enade`;
       case FormaIngresso.VESTIBULAR:
-        return '';
+        return $localize`Vestibular`;
       default:
         throw new Error(
           `Forma de ingresso desconhecida: "${this.aluno.formaIngresso}"`

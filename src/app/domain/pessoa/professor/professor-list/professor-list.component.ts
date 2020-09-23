@@ -6,6 +6,7 @@ import {
   Output,
   EventEmitter,
   SimpleChanges,
+  OnChanges,
 } from '@angular/core';
 import {
   PoTableComponent,
@@ -21,7 +22,7 @@ import { CustomLiterals } from 'app/shared/literals';
   selector: 'app-professor-list',
   templateUrl: './professor-list.component.html',
 })
-export class ProfessorListComponent implements OnInit {
+export class ProfessorListComponent implements OnInit, OnChanges {
   constructor() {}
 
   @ViewChild('tableRef', { static: true })
@@ -39,8 +40,8 @@ export class ProfessorListComponent implements OnInit {
   @Input()
   ordenar: Sort<ProfessorSortFields>;
 
-  @Output('carregarMais')
-  onCarregarMais = new EventEmitter<void>();
+  @Output()
+  carregarMais = new EventEmitter<void>();
 
   @Output()
   ordenarChange = new EventEmitter<Sort<ProfessorSortFields>>();
@@ -99,7 +100,7 @@ export class ProfessorListComponent implements OnInit {
     },
   ];
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.ordenar)
       this.poTable.sortedColumn = {
         property: this.columns.find(
@@ -109,20 +110,23 @@ export class ProfessorListComponent implements OnInit {
       };
   }
 
-  onOrdenar(change: { column: PoTableColumn; type: PoTableColumnSortType }) {
+  onOrdenar(change: {
+    column: PoTableColumn;
+    type: PoTableColumnSortType;
+  }): void {
     this.ordenarChange.emit(
       Sort.fromOrderChange<ProfessorSortFields>(change, { cpfFormatado: 'cpf' })
     );
   }
 
-  ngOnChanges({ professores }: SimpleChanges) {
+  ngOnChanges({ professores }: SimpleChanges): void {
     if (professores && this.carregandoMais) this.carregandoMais = false;
   }
 
-  carregarMais() {
+  handleCarregarMais(): void {
     if (this.podeCarregarMais) {
       this.carregandoMais = true;
-      this.onCarregarMais.emit();
+      this.carregarMais.emit();
     }
   }
 }

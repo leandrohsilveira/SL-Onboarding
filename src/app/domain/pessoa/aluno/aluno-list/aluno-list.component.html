@@ -8,8 +8,8 @@
   [p-loading-show-more]="carregando && carregandoMais"
   [p-show-more-disabled]="!podeCarregarMais"
   [p-sort]="true"
-  (p-sort-by)="onOrdenar($event)"
-  (p-show-more)="carregarMais()"
+  (p-sort-by)="handleOrdenar($event)"
+  (p-show-more)="handleCarregarMais()"
   p-striped="true"
   p-hide-text-overflow
 ></po-table>

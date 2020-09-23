@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   Professor,
   ProfessorSortFields,
@@ -21,7 +21,9 @@ import { filter, map } from 'rxjs/operators';
   selector: 'app-professor-list-route',
   templateUrl: './professor-list-route.component.html',
 })
-export class ProfessorListRouteComponent extends BaseComponent {
+export class ProfessorListRouteComponent
+  extends BaseComponent
+  implements OnInit {
   constructor(
     private professorService: ProfessorService,
     private eventService: EventService,
@@ -55,7 +57,7 @@ export class ProfessorListRouteComponent extends BaseComponent {
 
   private pageStateSubject: PageStateSubject<Professor, ProfessorSortFields>;
 
-  ngOnInit() {
+  ngOnInit(): void {
     super.ngOnInit();
     this.pageStateSubject.load();
     this.eventService.bus$
@@ -67,21 +69,21 @@ export class ProfessorListRouteComponent extends BaseComponent {
       .subscribe(() => this.pageStateSubject.load(true));
   }
 
-  handleEditarChange(item: Professor) {
+  handleEditarClick(item: Professor): void {
     this.router.navigate([item.id, 'edit'], {
       relativeTo: this.activatedRoute,
     });
   }
 
-  handleOrdenacaoChange(sort: Sort<ProfessorSortFields>) {
+  handleOrdenacaoChange(sort: Sort<ProfessorSortFields>): void {
     this.pageStateSubject.setSort(sort);
   }
 
-  handleCarregarMais() {
+  handleCarregarMais(): void {
     this.pageStateSubject.nextPage();
   }
 
-  handleFilterChange(query: string) {
+  handleFilterChange(query: string): void {
     this.pageStateSubject.setFilter(query);
   }
 }

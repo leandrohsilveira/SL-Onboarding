@@ -3,6 +3,15 @@ import { CustomValidators } from 'app/shared/validators';
 import { Entidade, Id } from '../entidade';
 
 export class Disciplina extends Entidade {
+  public static fromJson({
+    id,
+    descricao,
+    sigla,
+    cargaHoraria,
+  }: any): Disciplina {
+    return new Disciplina(id, descricao, sigla, +cargaHoraria);
+  }
+
   constructor(
     id: Id = null,
     public descricao = '',
@@ -12,19 +21,19 @@ export class Disciplina extends Entidade {
     super(id);
   }
 
-  public fromForm(form: FormGroup) {
+  public fromForm(form: FormGroup): void {
     this.descricao = form.get('descricao').value;
     this.sigla = form.get('sigla').value;
     this.cargaHoraria = +form.get('cargaHoraria').value;
   }
 
-  protected onChanges({ descricao, sigla, cargaHoraria }: any) {
+  protected onChanges({ descricao, sigla, cargaHoraria }: any): void {
     this.descricao = descricao;
     this.sigla = sigla;
     this.cargaHoraria = +cargaHoraria;
   }
 
-  public criarForm(formBuilder: FormBuilder) {
+  public criarForm(formBuilder: FormBuilder): FormGroup {
     return formBuilder.group({
       descricao: [
         this.descricao,
@@ -36,14 +45,5 @@ export class Disciplina extends Entidade {
         [Validators.required, CustomValidators.number],
       ],
     });
-  }
-
-  public static fromJson({
-    id,
-    descricao,
-    sigla,
-    cargaHoraria,
-  }: any): Disciplina {
-    return new Disciplina(id, descricao, sigla, +cargaHoraria);
   }
 }

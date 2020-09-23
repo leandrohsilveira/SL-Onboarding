@@ -10,8 +10,8 @@ import {
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
         PoMenuModule,
         PoPageModule,
@@ -20,7 +20,7 @@ describe('AppComponent', () => {
       ],
       declarations: [AppComponent],
     }).compileComponents();
-  }));
+  });
 
   it('should create the app', async () => {
     const fixture = TestBed.createComponent(AppComponent);

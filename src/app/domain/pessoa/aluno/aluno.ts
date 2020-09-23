@@ -18,6 +18,17 @@ export enum FormaIngresso {
 export type AlunoSortFields = PessoaSortFields | 'formaIngresso' | 'matricula';
 
 export class Aluno extends Pessoa {
+  public static fromJson({
+    id,
+    nome,
+    email,
+    cpf,
+    formaIngresso,
+    matricula,
+  }: any): Aluno {
+    return new Aluno(id, nome, email, cpf, formaIngresso, +matricula);
+  }
+
   constructor(
     id: Id = null,
     nome = '',
@@ -29,7 +40,7 @@ export class Aluno extends Pessoa {
     super(id, nome, email, cpf);
   }
 
-  protected onChanges({ formaIngresso, ...pessoa }: any) {
+  protected onChanges({ formaIngresso, ...pessoa }: any): void {
     super.onChanges(pessoa);
     this.formaIngresso = formaIngresso;
   }
@@ -37,7 +48,7 @@ export class Aluno extends Pessoa {
   protected getFormControls(
     emailNotTaken: NotTakenService,
     cpfNotTaken: NotTakenService
-  ) {
+  ): any {
     return {
       ...super.getFormControls(emailNotTaken, cpfNotTaken),
       formaIngresso: [
@@ -47,7 +58,9 @@ export class Aluno extends Pessoa {
     };
   }
 
-  private formaIngressoValidator(control: AbstractControl) {
+  private formaIngressoValidator(
+    control: AbstractControl
+  ): { formaIngresso: boolean } | null {
     if (control.value)
       switch (control.value) {
         case FormaIngresso.ENADE:
@@ -57,16 +70,5 @@ export class Aluno extends Pessoa {
           return { formaIngresso: true };
       }
     return null;
-  }
-
-  public static fromJson({
-    id,
-    nome,
-    email,
-    cpf,
-    formaIngresso,
-    matricula,
-  }: any): Aluno {
-    return new Aluno(id, nome, email, cpf, formaIngresso, +matricula);
   }
 }

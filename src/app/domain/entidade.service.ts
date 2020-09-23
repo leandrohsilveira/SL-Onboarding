@@ -10,7 +10,7 @@ import {
 import { Observable } from 'rxjs';
 import { Endpoint } from 'app/shared/endpoints';
 import { EventService } from 'app/shared/event/event.service';
-import { map, flatMap, mapTo, tap } from 'rxjs/operators';
+import { map, mapTo, tap, mergeMap } from 'rxjs/operators';
 import {
   simularDelay,
   Pageable,
@@ -44,7 +44,7 @@ export abstract class EntidadeService<
   recuperarPorId(id: Id): Observable<E> {
     return this.http
       .get(`${this.endpoints.query.urlCompleta}/${id}`)
-      .pipe(map(this.fromJson), flatMap(simularDelay));
+      .pipe(map(this.fromJson), mergeMap(simularDelay));
   }
 
   filtrar(
@@ -66,7 +66,7 @@ export abstract class EntidadeService<
           items: items.map(this.fromJson),
           hasNext,
         })),
-        flatMap(simularDelay)
+        mergeMap(simularDelay)
       );
   }
 
@@ -85,9 +85,9 @@ export abstract class EntidadeService<
       eventType = 'cadastrado';
     }
     return result.pipe(
-      flatMap(simularDelay),
-      tap((_entidade) =>
-        this.eventService.publish(this.createEvent(_entidade, eventType))
+      mergeMap(simularDelay),
+      tap((ent) =>
+        this.eventService.publish(this.createEvent(ent, eventType))
       )
     );
   }

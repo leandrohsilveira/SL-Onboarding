@@ -5,7 +5,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { PoPopupComponent } from '@po-ui/ng-components';
 
 @Component({
@@ -22,27 +22,27 @@ export class FieldMessagesComponent implements OnChanges {
   @ViewChild('errorPopup')
   popupComponent?: PoPopupComponent;
 
-  get hidden() {
+  get hidden(): boolean {
     return this.control.pristine;
   }
 
-  get errors() {
+  get errors(): ValidationErrors {
     return this.control.errors ?? {};
   }
 
-  get errorsCount() {
+  get errorsCount(): number {
     return Object.keys(this.errors).length;
   }
 
-  get hasError() {
+  get hasError(): boolean {
     return this.errorsCount === 0;
   }
 
-  get singleError() {
+  get singleError(): boolean {
     return this.errorsCount === 1;
   }
 
-  ngOnChanges({ control }: SimpleChanges) {
+  ngOnChanges({ control }: SimpleChanges): void {
     if (control) {
       if (this.hasError && !this.singleError) this.popupComponent?.open();
       else this.popupComponent?.close();

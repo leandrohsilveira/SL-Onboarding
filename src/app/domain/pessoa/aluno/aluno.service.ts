@@ -16,7 +16,7 @@ export class AlunoService extends EntidadeService<
 
   protected fromJson = Aluno.fromJson;
 
-  protected createEvent(aluno, tipo) {
+  protected createEvent(aluno, tipo): AlunoEvent {
     return new AlunoEvent(aluno, 'client', tipo);
   }
 }

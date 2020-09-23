@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Aluno } from '../../aluno';
 import {
   PoModalComponent,
@@ -11,11 +11,18 @@ import { AlunoService } from '../../aluno.service';
 import { map, filter, tap, switchMap } from 'rxjs/operators';
 import { AlunoFormComponent } from '../../aluno-form/aluno-form.component';
 
+interface Actions {
+  salvar: PoModalAction;
+  cancelar: PoModalAction;
+}
+
 @Component({
   selector: 'app-aluno-form-route',
   templateUrl: './aluno-form-route.component.html',
 })
-export class AlunoFormRouteComponent extends BaseComponent {
+export class AlunoFormRouteComponent
+  extends BaseComponent
+  implements OnInit, OnDestroy {
   constructor(
     private alunoService: AlunoService,
     private notificationService: PoNotificationService,
@@ -31,15 +38,15 @@ export class AlunoFormRouteComponent extends BaseComponent {
   @ViewChild('formRef', { static: true })
   formRef: AlunoFormComponent;
 
-  get actions() {
+  get actions(): Actions {
     return {
-      salvar: <PoModalAction>{
+      salvar: {
         label: $localize`:Texto do botão "Salvar" da modal (janela) de formulário de aluno:Salvar`,
         action: () => this.salvar(),
         loading: this.loading || this.processando,
         disabled: !this.formRef.canSubmit,
       },
-      cancelar: <PoModalAction>{
+      cancelar: {
         label: $localize`:Texto do botão "Cancelar" da modal (janela) de formulário de aluno:Cancelar`,
         action: () => this.cancelar(),
         disabled: !this.podeCancelar,
@@ -55,7 +62,7 @@ export class AlunoFormRouteComponent extends BaseComponent {
 
   loading = false;
 
-  ngOnInit() {
+  ngOnInit(): void {
     super.ngOnInit();
     this.activatedRoute.data
       .pipe(
@@ -79,16 +86,16 @@ export class AlunoFormRouteComponent extends BaseComponent {
     this.modalRef.open();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     super.ngOnDestroy();
     this.modalRef.close();
   }
 
-  cancelar() {
+  cancelar(): void {
     this.retornar();
   }
 
-  salvar() {
+  salvar(): void {
     this.processando = true;
     this.podeCancelar = false;
     this.alunoService
@@ -111,11 +118,11 @@ export class AlunoFormRouteComponent extends BaseComponent {
     this.router.navigate(this.urlRetorno);
   }
 
-  private get urlRetorno() {
+  private get urlRetorno(): string[] {
     return this.activatedRoute.snapshot.data.urlRetorno(this.activatedRoute);
   }
 
-  private get mensagemSucesso() {
+  private get mensagemSucesso(): string {
     return this.activatedRoute.snapshot.data.mensagemSucesso();
   }
 }

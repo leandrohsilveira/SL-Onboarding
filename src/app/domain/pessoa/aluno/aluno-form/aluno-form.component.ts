@@ -6,6 +6,7 @@ import {
   OnChanges,
   SimpleChanges,
   ViewChild,
+  OnInit,
 } from '@angular/core';
 import { Aluno, FormaIngresso } from '../aluno';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -17,7 +18,9 @@ import { Subscription } from 'rxjs';
   selector: 'app-aluno-form',
   templateUrl: './aluno-form.component.html',
 })
-export class AlunoFormComponent extends BaseComponent implements OnChanges {
+export class AlunoFormComponent
+  extends BaseComponent
+  implements OnInit, OnChanges {
   constructor(private formBuilder: FormBuilder) {
     super();
   }
@@ -29,7 +32,7 @@ export class AlunoFormComponent extends BaseComponent implements OnChanges {
   disabled = false;
 
   @Output()
-  onSubmit = new EventEmitter<Aluno>();
+  formSubmit = new EventEmitter<Aluno>();
 
   @ViewChild('formaIngressoRef', { static: true })
   formaIngressoRef: PoSelectComponent;
@@ -49,22 +52,22 @@ export class AlunoFormComponent extends BaseComponent implements OnChanges {
     },
   ];
 
-  get canSubmit() {
+  get canSubmit(): boolean {
     return (
       this.form && this.form.valid && this.form.dirty && !this.form.pending
     );
   }
 
-  ngOnChanges({ aluno }: SimpleChanges) {
+  ngOnChanges({ aluno }: SimpleChanges): void {
     if (aluno) this.criarForm();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     super.ngOnInit();
     this.criarForm();
   }
 
-  criarForm() {
+  criarForm(): void {
     this.formSubscription?.unsubscribe();
     this.form = this.aluno.criarForm(this.formBuilder);
     this.formSubscription = this.aluno.subscribeFormChanges(
@@ -73,12 +76,12 @@ export class AlunoFormComponent extends BaseComponent implements OnChanges {
     );
   }
 
-  handleEnterPressed() {
+  handleEnterPressed(): void {
     if (this.formaIngressoRef.open) this.formaIngressoRef.toggleButton();
     this.handleSubmit();
   }
 
-  handleSubmit() {
-    if (this.canSubmit) this.onSubmit.emit(this.aluno);
+  handleSubmit(): void {
+    if (this.canSubmit) this.formSubmit.emit(this.aluno);
   }
 }

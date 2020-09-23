@@ -5,6 +5,8 @@ import {
   EventEmitter,
   ViewChild,
   SimpleChanges,
+  OnInit,
+  OnChanges,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { BaseComponent } from 'app/shared/base/base.component';
@@ -16,7 +18,9 @@ import { Subscription } from 'rxjs';
   selector: 'app-professor-form',
   templateUrl: './professor-form.component.html',
 })
-export class ProfessorFormComponent extends BaseComponent {
+export class ProfessorFormComponent
+  extends BaseComponent
+  implements OnInit, OnChanges {
   constructor(private formBuilder: FormBuilder) {
     super();
   }
@@ -28,7 +32,7 @@ export class ProfessorFormComponent extends BaseComponent {
   disabled = false;
 
   @Output()
-  onSubmit = new EventEmitter<Professor>();
+  submitForm = new EventEmitter<Professor>();
 
   @ViewChild('titulacaoRef', { static: true })
   titulacaoRef: PoSelectComponent;
@@ -52,22 +56,22 @@ export class ProfessorFormComponent extends BaseComponent {
     },
   ];
 
-  get canSubmit() {
+  get canSubmit(): boolean {
     return (
       this.form && this.form.valid && this.form.dirty && !this.form.pending
     );
   }
 
-  ngOnChanges({ professor }: SimpleChanges) {
+  ngOnChanges({ professor }: SimpleChanges): void {
     if (professor) this.criarForm();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     super.ngOnInit();
     this.criarForm();
   }
 
-  criarForm() {
+  criarForm(): void {
     this.formSubscription?.unsubscribe();
     this.form = this.professor.criarForm(this.formBuilder);
     this.formSubscription = this.professor.subscribeFormChanges(
@@ -76,12 +80,12 @@ export class ProfessorFormComponent extends BaseComponent {
     );
   }
 
-  handleEnterPressed() {
+  handleEnterPressed(): void {
     if (this.titulacaoRef.open) this.titulacaoRef.toggleButton();
     this.handleSubmit();
   }
 
-  handleSubmit() {
-    if (this.canSubmit) this.onSubmit.emit(this.professor);
+  handleSubmit(): void {
+    if (this.canSubmit) this.submitForm.emit(this.professor);
   }
 }

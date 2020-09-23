@@ -1,6 +1,6 @@
 import { FormGroup } from '@angular/forms';
 import { takeWhile } from 'rxjs/operators';
-import { MonoTypeOperatorFunction } from 'rxjs';
+import { MonoTypeOperatorFunction, Subscription } from 'rxjs';
 import { AbstractEvent } from 'app/shared/event/event.service';
 
 export type Id = string | null;
@@ -22,7 +22,7 @@ export abstract class Entidade {
     form: FormGroup,
     shouldContinue: MonoTypeOperatorFunction<any> = takeWhile(() => true),
     onChange?: (value: this) => void
-  ) {
+  ): Subscription {
     return form.valueChanges.pipe(shouldContinue).subscribe((changes) => {
       this.onChanges(changes);
       if (onChange) onChange(this);

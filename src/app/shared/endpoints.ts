@@ -10,7 +10,7 @@ const v1 = 'v1';
 export class Endpoint {
   constructor(public path: string) {}
 
-  get urlCompleta() {
+  get urlCompleta(): string {
     return `${schema}://${host}:${port}${this.path}`;
   }
 }

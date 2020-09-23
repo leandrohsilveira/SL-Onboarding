@@ -1,10 +1,10 @@
-import { UrlSegment, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 export class RouterUtil {
-  static urlFromRootToParent(route: ActivatedRoute) {
+  static urlFromRootToParent(route: ActivatedRoute): string[] {
     return route.snapshot.parent.pathFromRoot
       .map((r) => r.url)
-      .reduce((acc, item) => [...acc, ...item], <UrlSegment[]>[])
+      .reduce((acc, item) => [...acc, ...item], [])
       .map((seg) => seg.path);
   }
 }

@@ -1,4 +1,4 @@
-import { Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Entidade, Id, EntidadeJson } from '../entidade';
 import { CustomValidators, NotTakenService } from 'app/shared/validators';
 import { of } from 'rxjs';
@@ -19,11 +19,11 @@ export abstract class Pessoa extends Entidade {
     super(id);
   }
 
-  get cpfFormatado() {
+  get cpfFormatado(): string {
     return formatCpf(this.cpf);
   }
 
-  protected onChanges({ nome, email, cpf }: any) {
+  protected onChanges({ nome, email, cpf }: any): void {
     this.nome = nome;
     this.email = email;
     this.cpf = cpf;
@@ -32,7 +32,7 @@ export abstract class Pessoa extends Entidade {
   protected getFormControls(
     emailNotTaken: NotTakenService,
     cpfNotTaken: NotTakenService
-  ) {
+  ): any {
     return {
       nome: [this.nome, [Validators.required, Validators.maxLength(255)]],
       email: [
@@ -61,7 +61,7 @@ export abstract class Pessoa extends Entidade {
     builder: FormBuilder,
     emailNotTaken = DEFAULT_NOT_TAKEN_SERVICE,
     cpfNotTaken = DEFAULT_NOT_TAKEN_SERVICE
-  ) {
+  ): FormGroup {
     return builder.group(this.getFormControls(emailNotTaken, cpfNotTaken));
   }
 }

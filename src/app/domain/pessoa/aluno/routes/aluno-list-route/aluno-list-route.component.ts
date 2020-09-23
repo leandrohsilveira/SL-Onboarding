@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlunoService } from '../../aluno.service';
 import { Observable } from 'rxjs';
 import {
@@ -17,7 +17,7 @@ import { EventService } from 'app/shared/event/event.service';
   selector: 'app-aluno-list-route',
   templateUrl: './aluno-list-route.component.html',
 })
-export class AlunoListRouteComponent extends BaseComponent {
+export class AlunoListRouteComponent extends BaseComponent implements OnInit {
   constructor(
     private alunoService: AlunoService,
     private eventService: EventService,
@@ -51,7 +51,7 @@ export class AlunoListRouteComponent extends BaseComponent {
 
   private pageStateSubject: PageStateSubject<Aluno, AlunoSortFields>;
 
-  ngOnInit() {
+  ngOnInit(): void {
     super.ngOnInit();
     this.pageStateSubject.load();
     this.eventService.bus$
@@ -63,21 +63,21 @@ export class AlunoListRouteComponent extends BaseComponent {
       .subscribe(() => this.pageStateSubject.load(true));
   }
 
-  handleEditarChange(item: Aluno) {
+  handleEditarClick(item: Aluno): void {
     this.router.navigate([item.id, 'edit'], {
       relativeTo: this.activatedRoute,
     });
   }
 
-  handleOrdenacaoChange(sort: Sort<AlunoSortFields>) {
+  handleOrdenacaoChange(sort: Sort<AlunoSortFields>): void {
     this.pageStateSubject.setSort(sort);
   }
 
-  handleCarregarMais() {
+  handleCarregarMais(): void {
     this.pageStateSubject.nextPage();
   }
 
-  handleFilterChange(query: string) {
+  handleFilterChange(query: string): void {
     this.pageStateSubject.setFilter(query);
   }
 }

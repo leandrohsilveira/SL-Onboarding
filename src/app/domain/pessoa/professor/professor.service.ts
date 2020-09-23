@@ -21,7 +21,7 @@ export class ProfessorService extends EntidadeService<
 
   protected fromJson = Professor.fromJson;
 
-  protected createEvent(professor, tipo) {
+  protected createEvent(professor, tipo): ProfessorEvent {
     return new ProfessorEvent(professor, 'client', tipo);
   }
 }

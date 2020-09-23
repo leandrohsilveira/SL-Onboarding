@@ -17,7 +17,7 @@ export class EventService {
 
   bus$: Observable<AbstractEvent>;
 
-  publish<E extends AbstractEvent<T>, T = string>(event: E) {
+  publish<E extends AbstractEvent<T>, T = string>(event: E): void {
     this.subject.next(event);
   }
 }

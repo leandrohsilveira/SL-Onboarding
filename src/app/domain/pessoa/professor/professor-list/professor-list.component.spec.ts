@@ -21,7 +21,7 @@ describe('ProfessorListComponent', () => {
         [carregando]="carregando"
         [professores]="professores"
         [podeCarregarMais]="podeCarregarMais"
-        (carregarMais)="onCarregarMais()"
+        (carregarMais)="carregarMais()"
       ></app-professor-list>
     `,
   })
@@ -33,7 +33,7 @@ describe('ProfessorListComponent', () => {
     professores: Professor[] = [];
     podeCarregarMais = false;
 
-    onCarregarMais() {
+    carregarMais(): void {
       this.carregando = true;
     }
   }
@@ -55,7 +55,7 @@ describe('ProfessorListComponent', () => {
     let bodyTrs: HTMLTableRowElement[];
     let carregarMaisBtn: HTMLButtonElement;
 
-    function carregarElementos() {
+    function carregarElementos(): void {
       bodyTrs = fixture.nativeElement.querySelectorAll('tbody > tr');
       carregarMaisBtn = fixture.nativeElement.querySelector(
         '.po-table-footer-show-more button'
@@ -63,7 +63,7 @@ describe('ProfessorListComponent', () => {
     }
 
     it('A tabela possui 5 colunas no header', () => {
-      let headerThs: HTMLTableHeaderCellElement[] = fixture.nativeElement.querySelectorAll(
+      const headerThs: HTMLTableHeaderCellElement[] = fixture.nativeElement.querySelectorAll(
         'thead > tr > th'
       );
       expect(headerThs.length).toEqual(5);
@@ -71,18 +71,18 @@ describe('ProfessorListComponent', () => {
 
     describe('Quando a propriedade carregandoMais é false', () => {
       describe('Quando a função do componente "carregarMais" é invocada', () => {
-        let onCarregarMaisSpy: jasmine.Spy;
+        let carregarMaisSpy: jasmine.Spy;
         beforeEach(() => {
-          onCarregarMaisSpy = spyOn(host, 'onCarregarMais');
-          host.component.carregarMais();
+          carregarMaisSpy = spyOn(host, 'carregarMais');
+          host.component.handleCarregarMais();
           fixture.detectChanges(true);
         });
 
         it('O estado "carregandoMais" do componente permanece false', () =>
           expect(host.component.carregandoMais).toBeFalse());
 
-        it('A função "onCarregarMais" do host não é invocada', () =>
-          expect(onCarregarMaisSpy).not.toHaveBeenCalled());
+        it('A função "carregarMais" do host não é invocada', () =>
+          expect(carregarMaisSpy).not.toHaveBeenCalled());
       });
 
       describe('Com o array de professores vazio', () => {
@@ -132,7 +132,7 @@ describe('ProfessorListComponent', () => {
 
           describe('Quando a função do componente "carregarMais" é invocada', () => {
             beforeEach(() => {
-              host.component.carregarMais();
+              host.component.handleCarregarMais();
               fixture.detectChanges();
               carregarElementos();
             });

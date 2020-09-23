@@ -6,7 +6,7 @@ import { searchString } from 'app/shared/util/service.util';
 
 export const collectionName = 'professor';
 
-export function setup(data = professores) {
+export function setup(data = professores): void {
   dataService(collectionName, (db) => {
     db.addReplaceUrl(collectionName, endpoints.core.v1.professores.path);
     db.addReplaceUrl(collectionName, endpoints.query.v1.professores.path);
@@ -24,8 +24,6 @@ export function setup(data = professores) {
       )
     );
 
-    data.forEach((item) => {
-      db.storeData(collectionName, item);
-    });
+    data.forEach((item) => db.storeData(collectionName, item));
   });
 }

@@ -205,7 +205,7 @@ describe('classe Aluno', () => {
           expect(aluno.cpf).toEqual('17475054047');
         });
 
-        it('Após preencher o campo "formaIngresso", a prop "formaIngresso" é alterada para o valor FormaIngresso.ENADE automaticamente', () => {
+        it('Após preencher o campo "formaIngresso", a prop "formaIngresso" é alterada automaticamente', () => {
           formGroup.patchValue({ formaIngresso: FormaIngresso.ENADE });
           expect(aluno.formaIngresso).toEqual(FormaIngresso.ENADE);
         });

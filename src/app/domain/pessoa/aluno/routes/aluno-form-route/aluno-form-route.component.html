@@ -14,7 +14,7 @@
     #formRef
     [aluno]="aluno"
     [disabled]="loading || processando"
-    (onSubmit)="salvar()"
+    (formSubmit)="salvar()"
   ></app-aluno-form>
   <app-loading-indicator
     [loading]="loading"

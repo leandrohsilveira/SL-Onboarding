@@ -23,6 +23,10 @@ export enum Titulacao {
 }
 
 export class Professor extends Pessoa {
+  public static fromJson({ id, nome, email, cpf, titulacao }: any): Professor {
+    return new Professor(id, nome, email, cpf, titulacao);
+  }
+
   constructor(
     id: Id = null,
     nome = '',
@@ -33,7 +37,7 @@ export class Professor extends Pessoa {
     super(id, nome, email, cpf);
   }
 
-  protected onChanges({ titulacao, ...pessoa }: any) {
+  protected onChanges({ titulacao, ...pessoa }: any): void {
     super.onChanges(pessoa);
     this.titulacao = titulacao;
   }
@@ -41,7 +45,7 @@ export class Professor extends Pessoa {
   protected getFormControls(
     emailNotTaken: NotTakenService,
     cpfNotTaken: NotTakenService
-  ) {
+  ): any {
     return {
       ...super.getFormControls(emailNotTaken, cpfNotTaken),
       titulacao: [
@@ -51,7 +55,9 @@ export class Professor extends Pessoa {
     };
   }
 
-  private titulacaoValidator(control: AbstractControl) {
+  private titulacaoValidator(
+    control: AbstractControl
+  ): { titulacao: boolean } | null {
     const value: string = control.value;
 
     if (value)
@@ -64,9 +70,5 @@ export class Professor extends Pessoa {
           return { titulacao: true };
       }
     return null;
-  }
-
-  public static fromJson({ id, nome, email, cpf, titulacao }: any): Professor {
-    return new Professor(id, nome, email, cpf, titulacao);
   }
 }

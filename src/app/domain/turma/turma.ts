@@ -3,6 +3,16 @@ import { CustomValidators } from 'app/shared/validators';
 import { Entidade, Id } from '../entidade';
 
 export class Turma extends Entidade {
+  public static fromJson({
+    id,
+    descricao,
+    anoLetivo,
+    periodoLetivo,
+    numeroVagas,
+  }: any): Turma {
+    return new Turma(id, descricao, +anoLetivo, +periodoLetivo, +numeroVagas);
+  }
+
   constructor(
     id: Id = null,
     public descricao = '',
@@ -13,7 +23,7 @@ export class Turma extends Entidade {
     super(id);
   }
 
-  public criarForm(builder: FormBuilder) {
+  public criarForm(builder: FormBuilder): FormGroup {
     return builder.group({
       descricao: [
         this.descricao,
@@ -39,20 +49,10 @@ export class Turma extends Entidade {
     anoLetivo,
     periodoLetivo,
     numeroVagas,
-  }: any) {
+  }: any): void {
     this.descricao = descricao;
     this.anoLetivo = +anoLetivo;
     this.periodoLetivo = +periodoLetivo;
     this.numeroVagas = +numeroVagas;
-  }
-
-  public static fromJson({
-    id,
-    descricao,
-    anoLetivo,
-    periodoLetivo,
-    numeroVagas,
-  }: any): Turma {
-    return new Turma(id, descricao, +anoLetivo, +periodoLetivo, +numeroVagas);
   }
 }

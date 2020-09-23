@@ -5,22 +5,9 @@ import {
   BehaviorSubject,
   combineLatest,
   MonoTypeOperatorFunction,
-  Subject,
+  Subscription,
 } from 'rxjs';
-import {
-  delay,
-  distinctUntilChanged,
-  tap,
-  debounceTime,
-  switchMap,
-  take,
-  map,
-  withLatestFrom,
-  catchError,
-  takeWhile,
-  publish,
-  reduce,
-} from 'rxjs/operators';
+import { delay, take, map, withLatestFrom } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 import { PoTableColumn, PoTableColumnSortType } from '@po-ui/ng-components';
 
@@ -32,11 +19,11 @@ export interface Page<T> {
 export class Pageable {
   constructor(public page = 1, public pageSize = 20) {}
 
-  get offset() {
+  get offset(): number {
     return this.page * this.pageSize - this.pageSize;
   }
 
-  get endOffset() {
+  get endOffset(): number {
     return this.offset + this.pageSize;
   }
 
@@ -59,13 +46,30 @@ interface SortFieldsOverride<Fields = string> {
 }
 
 export class Sort<Fields = string> {
+  static fromOrderChange<F = string>(
+    { column, type }: PoTableColumnSort,
+    override: SortFieldsOverride<F> = {}
+  ): Sort<F> {
+    const prop = column.property as any;
+    return new Sort<F>(
+      override[prop] ?? prop,
+      type === PoTableColumnSortType.Ascending ? 'asc' : 'desc'
+    );
+  }
+
+  static fromExpression<F = string>(expr: string): Sort<F> {
+    const field = expr.replace(/^(\+|\-)/, '') as any;
+    if (expr[0] === '-') return new Sort<F>(field, 'desc');
+    else return new Sort<F>(field, 'asc');
+  }
+
   constructor(public field: Fields, public direction: 'asc' | 'desc') {}
 
-  get expression() {
+  get expression(): string {
     return `${this.direction === 'asc' ? '+' : '-'}${this.field}`;
   }
 
-  get ascending() {
+  get ascending(): boolean {
     return this.direction === 'asc';
   }
 
@@ -79,26 +83,9 @@ export class Sort<Fields = string> {
       }
     });
   }
-
-  static fromOrderChange<F = string>(
-    { column, type }: PoTableColumnSort,
-    override: SortFieldsOverride<F> = {}
-  ): Sort<F> {
-    const prop = column.property as any;
-    return new Sort<F>(
-      override[prop] ?? prop,
-      type === PoTableColumnSortType.Ascending ? 'asc' : 'desc'
-    );
-  }
-
-  static fromExpression<F = string>(expr: string) {
-    const field = expr.replace(/^(\+|\-)/, '') as any;
-    if (expr[0] === '-') return new Sort<F>(field, 'desc');
-    else return new Sort<F>(field, 'asc');
-  }
 }
 
-export function searchString(value?: string, filter = '') {
+export function searchString(value?: string, filter = ''): boolean {
   return (
     filter === '' || value?.toUpperCase().indexOf(filter.toUpperCase()) >= 0
   );
@@ -145,9 +132,9 @@ export class PageStateSubject<T, F = string> {
       filter: string,
       sort: Sort<F>
     ) => Observable<Page<T>>,
-    private _takeWhile: <R = any>() => MonoTypeOperatorFunction<R>
+    private takeWhile: <R = any>() => MonoTypeOperatorFunction<R>
   ) {
-    this.resultSubject.pipe(this._takeWhile()).subscribe(
+    this.resultSubject.pipe(this.takeWhile()).subscribe(
       () => this.loadingSubject.next(false),
       () => this.loadingSubject.next(false)
     );
@@ -165,27 +152,27 @@ export class PageStateSubject<T, F = string> {
   private filter = '';
   private sort: Sort<F>;
 
-  setSort(sort: Sort<F>) {
+  setSort(sort: Sort<F>): void {
     this.page = 1;
     this.sort = sort;
     this.load(true);
   }
 
-  setFilter(filter: string) {
+  setFilter(filter: string): void {
     this.page = 1;
     this.filter = filter;
     this.load(true);
   }
 
-  nextPage() {
+  nextPage(): void {
     this.page++;
     this.load();
   }
 
-  load(reset = false) {
+  load(reset = false): void {
     this.loadingSubject.next(true);
     this.service(new Pageable(this.page, this.pageSize), this.filter, this.sort)
-      .pipe(this._takeWhile(), take(1), withLatestFrom(this.resultSubject))
+      .pipe(this.takeWhile(), take(1), withLatestFrom(this.resultSubject))
       .subscribe(
         ([result, current]) => {
           this.resultSubject.next({
@@ -198,8 +185,8 @@ export class PageStateSubject<T, F = string> {
   }
 
   asObservable(): Observable<PageState<T, F>> {
-    return combineLatest(this.resultSubject, this.loadingSubject).pipe(
-      this._takeWhile(),
+    return combineLatest([this.resultSubject, this.loadingSubject]).pipe(
+      this.takeWhile(),
       map(([result, loading]) => ({
         ...result,
         sort: this.sort,
@@ -211,7 +198,7 @@ export class PageStateSubject<T, F = string> {
   subscribe(
     next: (state: PageState<T, F>) => void,
     error?: (err: any) => void
-  ) {
+  ): Subscription {
     return this.asObservable().subscribe(next, error);
   }
 }

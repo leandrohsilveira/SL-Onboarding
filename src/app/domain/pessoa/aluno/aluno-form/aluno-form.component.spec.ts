@@ -11,7 +11,7 @@ describe('AlunoFormComponent', () => {
       <app-aluno-form
         #form
         [aluno]="aluno"
-        (onSubmit)="handleSubmit()"
+        (formSubmit)="handleSubmit()"
       ></app-aluno-form>
       <span id="nome">{{ aluno.nome }}</span>
     `,
@@ -24,7 +24,7 @@ describe('AlunoFormComponent', () => {
 
     submitted = false;
 
-    handleSubmit() {
+    handleSubmit(): void {
       this.submitted = true;
     }
   }

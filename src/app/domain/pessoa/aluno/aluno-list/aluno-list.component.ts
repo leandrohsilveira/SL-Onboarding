@@ -40,8 +40,8 @@ export class AlunoListComponent implements OnChanges, OnInit {
   @Input()
   ordenar: Sort<AlunoSortFields>;
 
-  @Output('carregarMais')
-  onCarregarMais = new EventEmitter<void>();
+  @Output()
+  carregarMais = new EventEmitter<void>();
 
   @Output()
   ordenarChange = new EventEmitter<Sort<AlunoSortFields>>();
@@ -101,7 +101,7 @@ export class AlunoListComponent implements OnChanges, OnInit {
     },
   ];
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.ordenar)
       this.poTable.sortedColumn = {
         property: this.columns.find(
@@ -111,20 +111,23 @@ export class AlunoListComponent implements OnChanges, OnInit {
       };
   }
 
-  onOrdenar(change: { column: PoTableColumn; type: PoTableColumnSortType }) {
+  handleOrdenar(change: {
+    column: PoTableColumn;
+    type: PoTableColumnSortType;
+  }): void {
     this.ordenarChange.emit(
       Sort.fromOrderChange<AlunoSortFields>(change, { cpfFormatado: 'cpf' })
     );
   }
 
-  ngOnChanges({ alunos }: SimpleChanges) {
+  ngOnChanges({ alunos }: SimpleChanges): void {
     if (alunos && this.carregandoMais) this.carregandoMais = false;
   }
 
-  carregarMais() {
+  handleCarregarMais(): void {
     if (this.podeCarregarMais) {
       this.carregandoMais = true;
-      this.onCarregarMais.emit();
+      this.carregarMais.emit();
     }
   }
 }

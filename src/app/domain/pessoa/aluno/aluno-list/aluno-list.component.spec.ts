@@ -31,7 +31,7 @@ describe('AlunoListComponent', () => {
     alunos: Aluno[] = [];
     podeCarregarMais = false;
 
-    onCarregarMais() {
+    onCarregarMais(): void {
       this.carregando = true;
     }
   }
@@ -53,7 +53,7 @@ describe('AlunoListComponent', () => {
     let bodyTrs: HTMLTableRowElement[];
     let carregarMaisBtn: HTMLButtonElement;
 
-    function carregarElementos() {
+    function carregarElementos(): void {
       bodyTrs = fixture.nativeElement.querySelectorAll('tbody > tr');
       carregarMaisBtn = fixture.nativeElement.querySelector(
         '.po-table-footer-show-more button'
@@ -61,7 +61,7 @@ describe('AlunoListComponent', () => {
     }
 
     it('A tabela possui 6 colunas no header', () => {
-      let headerThs: HTMLTableHeaderCellElement[] = fixture.nativeElement.querySelectorAll(
+      const headerThs: HTMLTableHeaderCellElement[] = fixture.nativeElement.querySelectorAll(
         'thead > tr > th'
       );
       expect(headerThs.length).toEqual(6);
@@ -72,7 +72,7 @@ describe('AlunoListComponent', () => {
         let onCarregarMaisSpy: jasmine.Spy;
         beforeEach(() => {
           onCarregarMaisSpy = spyOn(host, 'onCarregarMais');
-          host.component.carregarMais();
+          host.component.handleCarregarMais();
           fixture.detectChanges(true);
         });
 
@@ -130,7 +130,7 @@ describe('AlunoListComponent', () => {
 
           describe('Quando a função do componente "carregarMais" é invocada', () => {
             beforeEach(() => {
-              host.component.carregarMais();
+              host.component.handleCarregarMais();
               fixture.detectChanges();
               carregarElementos();
             });

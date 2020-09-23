@@ -20,12 +20,14 @@ export const endpoints = {
     v1: {
       alunos: new Endpoint(`/${api}/${core}/${v1}/alunos`),
       professores: new Endpoint(`/${api}/${core}/${v1}/professores`),
+      disciplinas: new Endpoint(`/${api}/${core}/${v1}/disciplinas`),
     },
   },
   query: {
     v1: {
       alunos: new Endpoint(`/${api}/${query}/${v1}/alunos`),
       professores: new Endpoint(`/${api}/${query}/${v1}/professores`),
+      disciplinas: new Endpoint(`/${api}/${query}/${v1}/disciplinas`),
     },
   },
 };

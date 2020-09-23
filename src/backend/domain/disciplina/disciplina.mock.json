@@ -1,0 +1,604 @@
+[
+  {
+    "id": "ddc0d0b8-9666-4b8e-9617-e086759b9fef",
+    "descricao": "Disciplina 1",
+    "sigla": "DSPL000001",
+    "cargaHoraria": 120,
+    "professorRef": "12188e4d-c089-455f-840c-2e20518b27dd"
+  },
+  {
+    "id": "a58288df-ea34-48fd-93dc-cb5c86a5c733",
+    "descricao": "Disciplina 2",
+    "sigla": "DSPL000002",
+    "cargaHoraria": 20,
+    "professorRef": "286971ca-fa68-411a-8641-3f98c87c616c"
+  },
+  {
+    "id": "a3ec5bb3-3c04-4003-a4e7-99070eba7165",
+    "descricao": "Disciplina 3",
+    "sigla": "DSPL000003",
+    "cargaHoraria": 120,
+    "professorRef": "69e05e86-0b0a-42bc-9227-5755e096fc88"
+  },
+  {
+    "id": "da13344c-6c2e-4549-a92b-e7d23c48af6a",
+    "descricao": "Disciplina 4",
+    "sigla": "DSPL000004",
+    "cargaHoraria": 20,
+    "professorRef": "8d68ffba-dde3-4a93-9213-06f514849dc8"
+  },
+  {
+    "id": "378a3ad3-fe3e-4499-819a-c22b9d85c4b8",
+    "descricao": "Disciplina 5",
+    "sigla": "DSPL000005",
+    "cargaHoraria": 120,
+    "professorRef": "82de3bf7-5c54-47c1-bac2-6333579ca7b1"
+  },
+  {
+    "id": "a9d44e18-5c5e-4084-9aae-ac24d6dbadbc",
+    "descricao": "Disciplina 6",
+    "sigla": "DSPL000006",
+    "cargaHoraria": 120,
+    "professorRef": "5ce4cb32-eb4b-4723-91d9-030330361f73"
+  },
+  {
+    "id": "8c8741a9-de78-49b0-8e9a-d5b58ef4d1c5",
+    "descricao": "Disciplina 7",
+    "sigla": "DSPL000007",
+    "cargaHoraria": 20,
+    "professorRef": "046a11d2-bcc3-413d-8fcc-e2e1fb5c10e2"
+  },
+  {
+    "id": "9529fbf9-0094-4d78-bb35-66907d557a95",
+    "descricao": "Disciplina 8",
+    "sigla": "DSPL000008",
+    "cargaHoraria": 20,
+    "professorRef": "224057b0-921a-4e4e-8c42-23d89441ad52"
+  },
+  {
+    "id": "4d015de9-3887-4884-b9b9-24cee24dcf54",
+    "descricao": "Disciplina 9",
+    "sigla": "DSPL000009",
+    "cargaHoraria": 120,
+    "professorRef": "969b2d5b-1b92-4ae4-b296-e8d4f8c891c8"
+  },
+  {
+    "id": "53407b79-ff5c-4034-8a6d-4c4ef1cb6eb3",
+    "descricao": "Disciplina 10",
+    "sigla": "DSPL000010",
+    "cargaHoraria": 120,
+    "professorRef": "3954763d-95dc-4fb5-884a-40e39a9132a3"
+  },
+  {
+    "id": "96421aba-de14-42f9-9088-d27e42d9acad",
+    "descricao": "Disciplina 11",
+    "sigla": "DSPL000011",
+    "cargaHoraria": 120,
+    "professorRef": "2ef4923d-dcc2-4946-b4e7-48d894a7768b"
+  },
+  {
+    "id": "c3756179-cc86-4d96-90d4-4bbefb2a3a68",
+    "descricao": "Disciplina 12",
+    "sigla": "DSPL000012",
+    "cargaHoraria": 20,
+    "professorRef": "226e14d2-1c63-4477-824f-13ee738b21a8"
+  },
+  {
+    "id": "60e5b7e5-1d27-429b-88cf-1250e81cf5a6",
+    "descricao": "Disciplina 13",
+    "sigla": "DSPL000013",
+    "cargaHoraria": 20,
+    "professorRef": "edacc288-cf0a-4fc3-8576-c4616867e552"
+  },
+  {
+    "id": "a4714f9b-8856-4cba-a5a2-50f78efc606f",
+    "descricao": "Disciplina 14",
+    "sigla": "DSPL000014",
+    "cargaHoraria": 120,
+    "professorRef": "154b4ead-86df-43ff-bf2a-d62f96403b02"
+  },
+  {
+    "id": "860684d6-0510-4825-b703-ff9e6f662eda",
+    "descricao": "Disciplina 15",
+    "sigla": "DSPL000015",
+    "cargaHoraria": 120,
+    "professorRef": "9795ba59-2159-4a36-960f-3553a25f482e"
+  },
+  {
+    "id": "5bb02733-1cf9-4a61-ac84-4902d3da9e8b",
+    "descricao": "Disciplina 16",
+    "sigla": "DSPL000016",
+    "cargaHoraria": 120,
+    "professorRef": "faa0bacf-2165-40ed-904a-2f4fa3dbe3e2"
+  },
+  {
+    "id": "9fb2a550-3410-4fb8-be72-b951fa7852e2",
+    "descricao": "Disciplina 17",
+    "sigla": "DSPL000017",
+    "cargaHoraria": 20,
+    "professorRef": "d058a5fb-eceb-405c-b4df-92d376b1e8c3"
+  },
+  {
+    "id": "ef977e68-e8d5-4d30-9d3d-bdc0bfa0a27c",
+    "descricao": "Disciplina 18",
+    "sigla": "DSPL000018",
+    "cargaHoraria": 120,
+    "professorRef": "3150e84b-45b5-4ebc-8969-9861f696ba49"
+  },
+  {
+    "id": "c434eb51-b26f-41e8-be69-8a25df98b6bc",
+    "descricao": "Disciplina 19",
+    "sigla": "DSPL000019",
+    "cargaHoraria": 120,
+    "professorRef": "3733b213-33a7-4c9d-bfc0-e8f615d510f5"
+  },
+  {
+    "id": "51f63c48-47f2-4a39-8a17-ef0afd0288b6",
+    "descricao": "Disciplina 20",
+    "sigla": "DSPL000020",
+    "cargaHoraria": 20,
+    "professorRef": "e014e719-f5c7-4e9b-82f4-288b7f72290b"
+  },
+  {
+    "id": "f3500165-6b00-4fe9-9610-f9a1c38d48aa",
+    "descricao": "Disciplina 21",
+    "sigla": "DSPL000021",
+    "cargaHoraria": 20,
+    "professorRef": "318baa1e-0dcd-436d-b95c-2a939535cfc7"
+  },
+  {
+    "id": "eec47cc9-2f62-4224-8dd7-9b2f91ef2a46",
+    "descricao": "Disciplina 22",
+    "sigla": "DSPL000022",
+    "cargaHoraria": 20,
+    "professorRef": "fcb698bf-2362-41d7-a75a-54cb2f4b6b7d"
+  },
+  {
+    "id": "1c189fb2-bed3-4435-a627-8e2e313562e8",
+    "descricao": "Disciplina 23",
+    "sigla": "DSPL000023",
+    "cargaHoraria": 20,
+    "professorRef": "78b2b45b-d54b-4036-9ab5-73a15a2f3356"
+  },
+  {
+    "id": "3d8ec582-0300-43b5-a56a-e1ee4c1933c0",
+    "descricao": "Disciplina 24",
+    "sigla": "DSPL000024",
+    "cargaHoraria": 120,
+    "professorRef": "609b8876-5794-42d2-bb88-762a2312c056"
+  },
+  {
+    "id": "685c4a7c-633a-4a9b-95c5-4ccae9d2e8a4",
+    "descricao": "Disciplina 25",
+    "sigla": "DSPL000025",
+    "cargaHoraria": 20,
+    "professorRef": "f1c87860-d12b-48a8-9232-0e6b3f8d5e6f"
+  },
+  {
+    "id": "c31e0982-5f60-4d4e-adf4-3c559fc10ae7",
+    "descricao": "Disciplina 26",
+    "sigla": "DSPL000026",
+    "cargaHoraria": 20,
+    "professorRef": "5935d7ac-7818-4462-88cc-8764bfb5249b"
+  },
+  {
+    "id": "3d791ec6-da76-483b-9a96-e50ac3fa9e96",
+    "descricao": "Disciplina 27",
+    "sigla": "DSPL000027",
+    "cargaHoraria": 120,
+    "professorRef": "b76d9324-2d45-493f-85de-eaaf09c6ae93"
+  },
+  {
+    "id": "09a8958b-bbf0-445b-bd18-82aad748e279",
+    "descricao": "Disciplina 28",
+    "sigla": "DSPL000028",
+    "cargaHoraria": 20,
+    "professorRef": "767b0e33-c5e4-478b-ac62-f14a2398a19c"
+  },
+  {
+    "id": "41965b73-7f11-4b2b-a4cc-c249fa35b817",
+    "descricao": "Disciplina 29",
+    "sigla": "DSPL000029",
+    "cargaHoraria": 20,
+    "professorRef": "000a7aea-b102-4cb2-9e1f-d94c5f1999a1"
+  },
+  {
+    "id": "9b97be16-081f-4995-a7a8-fe780a1bb1ec",
+    "descricao": "Disciplina 30",
+    "sigla": "DSPL000030",
+    "cargaHoraria": 20,
+    "professorRef": "3733b213-33a7-4c9d-bfc0-e8f615d510f5"
+  },
+  {
+    "id": "aa038912-14cd-4f39-9d9d-e60e5eaf5292",
+    "descricao": "Disciplina 31",
+    "sigla": "DSPL000031",
+    "cargaHoraria": 20,
+    "professorRef": "71568a0b-be67-4a30-9f98-c303b484c0ff"
+  },
+  {
+    "id": "6d9a8ea6-cf30-4946-8287-47a8abaf4c4b",
+    "descricao": "Disciplina 32",
+    "sigla": "DSPL000032",
+    "cargaHoraria": 120,
+    "professorRef": "15139f01-2f67-4e18-bffd-e8b7ac0c6b58"
+  },
+  {
+    "id": "d1ca347f-c031-421c-9282-25c293638337",
+    "descricao": "Disciplina 33",
+    "sigla": "DSPL000033",
+    "cargaHoraria": 120,
+    "professorRef": "7286fde4-1ee0-424d-bf11-112ce438a1f4"
+  },
+  {
+    "id": "3ea317e3-6c2c-4835-ad46-d5887a67f88b",
+    "descricao": "Disciplina 34",
+    "sigla": "DSPL000034",
+    "cargaHoraria": 20,
+    "professorRef": "9451210a-1caf-4c11-90b3-8c1cc2bd21a9"
+  },
+  {
+    "id": "7b3358e2-b33e-4f65-92db-db4544fac550",
+    "descricao": "Disciplina 35",
+    "sigla": "DSPL000035",
+    "cargaHoraria": 20,
+    "professorRef": "f47f45a1-c98d-4f4d-aa31-8729b4e25b63"
+  },
+  {
+    "id": "01fdb0cd-c60d-4ba8-8bb1-1be6e7b74701",
+    "descricao": "Disciplina 36",
+    "sigla": "DSPL000036",
+    "cargaHoraria": 20,
+    "professorRef": "48f4f944-ce13-43b4-b1f0-304f343c8a66"
+  },
+  {
+    "id": "bfd1b4bf-e3e2-42a4-942a-f487c3985c9c",
+    "descricao": "Disciplina 37",
+    "sigla": "DSPL000037",
+    "cargaHoraria": 20,
+    "professorRef": "4f0f18c8-78f2-4273-8748-af8189a422f4"
+  },
+  {
+    "id": "7a8960d4-ca7b-4667-8296-19d063859739",
+    "descricao": "Disciplina 38",
+    "sigla": "DSPL000038",
+    "cargaHoraria": 20,
+    "professorRef": "f9e26a77-8ffc-41ae-8a3b-40a376394ba7"
+  },
+  {
+    "id": "61523877-d6bc-4359-ab68-b89a98ec66a4",
+    "descricao": "Disciplina 39",
+    "sigla": "DSPL000039",
+    "cargaHoraria": 20,
+    "professorRef": "cd85959b-a7aa-4c71-b27b-54d45e365ea4"
+  },
+  {
+    "id": "af9143cb-cede-450e-ba7b-d4039c8fffa4",
+    "descricao": "Disciplina 40",
+    "sigla": "DSPL000040",
+    "cargaHoraria": 20,
+    "professorRef": "8acb47d6-b3e6-4fa4-904b-89231a388e57"
+  },
+  {
+    "id": "b5c568b0-5eb6-43d8-b45a-3b96ac1bdffc",
+    "descricao": "Disciplina 41",
+    "sigla": "DSPL000041",
+    "cargaHoraria": 120,
+    "professorRef": "b0809fc0-e184-44f8-806c-ea52682d8b78"
+  },
+  {
+    "id": "00afd077-eef2-475c-84f4-4e8fcaf035b7",
+    "descricao": "Disciplina 42",
+    "sigla": "DSPL000042",
+    "cargaHoraria": 120,
+    "professorRef": "dd103be1-d023-48a8-a4a6-f1e602dd10d7"
+  },
+  {
+    "id": "804cdfdd-39c2-4ba0-a6c0-21597a335325",
+    "descricao": "Disciplina 43",
+    "sigla": "DSPL000043",
+    "cargaHoraria": 20,
+    "professorRef": "b4f67115-6302-4ae9-8b79-f31f9ef3b824"
+  },
+  {
+    "id": "b8bd1a90-97ac-4725-a848-d2a5a3145833",
+    "descricao": "Disciplina 44",
+    "sigla": "DSPL000044",
+    "cargaHoraria": 20,
+    "professorRef": "2a17fff2-83e3-4812-9e81-016b6c103e19"
+  },
+  {
+    "id": "1c861f41-3659-4154-8678-d9b0fb5bf407",
+    "descricao": "Disciplina 45",
+    "sigla": "DSPL000045",
+    "cargaHoraria": 120,
+    "professorRef": "a466573b-a204-45b1-bd14-bf9f802f5df4"
+  },
+  {
+    "id": "0f98c2a1-dd84-4273-b41a-cd294b0d0325",
+    "descricao": "Disciplina 46",
+    "sigla": "DSPL000046",
+    "cargaHoraria": 120,
+    "professorRef": "ad3384d8-06c0-4512-9243-96ac06e28269"
+  },
+  {
+    "id": "36ef1bff-fe42-4632-bcb4-ce7d227d5c57",
+    "descricao": "Disciplina 47",
+    "sigla": "DSPL000047",
+    "cargaHoraria": 20,
+    "professorRef": "22971729-8ccf-4e46-943f-113b3f2cafb0"
+  },
+  {
+    "id": "23a44631-4bc4-4ab4-9e2c-3bd32b42ac90",
+    "descricao": "Disciplina 48",
+    "sigla": "DSPL000048",
+    "cargaHoraria": 20,
+    "professorRef": "25427572-9200-4525-a49c-a6591f5de625"
+  },
+  {
+    "id": "f3ce3364-855f-4348-bbc2-731db1c693c2",
+    "descricao": "Disciplina 49",
+    "sigla": "DSPL000049",
+    "cargaHoraria": 20,
+    "professorRef": "46f4fa29-421f-453c-9d67-e620e0093026"
+  },
+  {
+    "id": "c188364f-679b-4d7f-b054-58120db17bc5",
+    "descricao": "Disciplina 50",
+    "sigla": "DSPL000050",
+    "cargaHoraria": 120,
+    "professorRef": "5e2edf94-b14c-417f-9359-970a9b189363"
+  },
+  {
+    "id": "db7d7df1-e5d5-4f5e-aadc-8ddcc38d14be",
+    "descricao": "Disciplina 51",
+    "sigla": "DSPL000051",
+    "cargaHoraria": 120,
+    "professorRef": "31032d65-2db7-4259-847d-379e2b6be6de"
+  },
+  {
+    "id": "727a8e66-7076-49bb-b1dd-0beb3082fea5",
+    "descricao": "Disciplina 52",
+    "sigla": "DSPL000052",
+    "cargaHoraria": 20,
+    "professorRef": "cefa779a-b9a4-41cd-9186-5057c1c0da0a"
+  },
+  {
+    "id": "68b86c5f-1550-454e-9a74-7d5f1fdc8ed1",
+    "descricao": "Disciplina 53",
+    "sigla": "DSPL000053",
+    "cargaHoraria": 20,
+    "professorRef": "d832c374-c0f5-4d38-b590-715fde988634"
+  },
+  {
+    "id": "133fb942-3078-46a5-aa8d-04716da54036",
+    "descricao": "Disciplina 54",
+    "sigla": "DSPL000054",
+    "cargaHoraria": 20,
+    "professorRef": "00fb3388-0778-4f11-b3ae-cd43ca888f3d"
+  },
+  {
+    "id": "6518d723-f3de-455e-8cb3-cae8726e1200",
+    "descricao": "Disciplina 55",
+    "sigla": "DSPL000055",
+    "cargaHoraria": 120,
+    "professorRef": "1b83970b-4dfc-48a9-b8ad-0b89c95e8b1c"
+  },
+  {
+    "id": "23bababb-2c45-44c6-a39c-b04075da75cb",
+    "descricao": "Disciplina 56",
+    "sigla": "DSPL000056",
+    "cargaHoraria": 20,
+    "professorRef": "24bf423b-4189-4293-88a9-e7ce423ed638"
+  },
+  {
+    "id": "6ddd23b1-05e4-4e77-bec1-3dfb1b61fa1e",
+    "descricao": "Disciplina 57",
+    "sigla": "DSPL000057",
+    "cargaHoraria": 120,
+    "professorRef": "3f008053-4006-4b17-8b04-56d41dd2c0f9"
+  },
+  {
+    "id": "d6e052bc-b3f9-4633-900d-9a16c500b089",
+    "descricao": "Disciplina 58",
+    "sigla": "DSPL000058",
+    "cargaHoraria": 120,
+    "professorRef": "4076e1e9-2775-4da5-a1d4-d8c0173f7e78"
+  },
+  {
+    "id": "3a0d4c41-1d0d-4b28-928c-0638fcf487f2",
+    "descricao": "Disciplina 59",
+    "sigla": "DSPL000059",
+    "cargaHoraria": 20,
+    "professorRef": "2f3ea6e2-c566-4caf-88c1-af0a290e90e4"
+  },
+  {
+    "id": "f4e54b72-8aa5-483f-9a5a-077472748b9c",
+    "descricao": "Disciplina 60",
+    "sigla": "DSPL000060",
+    "cargaHoraria": 120,
+    "professorRef": "5016e737-ef94-405a-8bc4-705837d6be97"
+  },
+  {
+    "id": "cafb47cb-e62d-49b5-ac8c-e9fe0ad24762",
+    "descricao": "Disciplina 61",
+    "sigla": "DSPL000061",
+    "cargaHoraria": 120,
+    "professorRef": "aee7800f-48a0-4d0a-8e99-68e3a2c86b52"
+  },
+  {
+    "id": "3a9faa2a-850f-425e-baff-1e5d83f442c6",
+    "descricao": "Disciplina 62",
+    "sigla": "DSPL000062",
+    "cargaHoraria": 120,
+    "professorRef": "98713f47-7a1e-438b-b78e-7a1c3f7ec83a"
+  },
+  {
+    "id": "26ba9320-4622-46ba-b8d0-e4fe937b6443",
+    "descricao": "Disciplina 63",
+    "sigla": "DSPL000063",
+    "cargaHoraria": 20,
+    "professorRef": "0059fdc4-38d2-43cd-af64-1579ea7248d0"
+  },
+  {
+    "id": "9557997b-ecbb-4c5a-a801-147e370bc880",
+    "descricao": "Disciplina 64",
+    "sigla": "DSPL000064",
+    "cargaHoraria": 20,
+    "professorRef": "cd85959b-a7aa-4c71-b27b-54d45e365ea4"
+  },
+  {
+    "id": "133c4e55-d8ad-4362-8622-3ae3991c1fbb",
+    "descricao": "Disciplina 65",
+    "sigla": "DSPL000065",
+    "cargaHoraria": 20,
+    "professorRef": "dc576bb7-515b-434d-bdac-d68e4b5e74ef"
+  },
+  {
+    "id": "1e157b55-d222-47d2-ab58-cdda22630520",
+    "descricao": "Disciplina 66",
+    "sigla": "DSPL000066",
+    "cargaHoraria": 120,
+    "professorRef": "c13aa38b-1980-4872-aad8-03b948402e15"
+  },
+  {
+    "id": "98e07689-03a5-484a-8375-c8698523e2c8",
+    "descricao": "Disciplina 67",
+    "sigla": "DSPL000067",
+    "cargaHoraria": 120,
+    "professorRef": "fd67d5ec-1ae4-4686-b313-400562fe9c8e"
+  },
+  {
+    "id": "81e12042-08d2-45b6-bf57-dcc974faad8f",
+    "descricao": "Disciplina 68",
+    "sigla": "DSPL000068",
+    "cargaHoraria": 120,
+    "professorRef": "79eb3ada-eb01-407d-9147-b5cf67c4d227"
+  },
+  {
+    "id": "645d3016-9fa1-4875-8a27-50f46a4ebd13",
+    "descricao": "Disciplina 69",
+    "sigla": "DSPL000069",
+    "cargaHoraria": 20,
+    "professorRef": "c162c222-8ccb-457d-aeec-c7dbcb596f9d"
+  },
+  {
+    "id": "ac688860-c96c-469b-aaf1-5e729787fcf9",
+    "descricao": "Disciplina 70",
+    "sigla": "DSPL000070",
+    "cargaHoraria": 120,
+    "professorRef": "81d6d499-cff3-4ba8-9431-57f52407148d"
+  },
+  {
+    "id": "0e78c912-6e4a-49ed-9a76-d34dea56b373",
+    "descricao": "Disciplina 71",
+    "sigla": "DSPL000071",
+    "cargaHoraria": 120,
+    "professorRef": "b32a50c4-666c-405f-94c5-09da60cd5db1"
+  },
+  {
+    "id": "1b7889f9-59cb-48a2-b131-8b8e65c484f2",
+    "descricao": "Disciplina 72",
+    "sigla": "DSPL000072",
+    "cargaHoraria": 120,
+    "professorRef": "3d1f52bb-4812-4669-9784-95e32ad6c011"
+  },
+  {
+    "id": "c66e6827-b997-47de-bf8d-51049ed77da3",
+    "descricao": "Disciplina 73",
+    "sigla": "DSPL000073",
+    "cargaHoraria": 120,
+    "professorRef": "20d82082-b933-4d83-9cbb-f7ccc04fe330"
+  },
+  {
+    "id": "1d817ee3-dd07-40f4-a236-ee3d73930023",
+    "descricao": "Disciplina 74",
+    "sigla": "DSPL000074",
+    "cargaHoraria": 120,
+    "professorRef": "8ad60d23-9c50-4295-89f8-cdf0c9380a5b"
+  },
+  {
+    "id": "2eb6bb83-ecaa-4a0a-9ce8-8d8557914a3b",
+    "descricao": "Disciplina 75",
+    "sigla": "DSPL000075",
+    "cargaHoraria": 120,
+    "professorRef": "251ca069-f816-4f83-aff7-ac1dcb52116f"
+  },
+  {
+    "id": "a261eea1-645c-4105-a529-a163ea28baed",
+    "descricao": "Disciplina 76",
+    "sigla": "DSPL000076",
+    "cargaHoraria": 120,
+    "professorRef": "f1c87860-d12b-48a8-9232-0e6b3f8d5e6f"
+  },
+  {
+    "id": "b8e00c24-72c5-4342-a933-4a538aa291db",
+    "descricao": "Disciplina 77",
+    "sigla": "DSPL000077",
+    "cargaHoraria": 120,
+    "professorRef": "39724c42-e602-4bcc-b603-07c12a048e05"
+  },
+  {
+    "id": "695546fe-7433-4bb6-a7ab-87655818d0d6",
+    "descricao": "Disciplina 78",
+    "sigla": "DSPL000078",
+    "cargaHoraria": 20,
+    "professorRef": "36540a9a-6e4b-465d-98be-f0ff10e49121"
+  },
+  {
+    "id": "183adb22-9fea-4cab-abe3-e272b8e2a001",
+    "descricao": "Disciplina 79",
+    "sigla": "DSPL000079",
+    "cargaHoraria": 120,
+    "professorRef": "4cb77061-0f19-40b6-8fb5-0c770794efa4"
+  },
+  {
+    "id": "42f45bf7-24b3-498d-ae89-1bb1ec9485e8",
+    "descricao": "Disciplina 80",
+    "sigla": "DSPL000080",
+    "cargaHoraria": 20,
+    "professorRef": "104a2486-8b6f-4cdf-b776-86943659b0e3"
+  },
+  {
+    "id": "65232c3c-955c-4078-a5c4-9d1ac7bcd424",
+    "descricao": "Disciplina 81",
+    "sigla": "DSPL000081",
+    "cargaHoraria": 120,
+    "professorRef": "19eccd5e-f1ab-4609-9576-83ca44a9b4a6"
+  },
+  {
+    "id": "c385800a-da53-4af6-834c-3cc3819c5208",
+    "descricao": "Disciplina 82",
+    "sigla": "DSPL000082",
+    "cargaHoraria": 120,
+    "professorRef": "51f39a3c-daec-46e8-aa2d-99d8dd3d4b2f"
+  },
+  {
+    "id": "e56ae604-06bc-4f10-b2ea-faab5160776d",
+    "descricao": "Disciplina 83",
+    "sigla": "DSPL000083",
+    "cargaHoraria": 120,
+    "professorRef": "7ec39b05-6612-4c13-afb7-87aa75632f19"
+  },
+  {
+    "id": "054ffe5d-60aa-4820-ada8-e94645157a2d",
+    "descricao": "Disciplina 84",
+    "sigla": "DSPL000084",
+    "cargaHoraria": 20,
+    "professorRef": "5ce4cb32-eb4b-4723-91d9-030330361f73"
+  },
+  {
+    "id": "50ea66a2-23da-4833-b148-28c6b1c4afc5",
+    "descricao": "Disciplina 85",
+    "sigla": "DSPL000085",
+    "cargaHoraria": 120,
+    "professorRef": "b6654bba-d09a-40e1-ad66-a6a85e42a582"
+  },
+  {
+    "id": "9b0c4370-b623-4f8a-a943-138090d49a60",
+    "descricao": "Disciplina 86",
+    "sigla": "DSPL000086",
+    "cargaHoraria": 20,
+    "professorRef": "4ef8ac07-31a8-4c7b-ba7e-ca07b60b39ad"
+  }
+]

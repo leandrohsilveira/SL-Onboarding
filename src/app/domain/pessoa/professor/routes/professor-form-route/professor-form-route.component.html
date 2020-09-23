@@ -1,0 +1,27 @@
+<po-modal
+  #modelRef
+  [p-click-out]="false"
+  [p-hide-close]="true"
+  [p-primary-action]="actions.salvar"
+  [p-secondary-action]="actions.cancelar"
+  p-size="auto"
+  p-title="Formulário de professor"
+  i18n-p-title="
+    Título do formulário de cadastro ou edição dos dados de um professor
+  "
+>
+  <app-professor-form
+    #formRef
+    [professor]="professor"
+    [disabled]="loading || processando"
+    (onSubmit)="salvar()"
+  ></app-professor-form>
+  <app-loading-indicator
+    [loading]="loading"
+    i18n-text="
+      Texto 'Carregando...' que aparece na janela de formulário de professor
+      quando os dados de um professor existente estão sendo carregados
+    "
+    text="Carregando..."
+  ></app-loading-indicator>
+</po-modal>

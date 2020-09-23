@@ -2,9 +2,7 @@ import { IRequestInterceptor, getBackendService } from 'web-backend-api';
 import { Pageable, Sort, filtrar } from 'app/shared/util/service.util';
 import { map } from 'rxjs/operators';
 
-export interface FilterPredicate {
-  (filter: string): (item: any) => boolean;
-}
+export type FilterPredicate = (filter: string) => (item: any) => boolean;
 
 export function createSearchRequestInterceptor(
   collectionName: string,
@@ -13,7 +11,7 @@ export function createSearchRequestInterceptor(
 ): IRequestInterceptor {
   return {
     collectionName,
-    path: path,
+    path,
     method: 'GET',
     applyToPath: 'complete',
     response: ({ fn, url }) => {

@@ -99,7 +99,6 @@ export class ProfessorListComponent implements OnInit {
   ];
 
   ngOnInit() {
-    console.log(this.professores);
     if (this.ordenar)
       this.poTable.sortedColumn = {
         property: this.columns.find(

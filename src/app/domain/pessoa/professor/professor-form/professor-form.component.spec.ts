@@ -1,26 +1,26 @@
 import { Component, ViewChild } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { AlunoFormModule } from './aluno-form.module';
-import { Aluno, FormaIngresso } from '../aluno';
-import { AlunoFormComponent } from './aluno-form.component';
+import { ProfessorFormModule } from './professor-form.module';
+import { Professor, Titulacao } from '../professor';
+import { ProfessorFormComponent } from './professor-form.component';
 import { CommonModule } from '@angular/common';
 
-describe('AlunoFormComponent', () => {
+describe('ProfessorFormComponent', () => {
   @Component({
     template: `
-      <app-aluno-form
+      <app-professor-form
         #form
-        [aluno]="aluno"
+        [professor]="professor"
         (onSubmit)="handleSubmit()"
-      ></app-aluno-form>
-      <span id="nome">{{ aluno.nome }}</span>
+      ></app-professor-form>
+      <span id="nome">{{ professor.nome }}</span>
     `,
   })
-  class AlunoFormTestComponent {
+  class TestHostComponent {
     @ViewChild('form')
-    alunoFormComponent: AlunoFormComponent;
+    professorFormComponent: ProfessorFormComponent;
 
-    aluno = new Aluno();
+    professor = new Professor();
 
     submitted = false;
 
@@ -29,15 +29,15 @@ describe('AlunoFormComponent', () => {
     }
   }
 
-  let fixture: ComponentFixture<AlunoFormTestComponent>;
-  let component: AlunoFormTestComponent;
+  let fixture: ComponentFixture<TestHostComponent>;
+  let component: TestHostComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CommonModule, AlunoFormModule],
-      declarations: [AlunoFormTestComponent],
+      imports: [CommonModule, ProfessorFormModule],
+      declarations: [TestHostComponent],
     }).compileComponents();
-    fixture = TestBed.createComponent(AlunoFormTestComponent);
+    fixture = TestBed.createComponent(TestHostComponent);
     fixture.detectChanges();
     component = fixture.componentInstance;
   });
@@ -47,37 +47,36 @@ describe('AlunoFormComponent', () => {
     expect(inputs.length).toEqual(4);
   });
 
-  describe('Quando a propriedade "aluno" inicia limpa (new Aluno())', () => {
+  describe('Quando a propriedade "professor" inicia limpa (new Professor())', () => {
     it('A propriedade canSubmit é false', () =>
-      expect(component.alunoFormComponent.canSubmit).toBeFalse());
+      expect(component.professorFormComponent.canSubmit).toBeFalse());
 
     describe('Quando a função handleSubmit é invocada', () => {
       it('O formulário não é submetido pois a propriedade canSubmit é false', () => {
-        component.alunoFormComponent.handleSubmit();
+        component.professorFormComponent.handleSubmit();
         fixture.detectChanges();
         expect(component.submitted).toBeFalse();
       });
     });
 
-    describe('Quando a propriedade "aluno" é modificada para uma instancia válida', () => {
+    describe('Quando a propriedade "professor" é modificada para uma instancia válida', () => {
       beforeEach(() => {
-        component.aluno = new Aluno(
+        component.professor = new Professor(
           'uuid',
           'Teste',
           'teste@totvs.com.br',
           '17475054047',
-          FormaIngresso.ENADE,
-          56
+          Titulacao.MESTRE
         );
         fixture.detectChanges();
       });
 
       it('A propriedade canSubmit ainda é false pois o formulário ainda é "pristine"', () =>
-        expect(component.alunoFormComponent.canSubmit).toBeFalse());
+        expect(component.professorFormComponent.canSubmit).toBeFalse());
 
       describe('Quando a função handleSubmit é invocada', () => {
         it('O formulário não é submetido pois a propriedade canSubmit é false', () => {
-          component.alunoFormComponent.handleSubmit();
+          component.professorFormComponent.handleSubmit();
           fixture.detectChanges();
           expect(component.submitted).toBeFalse();
         });
@@ -85,17 +84,17 @@ describe('AlunoFormComponent', () => {
 
       describe('Quando um campo do formulário é modificado', () => {
         beforeEach(() => {
-          component.alunoFormComponent.form.patchValue({ nome: 'Teste 1' });
-          component.alunoFormComponent.form.markAsDirty();
+          component.professorFormComponent.form.patchValue({ nome: 'Teste 1' });
+          component.professorFormComponent.form.markAsDirty();
           fixture.detectChanges();
         });
 
         it('A propriedade canSubmit é true pois o formulário é válido e dirty', () =>
-          expect(component.alunoFormComponent.canSubmit).toBeTrue());
+          expect(component.professorFormComponent.canSubmit).toBeTrue());
 
         describe('Quando a função handleSubmit é invocada', () => {
           it('O formulário é submetido', () => {
-            component.alunoFormComponent.handleSubmit();
+            component.professorFormComponent.handleSubmit();
             fixture.detectChanges();
             expect(component.submitted).toBeTrue();
           });
@@ -107,12 +106,12 @@ describe('AlunoFormComponent', () => {
       let ngOnChangesSpy: jasmine.Spy;
 
       beforeEach(() => {
-        ngOnChangesSpy = spyOn(component.alunoFormComponent, 'ngOnChanges');
-        component.alunoFormComponent.form.patchValue({ nome: 'Teste' });
+        ngOnChangesSpy = spyOn(component.professorFormComponent, 'ngOnChanges');
+        component.professorFormComponent.form.patchValue({ nome: 'Teste' });
         fixture.detectChanges();
       });
 
-      it('Como a mesma instância de aluno é mantida, a função ngOnChanges não é invocada', () => {
+      it('Como a mesma instância de professor é mantida, a função ngOnChanges não é invocada', () => {
         expect(ngOnChangesSpy.calls.count()).toEqual(0);
       });
 

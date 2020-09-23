@@ -1,48 +1,48 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AlunoListRouteComponent } from './aluno-list-route.component';
+import { ProfessorListRouteComponent } from './professor-list-route.component';
 import { take, skip } from 'rxjs/operators';
 import { PageState, Sort } from 'app/shared/util/service.util';
-import { Aluno, AlunoSortFields } from '../../aluno';
-import { AlunoModule } from '../../aluno.module';
-import { AlunoListModule } from '../../aluno-list/aluno-list.module';
+import { Professor, ProfessorSortFields } from '../../professor';
+import { ProfessorModule } from '../../professor.module';
+import { ProfessorListModule } from '../../professor-list/professor-list.module';
 import { CommonModule } from '@angular/common';
 import { PoPageModule } from '@po-ui/ng-components';
 import { RouterTestingModule } from '@angular/router/testing';
 import { environment } from 'environments/environment';
-import alunosMock from '../../aluno.mock';
+import { professoresMock } from '../../professor.mock';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 
 environment.delaySimulado = null;
 
-describe('AlunoListRouteComponent', () => {
-  let component: AlunoListRouteComponent;
-  let fixture: ComponentFixture<AlunoListRouteComponent>;
+describe('ProfessorListRouteComponent', () => {
+  let component: ProfessorListRouteComponent;
+  let fixture: ComponentFixture<ProfessorListRouteComponent>;
   let httpClient: HttpClient;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        AlunoModule,
-        AlunoListModule,
+        ProfessorModule,
+        ProfessorListModule,
         PoPageModule,
         RouterTestingModule,
       ],
-      declarations: [AlunoListRouteComponent],
+      declarations: [ProfessorListRouteComponent],
     }).compileComponents();
     httpClient = TestBed.inject(HttpClient);
   });
 
-  let pageState: PageState<Aluno, AlunoSortFields>;
+  let pageState: PageState<Professor, ProfessorSortFields>;
   let httpClientSpy: jasmine.Spy;
   beforeEach(() => {
-    fixture = TestBed.createComponent(AlunoListRouteComponent);
+    fixture = TestBed.createComponent(ProfessorListRouteComponent);
     component = fixture.componentInstance;
     httpClientSpy = spyOn(httpClient, 'get');
     httpClientSpy.and.returnValue(
       of({
-        items: alunosMock.slice(0, 20),
+        items: professoresMock.slice(0, 20),
         hasNext: true,
       })
     );
@@ -72,9 +72,9 @@ describe('AlunoListRouteComponent', () => {
       pageState = await component.pageState$.pipe(take(1)).toPromise();
     });
 
-    it('O array do estado "items" contém os 20 primeiros alunos', () =>
+    it('O array do estado "items" contém os 20 primeiros professores', () =>
       expect(pageState.items).toEqual(
-        alunosMock.slice(0, 20).map(Aluno.fromJson)
+        professoresMock.slice(0, 20).map(Professor.fromJson)
       ));
     it('O estado "loading" é false', () =>
       expect(pageState.loading).toBeFalse());
@@ -86,7 +86,7 @@ describe('AlunoListRouteComponent', () => {
       beforeEach(() => {
         httpClientSpy.and.returnValue(
           of({
-            items: alunosMock.slice(20, 40),
+            items: professoresMock.slice(20, 40),
             hasNext: true,
           })
         );
@@ -101,9 +101,9 @@ describe('AlunoListRouteComponent', () => {
           pageState = await promise;
         });
 
-        it('O array do estado "items" contém os 20 primeiros alunos', () =>
+        it('O array do estado "items" contém os 20 primeiros professores', () =>
           expect(pageState.items).toEqual(
-            alunosMock.slice(0, 20).map(Aluno.fromJson)
+            professoresMock.slice(0, 20).map(Professor.fromJson)
           ));
         it('O estado "loading" é true', () =>
           expect(pageState.loading).toBeTrue());
@@ -119,9 +119,9 @@ describe('AlunoListRouteComponent', () => {
           pageState = await component.pageState$.pipe(take(1)).toPromise();
         });
 
-        it('O array do estado "items" contém os 40 primeiros alunos', () =>
+        it('O array do estado "items" contém os 40 primeiros professores', () =>
           expect(pageState.items).toEqual(
-            alunosMock.slice(0, 40).map(Aluno.fromJson)
+            professoresMock.slice(0, 40).map(Professor.fromJson)
           ));
         it('O estado "loading" é false', () =>
           expect(pageState.loading).toBeFalse());
@@ -132,13 +132,13 @@ describe('AlunoListRouteComponent', () => {
       });
     });
 
-    describe('Quando a função "handleOrdenacaoChange" é invocada para ordenar a coluna "matricula" em ordem decrescente', () => {
-      const sort = new Sort<AlunoSortFields>('matricula', 'desc');
+    describe('Quando a função "handleOrdenacaoChange" é invocada para ordenar a coluna "nome" em ordem decrescente', () => {
+      const sort = new Sort<ProfessorSortFields>('nome', 'desc');
       let values: any[];
 
       beforeEach(() => {
-        values = [...alunosMock]
-          .sort((a, b) => b.matricula - a.matricula)
+        values = [...professoresMock]
+          .sort((a, b) => (b.nome < a.nome ? -1 : 1))
           .slice(0, 20);
         httpClientSpy.and.returnValue(
           of({
@@ -157,9 +157,9 @@ describe('AlunoListRouteComponent', () => {
           pageState = await promise;
         });
 
-        it('O array do estado "items" contém os 20 primeiros alunos', () =>
+        it('O array do estado "items" contém os 20 primeiros professores', () =>
           expect(pageState.items).toEqual(
-            alunosMock.slice(0, 20).map(Aluno.fromJson)
+            professoresMock.slice(0, 20).map(Professor.fromJson)
           ));
         it('O estado "loading" é true', () =>
           expect(pageState.loading).toBeTrue());
@@ -175,8 +175,8 @@ describe('AlunoListRouteComponent', () => {
           pageState = await component.pageState$.pipe(take(1)).toPromise();
         });
 
-        it('O array do estado "items" contém os 20 últimos alunos', () =>
-          expect(pageState.items).toEqual(values.map(Aluno.fromJson)));
+        it('O array do estado "items" contém os 20 últimos professores', () =>
+          expect(pageState.items).toEqual(values.map(Professor.fromJson)));
         it('O estado "loading" é false', () =>
           expect(pageState.loading).toBeFalse());
         it('O estado "hasNext" é true', () =>
@@ -186,11 +186,11 @@ describe('AlunoListRouteComponent', () => {
       });
     });
 
-    describe('Quando a função "handleFilterChange" é invocada para filtrar os alunos pelo nome "Teste 200"', () => {
+    describe('Quando a função "handleFilterChange" é invocada para filtrar os professores pelo nome "Professor 200"', () => {
       beforeEach(() => {
         httpClientSpy.and.returnValue(
           of({
-            items: [alunosMock[199]],
+            items: [professoresMock[199]],
             hasNext: false,
           })
         );
@@ -201,13 +201,13 @@ describe('AlunoListRouteComponent', () => {
           const promise = component.pageState$
             .pipe(skip(1), take(1))
             .toPromise();
-          component.handleFilterChange('Teste 200');
+          component.handleFilterChange('Professor 200');
           pageState = await promise;
         });
 
-        it('O array do estado "items" contém os 20 primeiros alunos', () =>
+        it('O array do estado "items" contém os 20 primeiros professores', () =>
           expect(pageState.items).toEqual(
-            alunosMock.slice(0, 20).map(Aluno.fromJson)
+            professoresMock.slice(0, 20).map(Professor.fromJson)
           ));
         it('O estado "loading" é true', () =>
           expect(pageState.loading).toBeTrue());
@@ -219,12 +219,14 @@ describe('AlunoListRouteComponent', () => {
 
       describe('Quando os dados ordenados foram carregados', () => {
         beforeEach(async () => {
-          component.handleFilterChange('Teste 200');
+          component.handleFilterChange('Professor 200');
           pageState = await component.pageState$.pipe(take(1)).toPromise();
         });
 
-        it('O array do estado "items" contém um registro com o nome "Teste 200"', () =>
-          expect(pageState.items).toEqual([Aluno.fromJson(alunosMock[199])]));
+        it('O array do estado "items" contém um registro com o nome "Professor 200"', () =>
+          expect(pageState.items).toEqual([
+            Professor.fromJson(professoresMock[199]),
+          ]));
         it('O estado "loading" é false', () =>
           expect(pageState.loading).toBeFalse());
         it('O estado "hasNext" é false', () =>

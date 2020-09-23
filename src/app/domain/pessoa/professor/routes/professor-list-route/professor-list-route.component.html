@@ -1,0 +1,18 @@
+<po-page-list
+  *ngIf="pageState$ | async as pageState"
+  p-title="Lista de professores"
+  i18n-p-title="Título da página 'Lista de professores'"
+  [p-filter]="filtro"
+  [p-actions]="acoes"
+>
+  <app-professor-list
+    [professores]="pageState.items"
+    [podeCarregarMais]="pageState.hasNext"
+    [carregando]="pageState.loading"
+    [(ordenar)]="pageState.sort"
+    (ordenarChange)="handleOrdenacaoChange($event)"
+    (carregarMais)="handleCarregarMais()"
+    (editar)="handleEditarChange($event)"
+  ></app-professor-list>
+</po-page-list>
+<router-outlet></router-outlet>

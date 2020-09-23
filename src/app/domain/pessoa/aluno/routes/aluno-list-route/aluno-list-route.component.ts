@@ -27,11 +27,7 @@ export class AlunoListRouteComponent extends BaseComponent {
     super();
     this.pageStateSubject = new PageStateSubject(
       (pageable, query, sort) =>
-        this.alunoService.buscarAlunosLikeNomeOuEmailOuCpfOuMatricula(
-          pageable,
-          query,
-          sort
-        ),
+        this.alunoService.filtrar(pageable, query, sort),
       () => this.takeWhileMounted()
     );
     this.pageState$ = this.pageStateSubject.asObservable();

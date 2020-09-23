@@ -47,7 +47,7 @@ export abstract class EntidadeService<
       .pipe(map(this.fromJson), flatMap(simularDelay));
   }
 
-  buscarAlunosLikeNomeOuEmailOuCpfOuMatricula(
+  filtrar(
     { page, pageSize }: Pageable,
     filtro = '',
     sort?: Sort<SF>

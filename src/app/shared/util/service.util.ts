@@ -91,6 +91,10 @@ export function searchString(value?: string, filter = ''): boolean {
   );
 }
 
+export function searchOneOf(filter = '', values: string[]): boolean {
+  return !!values.find((value) => searchString(value, filter));
+}
+
 export function simularDelay<T>(result: T | Observable<T>): Observable<T> {
   const observable = isObservable(result) ? result : of(result);
   if (environment.delaySimulado?.length === 2) {

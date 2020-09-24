@@ -1,6 +1,6 @@
 import { IRequestInterceptor, getBackendService } from 'web-backend-api';
-import { Pageable, Sort, filtrar, Page } from 'app/shared/util/service.util';
-import { map, mergeMap, switchMap, toArray } from 'rxjs/operators';
+import { Pageable, Sort, filtrar } from 'app/shared/util/service.util';
+import { map, switchMap, toArray, mergeMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 export type FilterPredicate = (filter: string) => (item: any) => boolean;
@@ -14,7 +14,7 @@ export function joinToOne<T = any>(
 ): FilterTransformer<T> {
   return (items: T[]): Observable<T[]> =>
     of(...items).pipe(
-      switchMap((item: T) =>
+      mergeMap((item: T) =>
         getBackendService()
           .getInstance$(collectionName, item[joinField])
           .pipe(
@@ -50,7 +50,7 @@ export function createSearchRequestInterceptor(
       return getBackendService()
         .getAllByFilter$(collectionName)
         .pipe(
-          mergeMap(transformer),
+          switchMap((items) => transformer(items)),
           map((items) =>
             filtrar(
               items,

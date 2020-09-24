@@ -11,10 +11,10 @@ export const collectionName = 'professor';
 export async function insertInitialData(
   data = professores
 ): Promise<ProfessorJson[]> {
-  for (const item of data) {
-    await getBackendService().storeData(collectionName, item);
-  }
-  return await getBackendService()
+  await Promise.all(
+    data.map((item) => getBackendService().storeData(collectionName, item))
+  );
+  return getBackendService()
     .getAllByFilter$(collectionName)
     .pipe(take(1))
     .toPromise();

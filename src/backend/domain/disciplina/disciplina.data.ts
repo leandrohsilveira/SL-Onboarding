@@ -10,11 +10,9 @@ import { searchOneOf } from 'app/shared/util/service.util';
 import json from './disciplina.mock.json';
 import { collectionName as professorCollectionName } from 'backend/domain/pessoa/professor/professor.data';
 import { DisciplinaJson } from 'app/domain/disciplina/disciplina';
-import { take, map, toArray, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { ProfessorJson } from 'app/domain/pessoa/professor/professor';
+import { take } from 'rxjs/operators';
 
-const disciplina = [...json];
+const disciplinas = [...json];
 
 export const collectionName = 'disciplina';
 
@@ -26,11 +24,11 @@ export async function getAll(): Promise<DisciplinaJson[]> {
 }
 
 export async function insertInitialData(
-  data = disciplina
+  data = disciplinas
 ): Promise<DisciplinaJson[]> {
-  for (const item of data) {
-    await getBackendService().storeData(collectionName, item);
-  }
+  await Promise.all(
+    data.map((item) => getBackendService().storeData(collectionName, item))
+  );
   return getAll();
 }
 
@@ -38,7 +36,7 @@ export async function clearData(): Promise<void> {
   await getBackendService().clearData(collectionName);
 }
 
-export function setup(data = disciplina): void {
+export function setup(data = disciplinas): void {
   dataService(collectionName, (db) => {
     db.addReplaceUrl(collectionName, endpoints.core.v1.disciplinas.path);
     db.addReplaceUrl(collectionName, endpoints.query.v1.disciplinas.path);

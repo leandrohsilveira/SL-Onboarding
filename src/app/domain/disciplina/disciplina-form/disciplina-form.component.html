@@ -1,0 +1,56 @@
+<form class="po-row" [formGroup]="form" (submit)="handleSubmit()">
+  <div class="po-md-6 po-sm-12">
+    <po-input
+      class="po-12"
+      p-icon="po-icon po-icon-user"
+      i18n-p-label="Rótulo do campo 'Descrição' do formulário de disciplina"
+      i18n-aria-label="
+        Acessibilidade: rótulo do campo 'Descrição' do formulário de disciplina
+      "
+      p-label="Descrição"
+      name="descricao"
+      [p-disabled]="disabled"
+      formControlName="descricao"
+      aria-label="Campo descricao"
+      p-required
+    ></po-input>
+    <app-field-messages [control]="form.get('descricao')"></app-field-messages>
+  </div>
+  <div class="po-md-3 po-sm-12">
+    <po-input
+      class="po-12"
+      i18n-p-label="Rótulo do campo 'Sigla' do formulário de disciplina"
+      i18n-aria-label="
+        Acessibilidade: rótulo do campo 'Sigla' do formulário de disciplina
+      "
+      p-label="Sigla"
+      name="sigla"
+      [p-disabled]="disabled"
+      formControlName="sigla"
+      aria-label="Campo Sigla"
+      [p-maxlength]="10"
+      p-required
+    ></po-input>
+    <app-field-messages [control]="form.get('sigla')"></app-field-messages>
+  </div>
+  <div class="po-md-3 po-sm-12">
+    <po-number
+      class="po-12"
+      i18n-p-label="Rótulo do campo 'Carga horária' do formulário de disciplina"
+      i18n-aria-label="
+        Acessibilidade: rótulo do campo 'Carga horária' do formulário de
+        disciplina
+      "
+      p-label="Carga horária"
+      name="cargaHoraria"
+      [p-disabled]="disabled"
+      formControlName="cargaHoraria"
+      aria-label="Campo Carga horária"
+      p-required
+    ></po-number>
+    <app-field-messages
+      [control]="form.get('cargaHoraria')"
+    ></app-field-messages>
+  </div>
+  <button hidden type="submit"></button>
+</form>

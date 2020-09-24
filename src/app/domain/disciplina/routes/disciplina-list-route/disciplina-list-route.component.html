@@ -1,0 +1,18 @@
+<po-page-list
+  *ngIf="pageState$ | async as pageState"
+  p-title="Disciplinas cadastradas"
+  i18n-p-title="Título da página 'Disciplinas cadastradas'"
+  [p-filter]="filtro"
+  [p-actions]="acoes"
+>
+  <app-disciplina-list
+    [disciplinas]="pageState.items"
+    [podeCarregarMais]="pageState.hasNext"
+    [carregando]="pageState.loading"
+    [(ordenar)]="pageState.sort"
+    (ordenarChange)="handleOrdenacaoChange($event)"
+    (carregarMais)="handleCarregarMais()"
+    (editar)="handleEditarClick($event)"
+  ></app-disciplina-list>
+</po-page-list>
+<router-outlet></router-outlet>

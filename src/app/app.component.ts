@@ -27,6 +27,12 @@ export class AppComponent {
       shortLabel: 'Profs',
       icon: 'po-icon-star',
     },
+    {
+      label: $localize`:Texto da opção "Disciplinas" no menu lateral:Disciplinas`,
+      link: '/disciplinas',
+      shortLabel: 'Displs',
+      icon: 'po-icon-document-filled',
+    },
   ];
 
   collapsed = true;

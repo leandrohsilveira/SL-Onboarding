@@ -17,6 +17,13 @@ const routes: Routes = [
         ({ ProfessorRoutingModule }) => ProfessorRoutingModule
       ),
   },
+  {
+    path: 'disciplinas',
+    loadChildren: () =>
+      import('./domain/disciplina/disciplina.routing').then(
+        ({ DisciplinaRoutingModule }) => DisciplinaRoutingModule
+      ),
+  },
 ];
 
 @NgModule({

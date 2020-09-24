@@ -1,20 +1,25 @@
 import { dataService, getBackendService } from 'web-backend-api';
 
 import { endpoints } from 'app/shared/endpoints';
-import { createSearchRequestInterceptor } from 'backend/interceptors';
+import {
+  createSearchRequestInterceptor,
+  joinToOne,
+} from 'backend/interceptors';
 import { searchOneOf } from 'app/shared/util/service.util';
 
 import json from './disciplina.mock.json';
 import { collectionName as professorCollectionName } from 'backend/domain/pessoa/professor/professor.data';
 import { DisciplinaJson } from 'app/domain/disciplina/disciplina';
-import { take } from 'rxjs/operators';
+import { take, map, toArray, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { ProfessorJson } from 'app/domain/pessoa/professor/professor';
 
 const disciplina = [...json];
 
 export const collectionName = 'disciplina';
 
 export async function getAll(): Promise<DisciplinaJson[]> {
-  return await getBackendService()
+  return getBackendService()
     .getAllByFilter$(collectionName)
     .pipe(take(1))
     .toPromise();
@@ -26,7 +31,7 @@ export async function insertInitialData(
   for (const item of data) {
     await getBackendService().storeData(collectionName, item);
   }
-  return await getAll();
+  return getAll();
 }
 
 export async function clearData(): Promise<void> {
@@ -54,7 +59,13 @@ export function setup(data = disciplina): void {
             item.descricao,
             item.sigla,
             String(item.cargaHoraria),
-          ])
+            item.professor.nome,
+          ]),
+        joinToOne<DisciplinaJson>(
+          professorCollectionName,
+          'professorRef',
+          'professor'
+        )
       )
     );
 

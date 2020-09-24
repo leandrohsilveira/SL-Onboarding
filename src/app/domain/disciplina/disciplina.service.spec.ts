@@ -115,6 +115,17 @@ describe('DisciplinaService', () => {
         it('O array de items possui 20 elementos', () =>
           expect(result.items.length).toEqual(20));
         it('A flag "hasNext" é true', () => expect(result.hasNext).toBeTrue());
+        it('O array items possui as 20 primeiras disciplinas com os dados do professor preenchido', () =>
+          expect(result.items).toEqual(
+            disciplinas.slice(0, 20).map((disciplina) =>
+              Disciplina.fromJson({
+                ...disciplina,
+                professor: professores.find(
+                  ({ id }) => id === disciplina.professorRef
+                ),
+              })
+            )
+          ));
       });
 
       describe('Informando o valor "Disciplina 1" como filtro', () => {
@@ -339,6 +350,32 @@ describe('DisciplinaService', () => {
           expect(event).toBeDefined());
         it('Um evento de persistencia que foi emitido possui origem "atualizado"', () =>
           expect(event.type).toEqual('atualizado'));
+      });
+    });
+
+    describe('Quando a função "recuperarPorId" é invocada', () => {
+      describe('Quando informado o id da primeira disciplina cadastrada', () => {
+        let disciplina: Disciplina;
+        beforeEach(
+          async () =>
+            (disciplina = await service
+              .recuperarPorId(disciplinas[0].id)
+              .pipe(take(1))
+              .toPromise())
+        );
+
+        it('É retornado um objeto', () => expect(disciplina).toBeDefined());
+        it('O objeto retornado possui a instância de professor', () =>
+          expect(disciplina.professor).toBeDefined());
+        it('O objeto retornado é igual à primeira disciplina cadastrada', () =>
+          expect(disciplina).toEqual(
+            Disciplina.fromJson({
+              ...disciplinas[0],
+              professor: professores.find(
+                ({ id }) => id === disciplinas[0].professorRef
+              ),
+            })
+          ));
       });
     });
   });

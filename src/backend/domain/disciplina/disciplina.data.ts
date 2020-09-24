@@ -63,7 +63,8 @@ export function setup(data = disciplinas): void {
           professorCollectionName,
           'professorRef',
           'professor'
-        )
+        ),
+        { professor: (item: DisciplinaJson) => item.professor.nome }
       )
     );
 

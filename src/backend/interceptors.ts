@@ -1,5 +1,10 @@
 import { IRequestInterceptor, getBackendService } from 'web-backend-api';
-import { Pageable, Sort, filtrar } from 'app/shared/util/service.util';
+import {
+  Pageable,
+  Sort,
+  filtrar,
+  SortFieldsExtractor,
+} from 'app/shared/util/service.util';
 import { map, switchMap, toArray, mergeMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
@@ -32,13 +37,15 @@ export function createSearchRequestInterceptor(
   collectionName: string,
   path: string,
   filterPredicate: FilterPredicate,
-  transformer: FilterTransformer = (items) => of(items)
+  transformer: FilterTransformer = (items) => of(items),
+  extractors: SortFieldsExtractor = {}
 ): IRequestInterceptor {
   return {
     collectionName,
     path,
     method: 'GET',
     applyToPath: 'complete',
+
     response: ({ fn, url }) => {
       const query = parseQueryString(url);
       const page = (query.get('page') ?? [])[0];
@@ -46,7 +53,9 @@ export function createSearchRequestInterceptor(
       const searchTerm = (query.get('searchTerm') ?? [])[0];
       const sortExpr = (query.get('order') ?? [])[0];
       const pageable = new Pageable(Number(page), Number(pageSize));
-      const sort = sortExpr ? Sort.fromExpression(sortExpr) : undefined;
+      const sort = sortExpr
+        ? Sort.fromExpression(sortExpr, extractors)
+        : undefined;
       return getBackendService()
         .getAllByFilter$(collectionName)
         .pipe(

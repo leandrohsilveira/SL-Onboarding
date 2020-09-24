@@ -45,25 +45,37 @@ interface SortFieldsOverride<Fields = string> {
   [key: string]: Fields;
 }
 
+export type SortFieldsExtractor = {
+  [field: string]: (item: any) => string;
+};
+
 export class Sort<Fields = string> {
   static fromOrderChange<F = string>(
     { column, type }: PoTableColumnSort,
-    override: SortFieldsOverride<F> = {}
+    override: SortFieldsOverride<F> = {},
+    extractors: SortFieldsExtractor = {}
   ): Sort<F> {
     const prop = column.property as any;
     return new Sort<F>(
       override[prop] ?? prop,
-      type === PoTableColumnSortType.Ascending ? 'asc' : 'desc'
+      type === PoTableColumnSortType.Ascending ? 'asc' : 'desc',
+      extractors
     );
   }
 
-  static fromExpression<F = string>(expr: string): Sort<F> {
+  static fromExpression<F = string>(
+    expr: string,
+    extractors: SortFieldsExtractor = {}
+  ): Sort<F> {
     const field = expr.replace(/^(\+|\-)/, '') as any;
-    if (expr[0] === '-') return new Sort<F>(field, 'desc');
-    else return new Sort<F>(field, 'asc');
+    return new Sort<F>(field, expr[0] === '+' ? 'asc' : 'desc', extractors);
   }
 
-  constructor(public field: Fields, public direction: 'asc' | 'desc') {}
+  constructor(
+    public field: Fields,
+    public direction: 'asc' | 'desc',
+    private extractors: SortFieldsExtractor = {}
+  ) {}
 
   get expression(): string {
     return `${this.direction === 'asc' ? '+' : '-'}${this.field}`;
@@ -76,9 +88,11 @@ export class Sort<Fields = string> {
   apply<T = any>(items: T[]): T[] {
     return items.sort((a, b) => {
       const f = this.field as any;
-      if (a[f] === b[f]) return 0;
+      const va = this.extractors[f] ? this.extractors[f](a) : a[f];
+      const vb = this.extractors[f] ? this.extractors[f](b) : b[f];
+      if (va === vb) return 0;
       else {
-        if (a[f] > b[f]) return this.direction === 'asc' ? 1 : -1;
+        if (va > vb) return this.direction === 'asc' ? 1 : -1;
         else return this.direction === 'asc' ? -1 : 1;
       }
     });

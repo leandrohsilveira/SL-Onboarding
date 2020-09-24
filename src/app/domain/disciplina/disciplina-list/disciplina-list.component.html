@@ -1,0 +1,29 @@
+<po-table
+  #tableRef
+  [p-actions]="actions"
+  [p-columns]="columns"
+  [p-items]="disciplinas"
+  [p-literals]="literals"
+  [p-loading]="carregando && !carregandoMais"
+  [p-loading-show-more]="carregando && carregandoMais"
+  [p-show-more-disabled]="!podeCarregarMais"
+  [p-sort]="true"
+  (p-sort-by)="handleOrdenar($event)"
+  (p-show-more)="handleCarregarMais()"
+  p-striped="true"
+  p-hide-text-overflow
+>
+  <ng-template p-table-column-template [p-property]="'professor'" let-professor>
+    {{ professor?.nome }}
+  </ng-template>
+  <ng-template
+    p-table-column-template
+    [p-property]="'cargaHoraria'"
+    let-cargaHoraria
+  >
+    <span i18n>
+      {cargaHoraria, plural, =0 {Sem carga horária definida} =1 {Uma hora} other
+      {{{cargaHoraria}} horas}}
+    </span>
+  </ng-template>
+</po-table>

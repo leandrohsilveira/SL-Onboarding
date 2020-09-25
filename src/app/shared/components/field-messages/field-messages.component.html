@@ -20,6 +20,13 @@
   >
     Tamanho máximo {errors.maxLength, plural, =1 {caracter} other {caracteres}}
   </span>
+  <span
+    class="po-sm-12 po-font-text-small error"
+    *ngIf="!hidden && errors.lookup"
+    i18n="Mensagem de erro de busca de registro em campos do tipo Lookup"
+  >
+    {{ errors.lookup }}
+  </span>
 </ng-template>
 
 <span class="po-sm-12 po-font-text-small" *ngIf="hasError; else errorsTemplate">

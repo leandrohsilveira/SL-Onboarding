@@ -2,7 +2,6 @@
   <div class="po-md-6 po-sm-12">
     <po-input
       class="po-12"
-      p-icon="po-icon po-icon-user"
       i18n-p-label="Rótulo do campo 'Descrição' do formulário de disciplina"
       i18n-aria-label="
         Acessibilidade: rótulo do campo 'Descrição' do formulário de disciplina
@@ -51,6 +50,47 @@
     <app-field-messages
       [control]="form.get('cargaHoraria')"
     ></app-field-messages>
+  </div>
+  <div class="po-md-8 po-sm-12">
+    <po-lookup
+      #professorLookupRef
+      name="professorRef"
+      p-label="Professor"
+      i18n-p-help
+      i18n-p-placeholder
+      i18n-p-label="Rótulo do campo 'Professor' do formulário de disciplina"
+      i18n-aria-label="
+        Acessibilidade: rótulo do campo 'Professor' do formulário de disciplina
+      "
+      aria-label="Campo professor"
+      p-field-label="nome"
+      p-field-value="id"
+      formControlName="professorRef"
+      p-help="Clique na lupa para abrir a janela de busca"
+      p-placeholder="Digite completamente o CPF ou o Nome do professor"
+      [p-filter-service]="professorService"
+      [p-columns]="professorColumns"
+      [p-disabled]="disabled"
+      [p-required]="true"
+      (p-error)="handleLookupError($event)"
+    ></po-lookup>
+    <app-field-messages
+      [control]="form.get('professorRef')"
+    ></app-field-messages>
+  </div>
+  <div class="po-md-4 po-sm-12">
+    <app-field-container label="&nbsp;" help="&nbsp;">
+      <po-button
+        *ngIf="novoProfessorClick.observers.length > 0"
+        class="po-sm-12 po-m-0 po-p-0"
+        p-icon="po-icon-plus"
+        p-label="Novo professor"
+        i18n-p-label="
+          Rótulo do botão 'Novo professor' presente no formulário de disciplina
+        "
+        (p-click)="novoProfessorClick.emit()"
+      ></po-button>
+    </app-field-container>
   </div>
   <button hidden type="submit"></button>
 </form>

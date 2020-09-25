@@ -58,14 +58,23 @@ export class Disciplina extends Entidade {
     this.sigla = form.get('sigla').value;
     this.cargaHoraria = +form.get('cargaHoraria').value;
     const professorRef = form.get('professorRef').value;
-    if (professorRef && professorRef !== this.professorRef)
-      this.professor = new Professor(professorRef);
+    if (professorRef) {
+      if (professorRef !== this.professorRef)
+        this.professor = new Professor(professorRef);
+    } else this.professor = null;
   }
 
-  protected onChanges({ descricao, sigla, cargaHoraria }: any): void {
+  protected onChanges({
+    descricao,
+    sigla,
+    cargaHoraria,
+    professorRef,
+  }: any): void {
     this.descricao = descricao;
     this.sigla = sigla;
     this.cargaHoraria = +cargaHoraria;
+    if (professorRef && professorRef !== this.professorRef)
+      this.professor = new Professor(professorRef);
   }
 
   public criarForm(formBuilder: FormBuilder): FormGroup {

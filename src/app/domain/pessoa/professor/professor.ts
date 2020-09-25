@@ -2,6 +2,7 @@ import { AbstractControl, Validators } from '@angular/forms';
 import { Id, EntidadeEvent } from 'app/domain/entidade';
 import { Pessoa, PessoaJson, PessoaSortFields } from '../pessoa';
 import { NotTakenService } from 'app/shared/validators';
+import { Predicate } from '@angular/core';
 
 export class ProfessorEvent extends EntidadeEvent<Professor> {}
 
@@ -20,6 +21,11 @@ export enum Titulacao {
 export class Professor extends Pessoa {
   public static fromJson({ id, nome, email, cpf, titulacao }: any): Professor {
     return new Professor(id, nome, email, cpf, titulacao);
+  }
+
+  public static nomeOuCpfPredicate(query: string): Predicate<Professor> {
+    return ({ nome, cpf }) =>
+      nome === query || cpf === query.replace(/(\.|\-)/g, '');
   }
 
   constructor(

@@ -75,7 +75,7 @@ export function createSearchRequestInterceptor(
   };
 }
 
-function parseQueryString(url: string): Map<string, string[]> {
+export function parseQueryString(url: string): Map<string, string[]> {
   const params = new Map<string, string[]>();
   const [, queryString] = url.split('?');
   if (queryString) {

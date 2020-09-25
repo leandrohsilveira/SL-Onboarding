@@ -6,8 +6,10 @@ import {
   combineLatest,
   MonoTypeOperatorFunction,
   Subscription,
+  throwError,
+  OperatorFunction,
 } from 'rxjs';
-import { delay, take, map, withLatestFrom } from 'rxjs/operators';
+import { delay, take, map, withLatestFrom, mergeMap } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 import { PoTableColumn, PoTableColumnSortType } from '@po-ui/ng-components';
 
@@ -219,4 +221,25 @@ export class PageStateSubject<T, F = string> {
   ): Subscription {
     return this.asObservable().subscribe(next, error);
   }
+}
+
+export interface LookupErrorsMessages {
+  notFound: string;
+  multipleFound: (length: number) => string;
+}
+
+export function tryMapToUniqueResult<T = any>(
+  errors: LookupErrorsMessages,
+  predicate: (item: T) => boolean
+): OperatorFunction<T[], T> {
+  return mergeMap((res: T[]) => {
+    if (res.length === 1) return of(res[0]);
+    const prof = res.find(predicate);
+    if (prof) return of(prof);
+    return throwError(
+      new Error(
+        res.length === 0 ? errors.notFound : errors.multipleFound(res.length)
+      )
+    );
+  });
 }

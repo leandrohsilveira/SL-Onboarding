@@ -1,0 +1,30 @@
+<po-modal
+  #modelRef
+  [p-click-out]="false"
+  [p-hide-close]="true"
+  [p-primary-action]="actions.salvar"
+  [p-secondary-action]="actions.cancelar"
+  p-size="lg"
+  p-title="Formulário de disciplina"
+  i18n-p-title="
+    Título do formulário de cadastro ou edição dos dados de uma disciplina
+  "
+>
+  <app-disciplina-form
+    #formRef
+    [disciplina]="disciplina"
+    [disabled]="loading || processando"
+    [professorService]="service"
+    (formSubmit)="salvar()"
+    (novoProfessorClick)="handleNovoProfessorClick()"
+  ></app-disciplina-form>
+  <app-loading-indicator
+    [loading]="loading"
+    i18n-text="
+      Texto 'Carregando...' que aparece na janela de formulário de disciplina
+      quando os dados de uma disciplina existente estão sendo carregados
+    "
+    text="Carregando..."
+  ></app-loading-indicator>
+</po-modal>
+<router-outlet></router-outlet>

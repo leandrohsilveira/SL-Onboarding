@@ -13,6 +13,8 @@ import { environment } from 'environments/environment';
 import alunosMock from '../../aluno.mock';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
+import { BrowserTestingModule } from '@angular/platform-browser/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 environment.delaySimulado = null;
 
@@ -24,6 +26,8 @@ describe('AlunoListRouteComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         CommonModule,
+        BrowserTestingModule,
+        HttpClientTestingModule,
         AlunoModule,
         AlunoListModule,
         PoPageModule,

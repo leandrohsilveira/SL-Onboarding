@@ -25,6 +25,8 @@ import {
   clearData as clearProfessorData,
 } from 'backend/domain/pessoa/professor/professor.data';
 import { ProfessorJson } from 'app/domain/pessoa/professor/professor';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { BrowserTestingModule } from '@angular/platform-browser/testing';
 
 environment.delaySimulado = null;
 
@@ -35,6 +37,8 @@ describe('DisciplinaListRouteComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         CommonModule,
+        BrowserTestingModule,
+        HttpClientTestingModule,
         DisciplinaModule,
         DisciplinaListModule,
         PoPageModule,

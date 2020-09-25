@@ -5,10 +5,12 @@ import { ProfessorFormModule } from '../../professor-form/professor-form.module'
 import { PoModalModule } from '@po-ui/ng-components';
 import { LoadingIndicatorModule } from 'app/shared/components/loading-indicator/loading-indicator.module';
 import { ProfessorModule } from '../../professor.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
     CommonModule,
+    HttpClientModule,
     PoModalModule,
     ProfessorModule,
     ProfessorFormModule,

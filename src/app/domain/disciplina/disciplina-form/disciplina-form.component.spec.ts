@@ -80,7 +80,7 @@ describe('DisciplinaFormComponent', () => {
 
     describe('Quando a propriedade "disciplina" é modificada para uma instancia válida', () => {
       let inputProfessor: HTMLInputElement;
-      beforeEach(() => {
+      beforeEach(async () => {
         component.disciplina = new Disciplina(
           'uuid',
           'Disciplina X',
@@ -89,8 +89,9 @@ describe('DisciplinaFormComponent', () => {
           PROFESSORES[0]
         );
         fixture.detectChanges();
+        await fixture.whenStable();
         inputProfessor = fixture.elementRef.nativeElement.querySelector(
-          'input[name=professorRef]'
+          'po-lookup[name=professorRef] input'
         );
       });
 
@@ -99,14 +100,14 @@ describe('DisciplinaFormComponent', () => {
           component.disciplina.professor.nome
         ));
 
-      it('A propriedade canSubmit ainda é false pois o formulário ainda é "pristine"', () =>
-        expect(component.disciplinaFormComponent.canSubmit).toBeFalse());
+      it('A propriedade canSubmit é true', () =>
+        expect(component.disciplinaFormComponent.canSubmit).toBeTrue());
 
       describe('Quando a função handleSubmit é invocada', () => {
-        it('O formulário não é submetido pois a propriedade canSubmit é false', () => {
+        it('O formulário é submetido', () => {
           component.disciplinaFormComponent.handleSubmit();
           fixture.detectChanges();
-          expect(component.submitted).toBeFalse();
+          expect(component.submitted).toBeTrue();
         });
       });
 
@@ -119,7 +120,7 @@ describe('DisciplinaFormComponent', () => {
           fixture.detectChanges();
         });
 
-        it('A propriedade canSubmit é true pois o formulário é válido e dirty', () =>
+        it('A propriedade canSubmit é true', () =>
           expect(component.disciplinaFormComponent.canSubmit).toBeTrue());
 
         describe('Quando a função handleSubmit é invocada', () => {

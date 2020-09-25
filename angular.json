@@ -106,7 +106,9 @@
                 "replace": "src/backend/app-backend.module.ts",
                 "with": "src/backend/app-backend.dev.module.ts"
               }
-            ]
+            ],
+            "codeCoverage": true,
+            "codeCoverageExclude": ["/**/*mock.ts", "/**/*.data.ts"]
           }
         },
         "lint": {

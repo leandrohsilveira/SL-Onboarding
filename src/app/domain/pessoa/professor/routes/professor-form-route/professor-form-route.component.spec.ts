@@ -12,6 +12,8 @@ import { PoModalModule, PoLoadingModule } from '@po-ui/ng-components';
 import { environment } from 'environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { LoadingIndicatorModule } from 'app/shared/components/loading-indicator/loading-indicator.module';
+import { BrowserTestingModule } from '@angular/platform-browser/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 environment.delaySimulado = null;
 
@@ -30,6 +32,8 @@ describe('ProfessorFormRouteComponent', () => {
         RouterModule,
         LoadingIndicatorModule,
         RouterTestingModule,
+        BrowserTestingModule,
+        HttpClientTestingModule,
       ],
       declarations: [ProfessorFormRouteComponent],
     }).compileComponents();

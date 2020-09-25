@@ -6,6 +6,11 @@ import { DisciplinaFormComponent } from './disciplina-form.component';
 import { CommonModule } from '@angular/common';
 import { Professor } from 'app/domain/pessoa/professor/professor';
 import { professoresMock } from 'app/domain/pessoa/professor/professor.mock';
+import { PoLookupFilter } from '@po-ui/ng-components';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+
+const PROFESSORES = professoresMock.map(Professor.fromJson);
 
 describe('DisciplinaFormComponent', () => {
   @Component({
@@ -13,6 +18,7 @@ describe('DisciplinaFormComponent', () => {
       <app-disciplina-form
         #form
         [disciplina]="disciplina"
+        [professorService]="service"
         (formSubmit)="handleSubmit()"
       ></app-disciplina-form>
       <span id="descricao">{{ disciplina.descricao }}</span>
@@ -21,6 +27,17 @@ describe('DisciplinaFormComponent', () => {
   class TestHostComponent {
     @ViewChild('form')
     disciplinaFormComponent: DisciplinaFormComponent;
+
+    service: PoLookupFilter = {
+      getFilteredItems: () =>
+        of({
+          items: PROFESSORES.slice(0, 20),
+          hasNext: false,
+        }),
+      getObjectByValue: (q) => {
+        return of(PROFESSORES.find(({ id }) => id === q)).pipe(delay(30));
+      },
+    };
 
     disciplina = new Disciplina();
 
@@ -44,9 +61,9 @@ describe('DisciplinaFormComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('Quando renderizado, apresenta 3 campos', () => {
+  it('Quando renderizado, apresenta 4 campos', () => {
     const inputs = fixture.nativeElement.querySelectorAll('input,select');
-    expect(inputs.length).toEqual(3);
+    expect(inputs.length).toEqual(4);
   });
 
   describe('Quando a propriedade "disciplina" inicia limpa (new Disciplina())', () => {
@@ -62,16 +79,25 @@ describe('DisciplinaFormComponent', () => {
     });
 
     describe('Quando a propriedade "disciplina" é modificada para uma instancia válida', () => {
+      let inputProfessor: HTMLInputElement;
       beforeEach(() => {
         component.disciplina = new Disciplina(
           'uuid',
           'Disciplina X',
           'DSPLXXXXXX',
           80,
-          Professor.fromJson(professoresMock[0])
+          PROFESSORES[0]
         );
         fixture.detectChanges();
+        inputProfessor = fixture.elementRef.nativeElement.querySelector(
+          'input[name=professorRef]'
+        );
       });
+
+      it('O valor do campo "Professor" contém o nome do professor', () =>
+        expect(inputProfessor.value).toEqual(
+          component.disciplina.professor.nome
+        ));
 
       it('A propriedade canSubmit ainda é false pois o formulário ainda é "pristine"', () =>
         expect(component.disciplinaFormComponent.canSubmit).toBeFalse());

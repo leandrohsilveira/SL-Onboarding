@@ -3,9 +3,12 @@ import alunos from './aluno.mock.json';
 import { searchString } from 'app/shared/util/service.util';
 import { AlunoJson } from 'app/domain/pessoa/aluno/aluno';
 import { endpoints } from 'app/shared/endpoints';
-import { map, max, mergeMap, tap } from 'rxjs/operators';
+import { map, max, mergeMap, tap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { createSearchRequestInterceptor } from 'backend/interceptors';
+import {
+  createSearchRequestInterceptor,
+  createNotTakenInterceptor,
+} from 'backend/interceptors';
 
 export const collectionName = 'aluno';
 
@@ -25,6 +28,22 @@ export function setup(data: any[] = alunos): void {
           searchString(item.email, searchTerm) ||
           searchString(item.formaIngresso, searchTerm) ||
           searchString(String(item.matricula), searchTerm)
+      )
+    );
+
+    db.addRequestInterceptor(
+      createNotTakenInterceptor(
+        collectionName,
+        endpoints.query.v1.alunos,
+        'cpf'
+      )
+    );
+
+    db.addRequestInterceptor(
+      createNotTakenInterceptor(
+        collectionName,
+        endpoints.query.v1.alunos,
+        'email'
       )
     );
 

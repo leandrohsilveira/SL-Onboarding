@@ -4,6 +4,7 @@ import { endpoints } from 'app/shared/endpoints';
 import {
   createSearchRequestInterceptor,
   parseQueryString,
+  createNotTakenInterceptor,
 } from 'backend/interceptors';
 import { searchString, searchOneOf } from 'app/shared/util/service.util';
 import { ProfessorJson } from 'app/domain/pessoa/professor/professor';
@@ -53,6 +54,22 @@ export function setup(data = professores): void {
         );
       },
     });
+
+    db.addRequestInterceptor(
+      createNotTakenInterceptor(
+        collectionName,
+        endpoints.query.v1.professores,
+        'cpf'
+      )
+    );
+
+    db.addRequestInterceptor(
+      createNotTakenInterceptor(
+        collectionName,
+        endpoints.query.v1.professores,
+        'email'
+      )
+    );
 
     db.addRequestInterceptor(
       createSearchRequestInterceptor(

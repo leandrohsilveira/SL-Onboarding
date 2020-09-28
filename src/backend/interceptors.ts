@@ -7,6 +7,7 @@ import {
 } from 'app/shared/util/service.util';
 import { map, switchMap, toArray, mergeMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { Endpoint, endpoints } from 'app/shared/endpoints';
 
 export type FilterPredicate = (filter: string) => (item: any) => boolean;
 
@@ -31,6 +32,33 @@ export function joinToOne<T = any>(
       ),
       toArray()
     );
+}
+
+export function createNotTakenInterceptor(
+  collectionName: string,
+  endpoint: Endpoint,
+  field: string
+): IRequestInterceptor {
+  return {
+    collectionName,
+    path: `${endpoint.path}/${field}NotTaken`,
+    method: 'POST',
+    applyToPath: 'complete',
+    response: (req) => {
+      return getBackendService()
+        .getAllByFilter$(collectionName)
+        .pipe(
+          map((items: any[]) =>
+            items.filter(
+              (json) =>
+                req.body.id !== json.id && req.body[field] === json[field]
+            )
+          ),
+          map((items) => !!items.length),
+          map((taken) => req.fn.response(req.url, taken ? 400 : 200))
+        );
+    },
+  };
 }
 
 export function createSearchRequestInterceptor(

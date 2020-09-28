@@ -3,10 +3,21 @@ import { Entidade, Id, EntidadeJson } from '../entidade';
 import { CustomValidators, NotTakenService } from 'app/shared/validators';
 import { of } from 'rxjs';
 import { format as formatCpf } from '@fnando/cpf';
+import { Predicate } from '@angular/core';
 
 const DEFAULT_NOT_TAKEN_SERVICE: NotTakenService = () => of(true);
 
 export type PessoaSortFields = 'nome' | 'email' | 'cpf';
+
+export interface CpfNotTakenJson {
+  id: Id;
+  cpf: string;
+}
+
+export interface EmailNotTakenJson {
+  id: Id;
+  email: string;
+}
 
 export interface PessoaJson extends EntidadeJson {
   nome: string;
@@ -15,6 +26,13 @@ export interface PessoaJson extends EntidadeJson {
 }
 
 export abstract class Pessoa extends Entidade {
+  public static nomeOuCpfPredicate<R extends Pessoa>(
+    query: string
+  ): Predicate<R> {
+    return ({ nome, cpf }) =>
+      nome === query || cpf === query.replace(/(\.|\-)/g, '');
+  }
+
   constructor(id: Id, public nome = '', public email = '', public cpf = '') {
     super(id);
   }

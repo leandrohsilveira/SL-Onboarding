@@ -23,11 +23,6 @@ export class Professor extends Pessoa {
     return new Professor(id, nome, email, cpf, titulacao);
   }
 
-  public static nomeOuCpfPredicate(query: string): Predicate<Professor> {
-    return ({ nome, cpf }) =>
-      nome === query || cpf === query.replace(/(\.|\-)/g, '');
-  }
-
   constructor(
     id: Id = null,
     nome = '',

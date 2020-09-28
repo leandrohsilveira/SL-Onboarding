@@ -15,6 +15,20 @@
   </span>
   <span
     class="po-sm-12 po-font-text-small error"
+    *ngIf="!hidden && errors.cpfTaken"
+    i18n="Mensagem de erro de CPF já cadastrado"
+  >
+    CPF já cadastrado
+  </span>
+  <span
+    class="po-sm-12 po-font-text-small error"
+    *ngIf="!hidden && errors.emailTaken"
+    i18n="Mensagem de erro de E-mail já cadastrado"
+  >
+    E-mail já cadastrado
+  </span>
+  <span
+    class="po-sm-12 po-font-text-small error"
     *ngIf="!hidden && errors.maxLength"
     i18n="Mensagem de erro de campo com limite de caracteres"
   >

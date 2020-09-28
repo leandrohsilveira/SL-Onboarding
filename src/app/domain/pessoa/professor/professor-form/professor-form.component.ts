@@ -13,6 +13,7 @@ import { BaseComponent } from 'app/shared/base/base.component';
 import { Professor, Titulacao } from '../professor';
 import { PoSelectComponent, PoSelectOption } from '@po-ui/ng-components';
 import { Subscription } from 'rxjs';
+import { NotTakenService } from 'app/shared/validators';
 
 @Component({
   selector: 'app-professor-form',
@@ -30,6 +31,12 @@ export class ProfessorFormComponent
 
   @Input()
   disabled = false;
+
+  @Input()
+  cpfNotTaken: NotTakenService;
+
+  @Input()
+  emailNotTaken: NotTakenService;
 
   @Output()
   submitForm = new EventEmitter<Professor>();
@@ -73,7 +80,11 @@ export class ProfessorFormComponent
 
   criarForm(): void {
     this.formSubscription?.unsubscribe();
-    this.form = this.professor.criarForm(this.formBuilder);
+    this.form = this.professor.criarForm(
+      this.formBuilder,
+      this.emailNotTaken,
+      this.cpfNotTaken
+    );
     this.formSubscription = this.professor.subscribeFormChanges(
       this.form,
       this.takeWhileMounted()

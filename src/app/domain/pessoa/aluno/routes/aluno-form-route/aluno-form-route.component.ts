@@ -10,6 +10,7 @@ import { BaseComponent } from 'app/shared/base/base.component';
 import { AlunoService } from '../../aluno.service';
 import { map, filter, tap, switchMap } from 'rxjs/operators';
 import { AlunoFormComponent } from '../../aluno-form/aluno-form.component';
+import { Observable } from 'rxjs';
 
 interface Actions {
   salvar: PoModalAction;
@@ -30,6 +31,8 @@ export class AlunoFormRouteComponent
     private activatedRoute: ActivatedRoute
   ) {
     super();
+    this.cpfNotTaken = this.cpfNotTaken.bind(this);
+    this.emailNotTaken = this.emailNotTaken.bind(this);
   }
 
   @ViewChild(PoModalComponent, { static: true })
@@ -93,6 +96,20 @@ export class AlunoFormRouteComponent
 
   cancelar(): void {
     this.retornar();
+  }
+
+  cpfNotTaken(cpf: string): Observable<boolean> {
+    return this.alunoService.cpfNotTaken({
+      cpf: cpf?.replace(/(\.|\-)/g, ''),
+      id: this.aluno.id ?? '',
+    });
+  }
+
+  emailNotTaken(email: string): Observable<boolean> {
+    return this.alunoService.emailNotTaken({
+      email,
+      id: this.aluno.id ?? '',
+    });
   }
 
   salvar(): void {

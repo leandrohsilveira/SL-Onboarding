@@ -10,6 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ProfessorFormComponent } from '../../professor-form/professor-form.component';
 import { Professor } from '../../professor';
 import { filter, map, tap, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 interface Actions {
   salvar: PoModalAction;
@@ -30,6 +31,8 @@ export class ProfessorFormRouteComponent
     private activatedRoute: ActivatedRoute
   ) {
     super();
+    this.cpfNotTaken = this.cpfNotTaken.bind(this);
+    this.emailNotTaken = this.emailNotTaken.bind(this);
   }
 
   @ViewChild(PoModalComponent, { static: true })
@@ -89,6 +92,20 @@ export class ProfessorFormRouteComponent
   ngOnDestroy(): void {
     super.ngOnDestroy();
     this.modalRef.close();
+  }
+
+  cpfNotTaken(cpf: string): Observable<boolean> {
+    return this.professorService.cpfNotTaken({
+      cpf: cpf?.replace(/(\.|\-)/g, ''),
+      id: this.professor.id ?? '',
+    });
+  }
+
+  emailNotTaken(email: string): Observable<boolean> {
+    return this.professorService.emailNotTaken({
+      email,
+      id: this.professor.id ?? '',
+    });
   }
 
   cancelar(): void {

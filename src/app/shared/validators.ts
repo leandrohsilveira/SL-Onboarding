@@ -1,7 +1,7 @@
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { isValid as isCpfValid } from '@fnando/cpf';
 import { Observable } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
 
 export type NotTakenService = (value: string) => Observable<boolean>;
 
@@ -30,11 +30,16 @@ export class CustomValidators {
     return null;
   }
 
-  public static notTakenValidator(service: NotTakenService): AsyncValidatorFn {
+  public static notTakenValidator(
+    service: NotTakenService,
+    key: string,
+    time = 200
+  ): AsyncValidatorFn {
     return ({ value }: AbstractControl) =>
       service(value).pipe(
-        debounceTime(500),
-        map((notTaken) => (notTaken ? null : { cpfTaken: true }))
+        distinctUntilChanged(),
+        debounceTime(time),
+        map((notTaken) => (notTaken ? null : { [key]: true }))
       );
   }
 }

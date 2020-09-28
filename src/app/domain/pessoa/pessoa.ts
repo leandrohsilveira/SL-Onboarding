@@ -42,7 +42,7 @@ export abstract class Pessoa extends Entidade {
           Validators.maxLength(255),
           CustomValidators.email,
         ],
-        CustomValidators.notTakenValidator(emailNotTaken),
+        CustomValidators.notTakenValidator(emailNotTaken, 'emailTaken'),
       ],
       cpf: [
         this.cpf,
@@ -52,7 +52,7 @@ export abstract class Pessoa extends Entidade {
           Validators.maxLength(11),
           CustomValidators.cpf,
         ],
-        CustomValidators.notTakenValidator(cpfNotTaken),
+        CustomValidators.notTakenValidator(cpfNotTaken, 'cpfTaken'),
       ],
     };
   }

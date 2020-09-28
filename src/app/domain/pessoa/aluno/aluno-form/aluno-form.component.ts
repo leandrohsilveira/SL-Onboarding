@@ -13,6 +13,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { BaseComponent } from 'app/shared/base/base.component';
 import { PoSelectOption, PoSelectComponent } from '@po-ui/ng-components';
 import { Subscription } from 'rxjs';
+import { NotTakenService } from 'app/shared/validators';
 
 @Component({
   selector: 'app-aluno-form',
@@ -30,6 +31,12 @@ export class AlunoFormComponent
 
   @Input()
   disabled = false;
+
+  @Input()
+  cpfNotTaken: NotTakenService;
+
+  @Input()
+  emailNotTaken: NotTakenService;
 
   @Output()
   formSubmit = new EventEmitter<Aluno>();
@@ -69,7 +76,11 @@ export class AlunoFormComponent
 
   criarForm(): void {
     this.formSubscription?.unsubscribe();
-    this.form = this.aluno.criarForm(this.formBuilder);
+    this.form = this.aluno.criarForm(
+      this.formBuilder,
+      this.emailNotTaken,
+      this.cpfNotTaken
+    );
     this.formSubscription = this.aluno.subscribeFormChanges(
       this.form,
       this.takeWhileMounted()

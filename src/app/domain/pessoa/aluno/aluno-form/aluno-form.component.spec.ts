@@ -4,6 +4,7 @@ import { AlunoFormModule } from './aluno-form.module';
 import { Aluno, FormaIngresso } from '../aluno';
 import { AlunoFormComponent } from './aluno-form.component';
 import { CommonModule } from '@angular/common';
+import { of, Observable } from 'rxjs';
 
 describe('AlunoFormComponent', () => {
   @Component({
@@ -11,35 +12,45 @@ describe('AlunoFormComponent', () => {
       <app-aluno-form
         #form
         [aluno]="aluno"
+        [cpfNotTaken]="cpfNotTakenService"
+        [emailNotTaken]="emailNotTakenService"
         (formSubmit)="handleSubmit()"
       ></app-aluno-form>
       <span id="nome">{{ aluno.nome }}</span>
     `,
   })
-  class AlunoFormTestComponent {
+  class TestHostComponent {
     @ViewChild('form')
-    alunoFormComponent: AlunoFormComponent;
+    component: AlunoFormComponent;
 
     aluno = new Aluno();
 
     submitted = false;
+
+    cpfNotTakenService(cpf: string): Observable<boolean> {
+      return of(cpf !== '18449780012');
+    }
+
+    emailNotTakenService(email: string): Observable<boolean> {
+      return of(email !== 'testey@totvs.com.br');
+    }
 
     handleSubmit(): void {
       this.submitted = true;
     }
   }
 
-  let fixture: ComponentFixture<AlunoFormTestComponent>;
-  let component: AlunoFormTestComponent;
+  let fixture: ComponentFixture<TestHostComponent>;
+  let host: TestHostComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CommonModule, AlunoFormModule],
-      declarations: [AlunoFormTestComponent],
+      declarations: [TestHostComponent],
     }).compileComponents();
-    fixture = TestBed.createComponent(AlunoFormTestComponent);
+    fixture = TestBed.createComponent(TestHostComponent);
     fixture.detectChanges();
-    component = fixture.componentInstance;
+    host = fixture.componentInstance;
   });
 
   it('Quando renderizado, apresenta 4 campos', () => {
@@ -49,19 +60,73 @@ describe('AlunoFormComponent', () => {
 
   describe('Quando a propriedade "aluno" inicia limpa (new Aluno())', () => {
     it('A propriedade canSubmit é false', () =>
-      expect(component.alunoFormComponent.canSubmit).toBeFalse());
+      expect(host.component.canSubmit).toBeFalse());
 
     describe('Quando a função handleSubmit é invocada', () => {
       it('O formulário não é submetido pois a propriedade canSubmit é false', () => {
-        component.alunoFormComponent.handleSubmit();
+        host.component.handleSubmit();
         fixture.detectChanges();
-        expect(component.submitted).toBeFalse();
+        expect(host.submitted).toBeFalse();
+      });
+    });
+
+    describe('Quando a propriedade "aluno" é modificada para uma instância com um CPF que já está cadastrado', () => {
+      beforeEach(() => {
+        host.aluno = new Aluno(
+          'uuid',
+          'Teste',
+          'teste@totvs.com.br',
+          '18449780012',
+          FormaIngresso.ENADE,
+          56
+        );
+        host.component.form.markAsDirty();
+        fixture.detectChanges();
+      });
+
+      it('A propriedade canSubmit é false pois o CPF já está cadastrado', () =>
+        expect(host.component.canSubmit).toBeFalse());
+
+      it('O formulário é inválido', () =>
+        expect(host.component.form.invalid).toBeTrue());
+
+      it('O campo CPF é inválido (cpfTaken)', () => {
+        expect(host.component.form.get('cpf').errors).toEqual({
+          cpfTaken: true,
+        });
+      });
+    });
+
+    describe('Quando a propriedade "aluno" é modificada para uma instância com um E-mail que já está cadastrado', () => {
+      beforeEach(() => {
+        host.aluno = new Aluno(
+          'uuid',
+          'Teste',
+          'testey@totvs.com.br',
+          '17475054047',
+          FormaIngresso.ENADE,
+          56
+        );
+        host.component.form.markAsDirty();
+        fixture.detectChanges();
+      });
+
+      it('A propriedade canSubmit é false pois o E-mail já está cadastrado', () =>
+        expect(host.component.canSubmit).toBeFalse());
+
+      it('O formulário é inválido', () =>
+        expect(host.component.form.invalid).toBeTrue());
+
+      it('O campo E-mail é inválido (emailTaken)', () => {
+        expect(host.component.form.get('email').errors).toEqual({
+          emailTaken: true,
+        });
       });
     });
 
     describe('Quando a propriedade "aluno" é modificada para uma instancia válida', () => {
       beforeEach(() => {
-        component.aluno = new Aluno(
+        host.aluno = new Aluno(
           'uuid',
           'Teste',
           'teste@totvs.com.br',
@@ -73,31 +138,31 @@ describe('AlunoFormComponent', () => {
       });
 
       it('A propriedade canSubmit ainda é false pois o formulário ainda é "pristine"', () =>
-        expect(component.alunoFormComponent.canSubmit).toBeFalse());
+        expect(host.component.canSubmit).toBeFalse());
 
       describe('Quando a função handleSubmit é invocada', () => {
         it('O formulário não é submetido pois a propriedade canSubmit é false', () => {
-          component.alunoFormComponent.handleSubmit();
+          host.component.handleSubmit();
           fixture.detectChanges();
-          expect(component.submitted).toBeFalse();
+          expect(host.submitted).toBeFalse();
         });
       });
 
       describe('Quando um campo do formulário é modificado', () => {
         beforeEach(() => {
-          component.alunoFormComponent.form.patchValue({ nome: 'Teste 1' });
-          component.alunoFormComponent.form.markAsDirty();
+          host.component.form.patchValue({ nome: 'Teste 1' });
+          host.component.form.markAsDirty();
           fixture.detectChanges();
         });
 
         it('A propriedade canSubmit é true pois o formulário é válido e dirty', () =>
-          expect(component.alunoFormComponent.canSubmit).toBeTrue());
+          expect(host.component.canSubmit).toBeTrue());
 
         describe('Quando a função handleSubmit é invocada', () => {
           it('O formulário é submetido', () => {
-            component.alunoFormComponent.handleSubmit();
+            host.component.handleSubmit();
             fixture.detectChanges();
-            expect(component.submitted).toBeTrue();
+            expect(host.submitted).toBeTrue();
           });
         });
       });
@@ -107,8 +172,8 @@ describe('AlunoFormComponent', () => {
       let ngOnChangesSpy: jasmine.Spy;
 
       beforeEach(() => {
-        ngOnChangesSpy = spyOn(component.alunoFormComponent, 'ngOnChanges');
-        component.alunoFormComponent.form.patchValue({ nome: 'Teste' });
+        ngOnChangesSpy = spyOn(host.component, 'ngOnChanges');
+        host.component.form.patchValue({ nome: 'Teste' });
         fixture.detectChanges();
       });
 

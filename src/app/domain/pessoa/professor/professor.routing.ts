@@ -5,7 +5,7 @@ import { ProfessorListRouteModule } from './routes/professor-list-route/professo
 import { ProfessorListRouteComponent } from './routes/professor-list-route/professor-list-route.component';
 import { ProfessorFormRouteModule } from './routes/professor-form-route/professor-form-route.module';
 import { ProfessorFormRouteComponent } from './routes/professor-form-route/professor-form-route.component';
-import { RouterUtil } from 'app/shared/util/router.util';
+import { RouterUtil } from '../../../shared/util/router.util';
 
 const routes: Routes = [
   {

@@ -17,8 +17,7 @@ import { PoLookupFilter, PoLookupColumn } from '@po-ui/ng-components';
   selector: 'app-disciplina-form',
   templateUrl: './disciplina-form.component.html',
 })
-export class DisciplinaFormComponent
-  extends BaseComponent
+export class DisciplinaFormComponent extends BaseComponent
   implements OnInit, OnChanges {
   constructor(private formBuilder: FormBuilder) {
     super();

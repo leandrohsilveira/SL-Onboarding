@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DisciplinaListRouteModule } from './routes/disciplina-list-route/disciplina-list-route.module';
 import { DisciplinaListRouteComponent } from './routes/disciplina-list-route/disciplina-list-route.component';
 import { DisciplinaFormRouteComponent } from './routes/disciplina-form-route/disciplina-form-route.component';
-import { RouterUtil } from 'app/shared/util/router.util';
+import { RouterUtil } from '../../shared/util/router.util';
 import { DisciplinaFormRouteModule } from './routes/disciplina-form-route/disciplina-form-route.module';
 import { ProfessorFormRouteModule } from '../pessoa/professor/routes/professor-form-route/professor-form-route.module';
 import { ProfessorFormRouteComponent } from '../pessoa/professor/routes/professor-form-route/professor-form-route.component';

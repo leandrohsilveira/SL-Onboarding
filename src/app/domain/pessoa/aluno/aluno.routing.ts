@@ -5,7 +5,7 @@ import { AlunoListRouteModule } from './routes/aluno-list-route/aluno-list-route
 import { AlunoListRouteComponent } from './routes/aluno-list-route/aluno-list-route.component';
 import { AlunoFormRouteModule } from './routes/aluno-form-route/aluno-form-route.module';
 import { AlunoFormRouteComponent } from './routes/aluno-form-route/aluno-form-route.component';
-import { RouterUtil } from 'app/shared/util/router.util';
+import { RouterUtil } from '../../../shared/util/router.util';
 
 const routes: Routes = [
   {

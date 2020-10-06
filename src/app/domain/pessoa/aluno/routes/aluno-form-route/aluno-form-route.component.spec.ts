@@ -13,6 +13,7 @@ import { LoadingIndicatorModule } from 'app/shared/components/loading-indicator/
 import { BrowserTestingModule } from '@angular/platform-browser/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { insertInitialData } from 'backend/domain/pessoa/aluno/aluno.data';
+import { Aluno } from '../../aluno';
 
 environment.delaySimulado = null;
 
@@ -37,21 +38,26 @@ describe('AlunoFormRouteComponent', () => {
         LoadingIndicatorModule,
         RouterTestingModule,
       ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({
+              id: values[0].id,
+            }),
+            data: of({
+              loadFromParam: 'id',
+              returnUrl: () => ['url'],
+            }),
+          },
+        },
+      ],
       declarations: [AlunoFormRouteComponent],
     }).compileComponents();
 
-    const activatedRoute = TestBed.inject(ActivatedRoute);
-    activatedRoute.params = of({
-      id: values[0].id,
-    });
-    activatedRoute.data = of({
-      loadFromParam: 'id',
-      returnUrl: () => ['url'],
-    });
-
     fixture = TestBed.createComponent(AlunoFormRouteComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    fixture.whenStable();
   });
 
   afterEach(async () => {
@@ -61,6 +67,6 @@ describe('AlunoFormRouteComponent', () => {
 
   describe('Quando os dados da rota atual possui um "loadFromParam" = "id"', () => {
     it('A instancia de aluno do componente é igual ao primeiro aluno do array de mocks', () =>
-      expect(component.aluno).toEqual(values[0]));
+      expect(component.aluno).toEqual(Aluno.fromJson(values[0])));
   });
 });

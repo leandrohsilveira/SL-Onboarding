@@ -1,9 +1,13 @@
-import { dataService, IBackendService } from 'web-backend-api';
+import {
+  dataService,
+  IBackendService,
+  getBackendService,
+} from 'web-backend-api';
 import alunos from './aluno.mock.json';
 import { searchString } from 'app/shared/util/service.util';
 import { AlunoJson } from 'app/domain/pessoa/aluno/aluno';
 import { endpoints } from 'app/shared/endpoints';
-import { map, max, mergeMap, tap, filter } from 'rxjs/operators';
+import { map, max, mergeMap, tap, take } from 'rxjs/operators';
 import { of } from 'rxjs';
 import {
   createSearchRequestInterceptor,
@@ -12,7 +16,21 @@ import {
 
 export const collectionName = 'aluno';
 
-export function setup(data: any[] = alunos): void {
+export function getAll(): Promise<AlunoJson[]> {
+  return getBackendService()
+    .getAllByFilter$(collectionName)
+    .pipe(take(1))
+    .toPromise();
+}
+
+export async function insertInitialData(data = alunos): Promise<AlunoJson[]> {
+  await Promise.all(
+    data.map((item) => getBackendService().storeData(collectionName, item))
+  );
+  return getAll();
+}
+
+export function setup(data = alunos): void {
   dataService(collectionName, (db: IBackendService) => {
     db.addReplaceUrl(collectionName, endpoints.core.v1.alunos.path);
     db.addReplaceUrl(collectionName, endpoints.query.v1.alunos.path);
@@ -56,6 +74,6 @@ export function setup(data: any[] = alunos): void {
       );
     });
 
-    data.forEach((aluno) => db.storeData(collectionName, aluno));
+    insertInitialData(data);
   });
 }

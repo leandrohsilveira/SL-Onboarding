@@ -7,21 +7,23 @@ import { AlunoFormRouteComponent } from './aluno-form-route.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { of } from 'rxjs';
 import alunosMock from '../../aluno.mock';
-import { Aluno } from '../../aluno';
 import { PoModalModule, PoLoadingModule } from '@po-ui/ng-components';
 import { environment } from 'environments/environment';
-import { HttpClient } from '@angular/common/http';
 import { LoadingIndicatorModule } from 'app/shared/components/loading-indicator/loading-indicator.module';
 import { BrowserTestingModule } from '@angular/platform-browser/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { insertInitialData } from 'backend/domain/pessoa/aluno/aluno.data';
 
 environment.delaySimulado = null;
 
 describe('AlunoFormRouteComponent', () => {
+  let values: any[];
   let component: AlunoFormRouteComponent;
   let fixture: ComponentFixture<AlunoFormRouteComponent>;
 
   beforeEach(async () => {
+    values = await insertInitialData(alunosMock.slice(0, 40));
+
     await TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -37,16 +39,16 @@ describe('AlunoFormRouteComponent', () => {
       ],
       declarations: [AlunoFormRouteComponent],
     }).compileComponents();
+
     const activatedRoute = TestBed.inject(ActivatedRoute);
-    const httpClient = TestBed.inject(HttpClient);
-    spyOn(httpClient, 'get').and.returnValue(of(alunosMock[0]));
+    activatedRoute.params = of({
+      id: values[0].id,
+    });
     activatedRoute.data = of({
       loadFromParam: 'id',
       returnUrl: () => ['url'],
     });
-    activatedRoute.params = of({
-      id: alunosMock[0].id,
-    });
+
     fixture = TestBed.createComponent(AlunoFormRouteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -59,6 +61,6 @@ describe('AlunoFormRouteComponent', () => {
 
   describe('Quando os dados da rota atual possui um "loadFromParam" = "id"', () => {
     it('A instancia de aluno do componente é igual ao primeiro aluno do array de mocks', () =>
-      expect(component.aluno).toEqual(Aluno.fromJson(alunosMock[0])));
+      expect(component.aluno).toEqual(values[0]));
   });
 });
